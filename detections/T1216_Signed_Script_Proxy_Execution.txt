@@ -1,8 +1,7 @@
-
 // Name: Signed Script Proxy Execution
-// Description: Checks for excution of MITRE ATT&CK T1216
+// Description: Checks for execution of MITRE ATT&CK T1216
 //
-// Severity: Medium
+// Severity: Critical
 //
 // QueryFrequency: 1h
 //

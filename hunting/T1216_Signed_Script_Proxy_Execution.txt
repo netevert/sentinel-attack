@@ -1,0 +1,34 @@
+// Name: Signed Script Proxy Execution hunting query
+// Description: Checks for excution of MITRE ATT&CK T1216 and parses sysmon record for analysis
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion, #Execution
+//
+Event
+| where EventID == "1" and Source == "Microsoft-Windows-Sysmon" 
+| extend d=parse_xml(EventData)
+| where d.DataItem.EventData.Data[4]["#text"] contains "cscript"
+ or d.DataItem.EventData.Data[4]["#text"] contains "wscript"
+ or d.DataItem.EventData.Data[4]["#text"] contains "certutil"
+ or d.DataItem.EventData.Data[4]["#text"] contains "jjs"
+| project timestamp=d.DataItem.EventData.Data[1]["#text"],
+description=d.DataItem.EventData.Data[0]["#text"],
+SHA256=split(split(d.DataItem.EventData.Data[16]["#text"], ",", 2)[0], "=", 1)[0],
+user=d.DataItem.EventData.Data[11]["#text"],
+process_path=d.DataItem.EventData.Data[4]["#text"],
+process_guid=d.DataItem.EventData.Data[2]["#text"],
+process_parent_path=d.DataItem.EventData.Data[19]["#text"],
+process_id=d.DataItem.EventData.Data[3]["#text"],
+process_parent_id=d.DataItem.EventData.Data[18]["#text"],
+process_command_line=d.DataItem.EventData.Data[9]["#text"][0],
+process_parent_command_line=d.DataItem.EventData.Data[20]["#text"][0],
+process_parent_guid=d.DataItem.EventData.Data[17]["#text"]
