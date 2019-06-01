@@ -1,0 +1,19 @@
+// Name: Modify Registry
+// Description: Checks for execution of MITRE ATT&CK T1112
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion
+//
+Event
+| where EventID == "1" and Source == "Microsoft-Windows-Sysmon" 
+| extend d=parse_xml(EventData)
+| where d.DataItem.EventData.Data[4]["#text"] contains "reg.exe" and d.DataItem.EventData.Data[9]["#text"] contains "query"

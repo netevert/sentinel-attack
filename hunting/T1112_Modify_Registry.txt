@@ -1,7 +1,7 @@
-// Name: Signed Script Proxy Execution hunting query
-// Description: Checks for excution of MITRE ATT&CK T1216 and parses sysmon record for analysis
+// Name:  Modify Registry
+// Description: Checks for execution of MITRE ATT&CK T1112 and parses sysmon record for analysis
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -11,15 +11,12 @@
 //
 // DataSource: #Sysmon
 //
-// Tactics: #Defense Evasion, #Execution
+// Tactics: #Defense Evasion
 //
 Event
 | where EventID == "1" and Source == "Microsoft-Windows-Sysmon" 
 | extend d=parse_xml(EventData)
-| where d.DataItem.EventData.Data[4]["#text"] contains "cscript"
- or d.DataItem.EventData.Data[4]["#text"] contains "wscript"
- or d.DataItem.EventData.Data[4]["#text"] contains "certutil"
- or d.DataItem.EventData.Data[4]["#text"] contains "jjs"
+| where d.DataItem.EventData.Data[4]["#text"] contains "reg.exe" and d.DataItem.EventData.Data[9]["#text"] contains "query"
 | project timestamp=d.DataItem.EventData.Data[1]["#text"],
 description=d.DataItem.EventData.Data[0]["#text"],
 SHA256=split(split(d.DataItem.EventData.Data[16]["#text"], ",", 2)[0], "=", 1)[0],
