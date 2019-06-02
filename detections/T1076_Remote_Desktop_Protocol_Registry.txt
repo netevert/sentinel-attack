@@ -1,0 +1,18 @@
+// Name: Remote Desktop Protocol - Process
+// Description: Checks for execution of MITRE ATT&CK T1076
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Lateral Movement
+//
+SysmonParser // This needs to be tested as it is not clear if RegistryKeyPath is parsed
+| where (EventID == 12 or EventID == 13 or EventID == 14) and(Image contains "LogonUI.exe"
+or RegistryKeyPath contains "\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services\\")
