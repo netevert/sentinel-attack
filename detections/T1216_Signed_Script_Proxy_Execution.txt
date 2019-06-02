@@ -13,10 +13,8 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-Event
-| where EventID == "1" and Source == "Microsoft-Windows-Sysmon" 
-| extend d=parse_xml(EventData)
-| where d.DataItem.EventData.Data[4]["#text"] contains "cscript"
- or d.DataItem.EventData.Data[4]["#text"] contains "wscript"
- or d.DataItem.EventData.Data[4]["#text"] contains "certutil"
- or d.DataItem.EventData.Data[4]["#text"] contains "jjs"
+SysmonParser 
+| where Image contains "cscript"
+or Image contains "wscript"
+or Image contains "certutil"
+or Image contains "jjs"

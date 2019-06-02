@@ -13,7 +13,5 @@
 //
 // Tactics: #Defense Evasion
 //
-Event
-| where EventID == "1" and Source == "Microsoft-Windows-Sysmon" 
-| extend d=parse_xml(EventData)
-| where d.DataItem.EventData.Data[4]["#text"] contains "wevtutil"
+sysmon_parser 
+| where Image contains "wevtutil"

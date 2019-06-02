@@ -13,10 +13,8 @@
 //
 // Tactics: #Discovery
 //
-Event
-| where EventID == 1 and Source == "Microsoft-Windows-Sysmon" 
-| extend d=parse_xml(EventData)
-| where d.DataItem.EventData.Data[4]["#text"] contains "net.exe" 
-and (d.DataItem.EventData.Data[9]["#text"] contains "user"
-or d.DataItem.EventData.Data[9]["#text"] contains "group"
-or d.DataItem.EventData.Data[9]["#text"] contains "localgroup")
+SysmonParser 
+| where Image contains "net.exe"
+and (CommandLine contains "user"
+or CommandLine contains "group"
+or CommandLine contains "localgroup")
