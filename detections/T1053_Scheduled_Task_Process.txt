@@ -1,0 +1,20 @@
+// Name: Scheduled Task - Process
+// Description: Checks for execution of MITRE ATT&CK T1053
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence #Privilege Escalation #Execution
+//
+SysmonParser
+| where EventID == 1 and (Image contains "taskeng.exe" 
+or Image contains "schtasks.exe"
+or (Image contains "svchost.exe" and
+ParentCommandLine != "C:\\Windows\\System32\\services.exe"))

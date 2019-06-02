@@ -1,0 +1,19 @@
+// Name: Scheduled Task - FileAccess
+// Description: Checks for execution of MITRE ATT&CK T1053
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence #Privilege Escalation #Execution
+//
+SysmonParser
+| where EventID == 11 and CommandLine contains "C:\\WINDOWS\\system32\\svchost.exe" 
+or FilePath contains "C:\\Windows\\System32\\Tasks\\"
+or FilePath contains "C:\\Windows\\Tasks\\" // This needs to be tested for corrected parsing
