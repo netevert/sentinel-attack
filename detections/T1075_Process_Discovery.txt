@@ -1,0 +1,18 @@
+// Name: Process Discovery
+// Description: Checks for execution of MITRE ATT&CK T1075
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Execution
+//
+SysmonParser
+| where EventID == 1 and Image contains "tasklist.exe" 
+or CommandLine contains "Get-Process"
