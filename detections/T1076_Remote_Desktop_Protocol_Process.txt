@@ -1,0 +1,18 @@
+// Name: Remote Desktop Protocol - Process
+// Description: Checks for execution of MITRE ATT&CK T1076
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Lateral Movement
+//
+SysmonParser 
+| where EventID == 1 and(Image contains "tscon.exe"
+or Image contains "mstsc.exe")
