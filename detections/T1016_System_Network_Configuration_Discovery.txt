@@ -1,0 +1,22 @@
+// Name: Remote System Discovery - Network
+// Description: Checks for execution of MITRE ATT&CK T1018
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonParser 
+| where EventID == 1 and(Image contains "net.exe"
+and CommandLine contains "config") 
+or (CommandLine contains "ipconfig.exe"
+or CommandLine contains "netsh.exe" 
+or CommandLine contains "arp.exe"
+or CommandLine contains "nbtstat.exe")

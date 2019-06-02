@@ -1,0 +1,20 @@
+// Name: Remote System Discovery - Process
+// Description: Checks for execution of MITRE ATT&CK T1018
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonParser 
+| where (Image contains "net.exe"
+or Image contains "ping.exe") 
+and (CommandLine contains "view"
+or CommandLine contains "ping")
