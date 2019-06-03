@@ -15,4 +15,4 @@
 //
 SysmonOSSEM
 | where event_id == 1 and (process_parent_path contains "\\rundll32.exe" 
-or process_name contains "rundll32.exe")
+or process_path contains "rundll32.exe")

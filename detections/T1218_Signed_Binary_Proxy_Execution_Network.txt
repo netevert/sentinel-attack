@@ -15,6 +15,6 @@
 //
 SysmonOSSEM
 | where event_id == 3 and 
-(process_name contains "certutil.exe" 
+(process_path contains "certutil.exe" 
 or process_command_line contains "*certutil*script\:http\[\:\]\/\/*" 
 or process_path contains "*\\replace.exe")

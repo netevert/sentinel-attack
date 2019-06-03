@@ -14,7 +14,7 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM 
-| where (process_name contains "net.exe"
-or process_name contains "ping.exe") 
+| where (process_path contains "net.exe"
+or process_path contains "ping.exe") 
 and (process_command_line contains "view"
 or process_command_line contains "ping")

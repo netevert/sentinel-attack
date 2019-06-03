@@ -13,8 +13,8 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM 
-| where process_name contains "net.exe"
+SysmonOSSEM
+| where process_path contains "net"
 and (process_command_line contains "user"
 or process_command_line contains "group"
 or process_command_line contains "localgroup")

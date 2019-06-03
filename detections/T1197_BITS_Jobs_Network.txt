@@ -14,4 +14,4 @@
 // Tactics: #Defense Evasion, #Persistence
 //
 SysmonOSSEM
-| where event_id == 3 and process_name contains "bitsadmin.exe"
+| where event_id == 3 and process_path contains "bitsadmin.exe"

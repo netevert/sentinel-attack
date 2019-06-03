@@ -14,6 +14,6 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM 
-| where process_name contains "net.exe"
+| where process_path contains "net.exe"
 and (process_command_line contains "view"
 or process_command_line contains "share")

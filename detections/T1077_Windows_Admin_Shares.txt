@@ -14,7 +14,7 @@
 // Tactics: #Lateral Movement
 //
 SysmonOSSEM
-| where event_id == 3 and process_name contains "net.exe"
+| where event_id == 3 and process_path contains "net.exe"
 and (process_command_line contains "use"
 or process_command_line contains "session"
 or process_command_line contains "file")

@@ -14,5 +14,5 @@
 // Tactics: #Defense Evasion
 //
 SysmonOSSEM
-| where process_name contains "reg.exe"
+| where process_path contains "reg.exe"
 and process_command_line contains "query"

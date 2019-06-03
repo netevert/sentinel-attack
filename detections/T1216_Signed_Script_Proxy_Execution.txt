@@ -14,7 +14,7 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM 
-| where process_name contains "cscript"
-or process_name contains "wscript"
-or process_name contains "certutil"
-or process_name contains "jjs"
+| where process_path contains "cscript"
+or process_path contains "wscript"
+or process_path contains "certutil"
+or process_path contains "jjs"
