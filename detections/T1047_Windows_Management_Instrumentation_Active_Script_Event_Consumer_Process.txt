@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonParser
-| where EventID == 1 and (ParentCommandLine contains "C:\\Windows\\System32\\svchost.exe"
-or CommandLine contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe")
+SysmonOSSEM
+| where event_id == 1 and (process_parent_command_line contains "C:\\Windows\\System32\\svchost.exe"
+or process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe")

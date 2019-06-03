@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonParser
-| where EventID == 1 and Image contains "tasklist.exe" 
-or CommandLine contains "Get-Process"
+SysmonOSSEM
+| where event_id == 1 and process_name contains "tasklist.exe" 
+or process_command_line contains "Get-Process"

@@ -13,7 +13,7 @@
 //
 // Tactics: #Persistence #Privilege Escalation #Execution
 //
-SysmonParser
-| where EventID == 11 and CommandLine contains "C:\\WINDOWS\\system32\\svchost.exe" 
-or FilePath contains "C:\\Windows\\System32\\Tasks\\"
-or FilePath contains "C:\\Windows\\Tasks\\" // This needs to be tested for corrected parsing
+SysmonOSSEM
+| where event_id == 11 and process_command_line contains "C:\\WINDOWS\\system32\\svchost.exe" 
+or file_path contains "C:\\Windows\\System32\\Tasks\\"
+or file_path contains "C:\\Windows\\Tasks\\"

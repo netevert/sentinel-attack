@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonParser
-| where EventID == 3 and (Image contains "wmic.exe"
-or CommandLine contains "wmic")
+SysmonOSSEM
+| where event_id == 3 and (process_name contains "wmic.exe"
+or process_command_line contains "wmic")

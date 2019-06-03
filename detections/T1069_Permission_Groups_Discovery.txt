@@ -13,8 +13,8 @@
 //
 // Tactics: #Discovery
 //
-SysmonParser 
-| where Image contains "net.exe"
-and (CommandLine contains "user"
-or CommandLine contains "group"
-or CommandLine contains "localgroup")
+SysmonOSSEM 
+| where process_name contains "net.exe"
+and (process_command_line contains "user"
+or process_command_line contains "group"
+or process_command_line contains "localgroup")

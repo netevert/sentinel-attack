@@ -13,7 +13,7 @@
 //
 // Tactics: #Discovery
 //
-SysmonParser 
-| where Image contains "net.exe"
-and (CommandLine contains "view"
-or CommandLine contains "share")
+SysmonOSSEM 
+| where process_name contains "net.exe"
+and (process_command_line contains "view"
+or process_command_line contains "share")

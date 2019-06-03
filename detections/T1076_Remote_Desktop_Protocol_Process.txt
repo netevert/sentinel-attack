@@ -13,6 +13,6 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonParser 
-| where EventID == 1 and(Image contains "tscon.exe"
-or Image contains "mstsc.exe")
+SysmonOSSEM 
+| where event_id == 1 and(process_name contains "tscon.exe"
+or process_name contains "mstsc.exe")

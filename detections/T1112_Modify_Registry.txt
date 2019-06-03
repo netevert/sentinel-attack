@@ -13,6 +13,6 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonParser
-| where Image contains "reg.exe"
-and CommandLine contains "query"
+SysmonOSSEM
+| where process_name contains "reg.exe"
+and process_command_line contains "query"

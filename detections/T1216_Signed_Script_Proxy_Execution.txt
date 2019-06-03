@@ -13,8 +13,8 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonParser 
-| where Image contains "cscript"
-or Image contains "wscript"
-or Image contains "certutil"
-or Image contains "jjs"
+SysmonOSSEM 
+| where process_name contains "cscript"
+or process_name contains "wscript"
+or process_name contains "certutil"
+or process_name contains "jjs"

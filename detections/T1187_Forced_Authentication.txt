@@ -13,6 +13,6 @@
 //
 // Tactics: #Credential Access
 //
-SysmonParser
-| where EventID == 11 and (FilePath contains ".lnk" 
-or FilePath contains ".scf") // this needs to be tested
+SysmonOSSEM
+| where event_id == 11 and (file_path contains ".lnk" 
+or file_path contains ".scf")

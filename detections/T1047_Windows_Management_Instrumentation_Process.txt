@@ -13,7 +13,7 @@
 //
 // Tactics: #Execution
 //
-SysmonParser
-| where EventID == 1 and (ParentCommandLine contains "wmiprvse.exe"
-or Image contains "wmic.exe"
-or CommandLine contains "wmic")
+SysmonOSSEM
+| where event_id == 1 and (process_parent_command_line contains "wmiprvse.exe"
+or process_name contains "wmic.exe"
+or process_command_line contains "wmic")

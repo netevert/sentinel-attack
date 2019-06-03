@@ -13,8 +13,8 @@
 //
 // Tactics: #Discovery
 //
-SysmonParser 
-| where EventID == 3 and(Image contains "net.exe"
-or Image contains "ping.exe") 
-and (CommandLine contains "view"
-or CommandLine contains "ping")
+SysmonOSSEM 
+| where event_id == 3 and(process_name contains "net.exe"
+or process_name contains "ping.exe") 
+and (process_command_line contains "view"
+or process_command_line contains "ping")

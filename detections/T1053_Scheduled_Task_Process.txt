@@ -13,8 +13,8 @@
 //
 // Tactics: #Persistence #Privilege Escalation #Execution
 //
-SysmonParser
-| where EventID == 1 and (Image contains "taskeng.exe" 
-or Image contains "schtasks.exe"
-or (Image contains "svchost.exe" and
-ParentCommandLine != "C:\\Windows\\System32\\services.exe"))
+SysmonOSSEM
+| where event_id == 1 and (process_name contains "taskeng.exe" 
+or process_name contains "schtasks.exe"
+or (process_name contains "svchost.exe" and
+process_parent_command_line != "C:\\Windows\\System32\\services.exe"))

@@ -14,7 +14,7 @@
 // Tactics: #Discovery
 //
 Event
-| where EventID == 1 and Source == "Microsoft-Windows-Sysmon" 
+| where event_id == 1 and Source == "Microsoft-Windows-Sysmon" 
 | extend d=parse_xml(EventData)
 | where d.DataItem.EventData.Data[4]["#text"] contains "net.exe" 
 and (d.DataItem.EventData.Data[9]["#text"] contains "user"
