@@ -1,0 +1,24 @@
+// Name: Accessibility features
+// Description: Checks for execution of MITRE ATT&CK T1015
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence, #Privilege Escalation
+//
+SysmonOSSEM
+| where event_id == 1 and process_parent_name contains"winlogon.exe" 
+and (process_name contains "sethc.exe" 
+or process_name contains "utilman.exe" 
+or process_name contains "osk.exe" 
+or process_name contains "magnify.exe" 
+or process_name contains "displayswitch.exe" 
+or process_name contains "narrator.exe" 
+or process_name contains "atbroker.exe")

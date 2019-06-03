@@ -1,0 +1,18 @@
+// Name: Bypass User Account Control - Process
+// Description: Checks for execution of MITRE ATT&CK T1088
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Privilege Escalation, #Persistence
+//
+SysmonOSSEM
+| where event_id == 1 and (process_parent_path contains "\\eventvwr.exe" 
+or process_parent_path contains "\\fodhelper.exe")

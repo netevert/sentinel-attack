@@ -1,0 +1,18 @@
+// Name: Application Shimming - Registry
+// Description: Checks for execution of MITRE ATT&CK T1138
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Privilege Escalation, #Persistence
+//
+SysmonOSSEM
+| where (event_id == 12 or event_id == 13 OR event_id == 14) and 
+registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\")
