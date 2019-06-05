@@ -14,4 +14,4 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where (event_id == 12 or event_id == 13 or event_id == 14) and registry_key_path contains "\\Software\\Classes\\CLSID\\"
+| where (EventID == 12 or EventID == 13 or EventID == 14) and registry_key_path contains "\\Software\\Classes\\CLSID\\"

@@ -14,5 +14,5 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where event_id == 1 and (process_command_line contains "control \/name" 
+| where EventID == 1 and (process_command_line contains "control \/name" 
 or process_command_line contains "rundll32 shell32.dll,Control_RunDLL")

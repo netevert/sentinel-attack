@@ -14,4 +14,4 @@
 // Tactics: #Privilege Escalation, #Persistence
 //
 SysmonOSSEM
-| where event_id == 1 and process_path contains "sdbinst.exe"
+| where EventID == 1 and process_path contains "sdbinst.exe"

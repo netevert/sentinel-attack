@@ -14,4 +14,4 @@
 // Tactics: #Execution
 //
 SysmonOSSEM
-| where event_id == 11 and process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe"
+| where EventID == 11 and process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe"

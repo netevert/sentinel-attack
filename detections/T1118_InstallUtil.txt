@@ -14,5 +14,5 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where event_id == 3 and (process_path contains "InstallUtil.exe" 
+| where EventID == 3 and (process_path contains "InstallUtil.exe" 
 or process_command_line contains "\/logfile= \/LogToConsole=false \/U")

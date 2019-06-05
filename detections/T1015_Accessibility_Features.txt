@@ -14,7 +14,7 @@
 // Tactics: #Persistence, #Privilege Escalation
 //
 SysmonOSSEM
-| where event_id == 1 and process_parent_name contains"winlogon.exe" 
+| where EventID == 1 and process_parent_path contains"winlogon.exe" 
 and (process_path contains "sethc.exe" 
 or process_path contains "utilman.exe" 
 or process_path contains "osk.exe" 

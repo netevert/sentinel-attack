@@ -14,5 +14,5 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where event_id == 1 and (process_parent_path contains "\\rundll32.exe" 
+| where EventID == 1 and (process_parent_path contains "\\rundll32.exe" 
 or process_path contains "rundll32.exe")

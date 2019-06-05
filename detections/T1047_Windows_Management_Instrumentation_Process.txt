@@ -14,6 +14,6 @@
 // Tactics: #Execution
 //
 SysmonOSSEM
-| where event_id == 1 and (process_parent_command_line contains "wmiprvse.exe"
+| where EventID == 1 and (process_parent_command_line contains "wmiprvse.exe"
 or process_path contains "wmic.exe"
 or process_command_line contains "wmic")

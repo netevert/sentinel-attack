@@ -14,5 +14,5 @@
 // Tactics: #Lateral Movement
 //
 SysmonOSSEM 
-| where event_id == 1 and(process_path contains "tscon.exe"
+| where EventID == 1 and(process_path contains "tscon.exe"
 or process_path contains "mstsc.exe")

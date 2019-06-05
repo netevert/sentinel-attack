@@ -14,7 +14,7 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where event_id == 1 and 
+| where EventID == 1 and 
 (process_command_line contains "mavinject*\/injectrunning" 
 or process_command_line contains "mavinject32*\/injectrunning*" 
 or process_command_line contains "*certutil*script\:http\[\:\]\/\/*" 

@@ -14,5 +14,5 @@
 // Tactics: #Privilege Escalation, #Persistence
 //
 SysmonOSSEM
-| where (event_id == 12 or event_id == 13 OR event_id == 14) and 
+| where (EventID == 12 or EventID == 13 OR EventID == 14) and 
 registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\")

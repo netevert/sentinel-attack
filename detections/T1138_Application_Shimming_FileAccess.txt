@@ -14,4 +14,4 @@
 // Tactics: #Privilege Escalation, #Persistence
 //
 SysmonOSSEM
-| where event_id == 11 and file_path contains "C:\\Windows\\AppPatch\\Custom\\"
+| where EventID == 11 and file_path contains "C:\\Windows\\AppPatch\\Custom\\"

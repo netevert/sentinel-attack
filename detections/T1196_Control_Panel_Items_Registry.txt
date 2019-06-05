@@ -14,7 +14,7 @@
 // Tactics: #Defense Evasion, #Execution
 //
 SysmonOSSEM
-| where (event_id == 12 or event_id == 13 or event_id == 14) and 
+| where (EventID == 12 or EventID == 13 or EventID == 14) and 
 (registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\ControlPanel\\NameSpace" 
 or registry_key_path contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Controls Folder\\*\\Shellex\\PropertySheetHandlers\\" 
 or registry_key_path contains "\\Software\\Microsoft\\Windows\\CurrentVersion\\Control Panel\\")

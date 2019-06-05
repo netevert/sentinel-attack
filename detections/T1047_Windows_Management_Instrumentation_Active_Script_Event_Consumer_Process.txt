@@ -14,5 +14,5 @@
 // Tactics: #Execution
 //
 SysmonOSSEM
-| where event_id == 1 and (process_parent_command_line contains "C:\\Windows\\System32\\svchost.exe"
+| where EventID == 1 and (process_parent_command_line contains "C:\\Windows\\System32\\svchost.exe"
 or process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe")

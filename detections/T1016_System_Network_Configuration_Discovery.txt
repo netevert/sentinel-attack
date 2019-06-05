@@ -14,7 +14,7 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM 
-| where event_id == 1 and(process_path contains "net.exe"
+| where EventID == 1 and(process_path contains "net.exe"
 and process_command_line contains "config") 
 or (process_path contains "ipconfig.exe"
 or process_path contains "netsh.exe" 

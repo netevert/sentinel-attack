@@ -14,5 +14,5 @@
 // Tactics: #Credential Access
 //
 SysmonOSSEM
-| where event_id == 11 and (file_path contains ".lnk" 
+| where EventID == 11 and (file_path contains ".lnk" 
 or file_path contains ".scf")

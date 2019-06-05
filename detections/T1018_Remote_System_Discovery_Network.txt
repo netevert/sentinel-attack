@@ -14,7 +14,7 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM 
-| where event_id == 3 and (process_path contains "net.exe"
+| where EventID == 3 and (process_path contains "net.exe"
 or process_path contains "ping.exe") 
 and (process_command_line contains "view"
 or process_command_line contains "ping")

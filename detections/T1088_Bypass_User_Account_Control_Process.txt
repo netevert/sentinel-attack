@@ -14,5 +14,5 @@
 // Tactics: #Privilege Escalation, #Persistence
 //
 SysmonOSSEM
-| where event_id == 1 and (process_parent_path contains "\\eventvwr.exe" 
+| where EventID == 1 and (process_parent_path contains "\\eventvwr.exe" 
 or process_parent_path contains "\\fodhelper.exe")
