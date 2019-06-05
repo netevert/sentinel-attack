@@ -1,0 +1,17 @@
+// Name: Netsh Helper DLL - Registry
+// Description: Checks for execution of MITRE ATT&CK T1128
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence
+//
+SysmonOSSEM
+| where (EventID == 12 or EventID == 13 or EventID == 14) and registry_key_path="*\\SOFTWARE\Microsoft\Netsh\\*"

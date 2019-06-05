@@ -1,0 +1,17 @@
+// Name: Query Registry - Process
+// Description: Checks for execution of MITRE ATT&CK T1012
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonOSSEM
+| where EventID == 1 and process_name contains "reg.exe" and process_command_line contains "*reg* query*"

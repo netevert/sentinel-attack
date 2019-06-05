@@ -1,0 +1,17 @@
+// Name: MSHTA - FileAccess
+// Description: Checks for execution of MITRE ATT&CK T1170
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion #Execution
+//
+SysmonOSSEM
+| where (EventID == 11 or EventID == 15) and file_path="*.hta"

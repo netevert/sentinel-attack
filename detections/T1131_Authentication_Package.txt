@@ -1,0 +1,21 @@
+// Name: Authentication Package
+// Description: Checks for execution of MITRE ATT&CK T1131
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence
+//
+SysmonOSSEM
+| where (EventID == 12 OR EventID == 13 OR EventID == 14) and
+(registry_key_path contains "*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\*") 
+and (process_path !contains "C:\\WINDOWS\\system32\\lsass.exe" 
+or process_path !contains "C:\\Windows\\system32\\svchost.exe" 
+or process_path !contains "C:\\Windows\\system32\\services.exe")

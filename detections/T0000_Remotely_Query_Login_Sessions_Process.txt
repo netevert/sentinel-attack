@@ -1,0 +1,17 @@
+// Name: Remotely Query Login Sessions - Process
+// Description: Checks for execution of MITRE ATT&CK T0000
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonOSSEM
+| where EventID == 1 and process_name contains "qwinsta.exe"
