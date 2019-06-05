@@ -1,7 +1,7 @@
 // Name: Remotely Query Login Sessions - Process
 // Description: Checks for execution of MITRE ATT&CK T0000
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
