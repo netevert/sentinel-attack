@@ -11,7 +11,7 @@
 //
 // DataSource: #Sysmon
 //
-// Tactics: #Execution
+// Tactics: #Privilege Escalation #Defense Evasion
 //
 SysmonOSSEM
 | where EventID == 1 and (process_name contains "a.exe" 

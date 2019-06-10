@@ -1,7 +1,7 @@
 // Name: Compiled HTML File
 // Description: Checks for execution of MITRE ATT&CK T1223
 //
-// Severity: High
+// Severity: Critical
 //
 // QueryFrequency: 1h
 //

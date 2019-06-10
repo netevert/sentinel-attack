@@ -14,7 +14,7 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM
-| where EventID == 3 and  (dest_port == 389 
+| where EventID == 3 and (dest_port == 389 
 or dest_port == 636 
 or dest_port == 445 
 or dest_port == 8080)
