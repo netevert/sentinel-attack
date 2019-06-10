@@ -1,0 +1,17 @@
+// Name: Trusted Developer Utilities
+// Description: Checks for execution of MITRE ATT&CK T1127
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion #Execution
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "MSBuild.exe" or process_name contains "msxsl.exe")

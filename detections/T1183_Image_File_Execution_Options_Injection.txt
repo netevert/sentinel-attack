@@ -1,0 +1,19 @@
+// Name: Image File Execution Options Injection
+// Description: Checks for execution of MITRE ATT&CK T1183
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence #Privilege Escalation
+//
+SysmonOSSEM
+| where (EventID == 12 or EventID == 13 or EventID == 14) 
+and (registry_key_path contains "\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\" 
+or registry_key_path contains "\\Wow6432Node\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\")

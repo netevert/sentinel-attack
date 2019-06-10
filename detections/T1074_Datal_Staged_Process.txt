@@ -1,0 +1,19 @@
+// Name: Data Staged - Process
+// Description: Checks for execution of MITRE ATT&CK T1074
+//
+// Severity: Medium
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Collection
+//
+SysmonOSSEM
+| where EventID == 1 and (process_command_line contains "*DownloadString*" 
+and process_command_line contains "*Net.WebClient*") 
+or (process_command_line="*New-Object*" AND process_command_line="*IEX*")

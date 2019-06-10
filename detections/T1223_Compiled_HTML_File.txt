@@ -1,0 +1,17 @@
+// Name: Compiled HTML File
+// Description: Checks for execution of MITRE ATT&CK T1223
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion #Execution
+//
+SysmonOSSEM
+| where EventID == 1 and process_name contains "hh.exe"

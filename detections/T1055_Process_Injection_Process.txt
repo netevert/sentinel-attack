@@ -1,0 +1,18 @@
+// Name: Process Injection - Process
+// Description: Checks for execution of MITRE ATT&CK T1055
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Privilege Escalation #Defense Evasion
+//
+SysmonOSSEM
+| where EventID == 1 and process_command_line contains "*Invoke-DllInjection*" 
+or process_command_line contains "c:\\windows\sysnative\\"

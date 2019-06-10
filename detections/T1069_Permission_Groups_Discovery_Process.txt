@@ -1,0 +1,22 @@
+// Name: Permission Groups Discovery - Process
+// Description: Checks for execution of MITRE ATT&CK T1069
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonOSSEM
+| where EventID == 1 and process_name="net.exe" 
+and (process_command_line contains "*net* user*" 
+or process_command_line contains "*net* group*" 
+or process_command_line contains "*net* localgroup*" 
+or process_command_line contains "*get-localgroup*" 
+or process_command_line contains "*get-ADPrinicipalGroupMembership*")

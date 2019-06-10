@@ -1,0 +1,20 @@
+// Name: Bypassing Application Whitelisting with Regsvr32
+// Description: Checks for execution of MITRE ATT&CK T1117
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "regsvr32.exe" 
+or process_name contains "rundll32.exe" 
+or process_name contains "certutil.exe") 
+or process_command_line contains "scrobj.dll"

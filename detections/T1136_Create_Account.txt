@@ -1,0 +1,17 @@
+// Name: Create Account
+// Description: Checks for execution of MITRE ATT&CK T1136
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence
+//
+SysmonOSSEM
+| where EventID == 1 and (process_command_line contains "New-LocalUser" or process_command_line contains "net user add")

@@ -1,0 +1,24 @@
+// Name: Security Software Discovery
+// Description: Checks for execution of MITRE ATT&CK T1063
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery
+//
+SysmonOSSEM
+| where EventID == 1 and 
+(process_name contains "netsh.exe" 
+or process_name contains "reg.exe" 
+or process_name contains "tasklist.exe") 
+and (process_command_line contains "*reg* query*" 
+or process_command_line contains "*tasklist *" 
+or process_command_line contains "*netsh*" 
+or process_command_line contains "*fltmc*|*findstr*")

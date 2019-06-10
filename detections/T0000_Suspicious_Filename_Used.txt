@@ -1,0 +1,53 @@
+// Name: Suspicious filename used
+// Description: Checks for execution of MITRE ATT&CK T0000
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Execution
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "a.exe" 
+or process_name contains "b.exe" 
+or process_name contains "c.exe" 
+or process_name contains "d.exe" 
+or process_name contains "e.exe" 
+or process_name contains "f.exe" 
+or process_name contains "g.exe" 
+or process_name contains "h.exe" 
+or process_name contains "i.exe" 
+or process_name contains "j.exe" 
+or process_name contains "k.exe" 
+or process_name contains "l.exe" 
+or process_name contains "m.exe" 
+or process_name contains "n.exe" 
+or process_name contains "o.exe" 
+or process_name contains "p.exe" 
+or process_name contains "q.exe" 
+or process_name contains "r.exe" 
+or process_name contains "s.exe" 
+or process_name contains "t.exe" 
+or process_name contains "u.exe" 
+or process_name contains "v.exe" 
+or process_name contains "w.exe" 
+or process_name contains "x.exe" 
+or process_name contains "y.exe" 
+or process_name contains "z.exe" 
+or process_name contains "1.exe" 
+or process_name contains "2.exe" 
+or process_name contains "3.exe" 
+or process_name contains "4.exe" 
+or process_name contains "5.exe" 
+or process_name contains "6.exe" 
+or process_name contains "7.exe" 
+or process_name contains "8.exe" 
+or process_name contains "9.exe" 
+or process_name contains "0.exe" 
+or process_name contains "10.exe")

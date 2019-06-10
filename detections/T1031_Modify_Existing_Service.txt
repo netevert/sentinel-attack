@@ -1,0 +1,20 @@
+// Name: Modify Existing Service
+// Description: Checks for execution of MITRE ATT&CK T1031
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "sc.exe" 
+or process_name contains "powershell.exe" 
+or process_name contains "cmd.exe") 
+and process_command_line contains "*sc*config*binpath*"

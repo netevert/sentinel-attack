@@ -1,0 +1,19 @@
+// Name: Change Default File Association
+// Description: Checks for execution of MITRE ATT&CK T1042
+//
+// Severity: Medium
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Exfiltration
+//
+SysmonOSSEM
+| where (EventID == 12 or EventID == 13 or EventID == 14) 
+and (registry_key_path contains "*\\SOFTWARE\\Classes\\*\\*" 
+or registry_key_path contains "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\GlobalAssocChangedCounter")

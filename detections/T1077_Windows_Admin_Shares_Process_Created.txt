@@ -1,0 +1,17 @@
+// Name: Windows Admin Shares - Process - Created
+// Description: Checks for execution of MITRE ATT&CK T1077
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Lateral Movement
+//
+SysmonOSSEM
+| where EventID == 1 and process_name contains "net.exe" and process_command_line contains "net share"

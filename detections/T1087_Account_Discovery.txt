@@ -1,0 +1,26 @@
+// Name: Account Discovery
+// Description: Checks for execution of MITRE ATT&CK T1087
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Discovery 
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "net.exe" 
+or process_name contains "powershell.exe") 
+and (process_command_line contains "*net* user*" 
+or process_command_line contains "*net* group*" 
+or process_command_line contains "*net* localgroup*" 
+or process_command_line contains "cmdkey*\/list*" 
+or process_command_line contains "*get-localuser*" 
+or process_command_line contains "*get-localgroupmembers*" 
+or process_command_line contains "*get-aduser*" 
+or process_command_line contains "query*user*")

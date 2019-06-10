@@ -1,0 +1,19 @@
+// Name: Registry Run Keys or Start Folder
+// Description: Checks for execution of MITRE ATT&CK T1060
+//
+// Severity: Critical
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Persistence
+//
+SysmonOSSEM
+| where (EventID == 12 or EventID == 13 or EventID == 14) and 
+(registry_key_path contains "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run*" 
+or registry_key_path contains "*\\Software\\Microsoft\\Windows\\CurrentVersion\Explorer\\*Shell Folders")

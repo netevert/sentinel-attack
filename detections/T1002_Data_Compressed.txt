@@ -1,0 +1,20 @@
+// Name: Data Compressed
+// Description: Checks for execution of MITRE ATT&CK T1002
+//
+// Severity: Medium
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Exfiltration
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "powershell.exe" 
+and process_command_line contains "*-Recurse | Compress-Archive*") 
+or (process_name contains "rar.exe" 
+and process_command_line contains "rar*a*")

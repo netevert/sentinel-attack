@@ -1,0 +1,17 @@
+// Name: Indicator Blocking - Driver unloaded
+// Description: Checks for execution of MITRE ATT&CK T1054
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "fltmc.exe" or process_command_line contains "*fltmc*unload*")

@@ -1,0 +1,18 @@
+// Name: Clipboard Data
+// Description: Checks for execution of MITRE ATT&CK T1115
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Collection
+//
+SysmonOSSEM
+| where EventID == 1 and (process_name contains "clip.exe" 
+or process_command_line contains "*Get-Clipboard*")

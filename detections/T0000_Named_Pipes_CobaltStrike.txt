@@ -1,0 +1,17 @@
+// Name: Named Pipes - CobaltStrike
+// Description: Checks for execution of MITRE ATT&CK T0000
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Lateral Movement
+//
+SysmonOSSEM
+| where EventID == 17 and pipe_name="\\msagent_*"
