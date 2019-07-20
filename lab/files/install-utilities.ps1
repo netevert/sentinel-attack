@@ -35,22 +35,16 @@ Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Sysmon.exe..."
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Olaf Hartong's Sysmon config..."
 (New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/olafhartong/sysmon-configs/master/sysmonconfig-v10.xml', "$sysmonConfigPath")
 
-Function TestFunction1()
-{
-    Start-Process -FilePath "$sysmonPath" -ArgumentList "-accepteula -i $sysmonConfigPath"
-    Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Verifying that the Sysmon service is running..."
-    Start-Sleep 15 # Give the service time to start
-    If ((Get-Service -name Sysmon).Status -ne "Running")
-    {
-      TestFunction1
-    } Else {
-        Write-Host "Sysmon is already installed. Moving on."
-    }
-}
-
 # Start Sysmon
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Starting Sysmon..."
-TestFunction1
+Start-Process -FilePath "$sysmonPath" -ArgumentList "-accepteula -i $sysmonConfigPath"
+Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Verifying that the Sysmon service is running..."
+Start-Sleep 5 # Give the service time to start
+If ((Get-Service -name Sysmon).Status -ne "Running")
+{
+  throw "The Sysmon service did not start successfully"
+}
+
 
 # Purpose: Installs chocolatey package manager, then installs custom utilities from Choco and adds syntax highlighting for Powershell, Batch, and Docker. Also installs Mimikatz into c:\Tools\Mimikatz.
 
@@ -61,22 +55,13 @@ If (-not (Test-Path "C:\ProgramData\chocolatey")) {
   Write-Host "Chocolatey is already installed."
 }
 
-Write-Host "Installing Notepad++, Chrome, 7zip."
-  # Because the Windows10 start menu sucks
+Write-Host "Installing Notepad++, Chrome, 7zip, Firefox."
 choco install -y NotepadPlusPlus
 choco install -y GoogleChrome
+choco install -y Firefox
 choco install -y 7zip
 
 Write-Host "Utilties installation complete!"
-
-Function TestFunction ()
-{ # Give the service time to start
-    Start-Sleep -s 15
-    If ((Get-Service -name splunkforwarder).Status -ne "Running")
-    {
-      TestFunction
-    }
-}
 
 # Purpose: Installs a Splunk Universal Forwarder on the host
 If (-not (Test-Path "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe")) {
@@ -85,11 +70,13 @@ If (-not (Test-Path "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe"))
   Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing & Starting Splunk"
   (New-Object System.Net.WebClient).DownloadFile('https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=windows&version=7.1.0&product=universalforwarder&filename=splunkforwarder-7.1.0-2e75b3406c5b-x64-release.msi&wget=true', $msiFile)
   Start-Process -FilePath "c:\windows\system32\msiexec.exe" -ArgumentList '/i', "$msiFile", 'DEPLOYMENT_SERVER="10.0.1.7:8089" AGREETOLICENSE=Yes SERVICESTARTTYPE=1 LAUNCHSPLUNK=1 SPLUNKPASSWORD=F4354wtlsgkgje453 /quiet' -Wait
-  } Else {
-      Write-Host "Splunk is already installed. Moving on."
+} Else {
+  Write-Host "Splunk is already installed. Moving on."
 }
-  
-  TestFunction
+If ((Get-Service -name splunkforwarder).Status -ne "Running")
+{
+  throw "Splunk forwarder service not running"
+}
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk installation complete!"
 
 # Debloat Windows
@@ -148,4 +135,3 @@ $appname = "Microsoft Store"
 ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
 $appname = "Mail"
 ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
-exit 0

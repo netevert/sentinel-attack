@@ -24,16 +24,6 @@ resource "azurerm_virtual_network" "vnet" {
     depends_on          = ["azurerm_resource_group.rg"]
 }
 
-# Create prod subnet
-resource "azurerm_subnet" "subnet" {
-    name                        = "${var.prefix}-subnet"
-    resource_group_name         = "${azurerm_resource_group.rg.name}"
-    virtual_network_name        = "${azurerm_virtual_network.vnet.name}"
-    address_prefix              = "10.0.1.0/24"
-    network_security_group_id   = "${azurerm_network_security_group.nsg.id}"
-    depends_on                  = ["azurerm_virtual_network.vnet"]
-}
-
 # Create Network Security Group and rules
 resource "azurerm_network_security_group" "nsg" {
     name                = "${var.prefix}-nsg"
@@ -112,7 +102,15 @@ resource "azurerm_network_security_group" "nsg" {
         source_address_prefix      = "*"
         destination_address_prefix = "*"
     }
-    depends_on                     = ["azurerm_subnet.subnet"]
+}
+
+# Create prod subnet
+resource "azurerm_subnet" "subnet" {
+    name                        = "${var.prefix}-subnet"
+    resource_group_name         = "${azurerm_resource_group.rg.name}"
+    virtual_network_name        = "${azurerm_virtual_network.vnet.name}"
+    address_prefix              = "10.0.1.0/24"
+    network_security_group_id   = "${azurerm_network_security_group.nsg.id}"
 }
 
 # Set local data for workstation 1
@@ -197,7 +195,7 @@ resource "azurerm_virtual_machine" "pc1" {
 }
 
 resource "azurerm_storage_account" "storageaccount" {
-  name                     = "${var.prefix}-storageaccount"
+  name                     = "${var.prefix}storage"
   resource_group_name      = "${azurerm_resource_group.rg.name}"
   location                 = "${azurerm_resource_group.rg.location}"
   account_tier             = "Standard"
@@ -205,7 +203,7 @@ resource "azurerm_storage_account" "storageaccount" {
 }
 
 resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}- container"
+  name                  = "${var.prefix}container"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
   storage_account_name  = "${azurerm_storage_account.storageaccount.name}"
   container_access_type = "blob"
@@ -238,5 +236,5 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
         "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1"
     }
 SETTINGS
-  depends_on = ["azurerm_storage_blob.utilsblob", "azurerm_virtual_machine_extension.pc6-join-domain"]
+  depends_on = ["azurerm_storage_blob.utilsblob"]
 }
