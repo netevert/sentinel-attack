@@ -5,7 +5,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
 - **Step 1: Provision a Windows 10 virtual machine in your [Azure environment](https://portal.azure.com).**
   
-  You can follow microsoft's official documentation or use the included terraform [deployment script](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/lab) to quickly provision a lab. If you use the terraform script create a variables.tfvars file in the root directory, using the [variables.tfvars.txt](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/lab/variables.tfvars.txt) file as a template and making sure to complete all fields.
+  You can follow microsoft's official documentation or use the included terraform [deployment script](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/lab) to quickly provision a lab. If you use the terraform script create a variables.tfvars file in the root directory, using the [variables.tfvars.txt](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/lab/variables.tfvars.txt) file as a template and making sure to complete all fields.
 
 - **Step 2: Provision a log analytics workspace**
   
