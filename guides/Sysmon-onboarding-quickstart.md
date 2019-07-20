@@ -11,7 +11,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
   
   The second step is to provision a log analytics workspace into which an Azure Sentinel will be deployed
   
-![demo1](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/deploy-analytics.gif)
+  ![demo1](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/deploy-analytics.gif)
 
 
 - **Step 3: Deploy an Azure Sentinel instance**
