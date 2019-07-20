@@ -18,7 +18,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
   The third step is to deploy the Azure Sentinel SIEM instance
   
-![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-sentinel.gif)
+  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-sentinel.gif)
 
 - **Step 4: Enable security events**
  
