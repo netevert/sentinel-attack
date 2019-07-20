@@ -12,7 +12,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     The second step is to provision a log analytics workspace into which an Azure Sentinel will be deployed
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-analytics.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-analytics.gif)
 
     </p>
     </details>
@@ -23,7 +23,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     The third step is to deploy the Azure Sentinel SIEM instance
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-sentinel.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-sentinel.gif)
 
     </p>
     </details>
@@ -34,7 +34,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     The fourth step is to enable the collection of security events
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/enable-security-events.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/enable-security-events.gif)
 
     </p>
     </details>
@@ -51,7 +51,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     **Note that _Microsoft-Windows-Sysmon/Operational_ does not appear in the drop down menu. You must hit enter after inputting the data source to add it to the list**
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/enable-event-logs.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/enable-event-logs.gif)
 
     </p>
     </details>
@@ -62,7 +62,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     The sixth step is to connect the virtual machine to Sentinel to being collecting sysmon data
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/connect-vm.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/connect-vm.gif)
 
     </p>
     </details>
@@ -77,7 +77,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     **Note that at this stage raw, unparsed data is being sent to sentinel**
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/data-test.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/data-test.gif)
 
     </p>
     </details>
@@ -88,7 +88,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
     The final step is to install the windows event parser to ensure Sysmon events are stored and parsed according to the [OSSEM standard](https://github.com/Cyb3rWard0g/OSSEM) and to allow for compatibility with the repository's [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections).
 
-    ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/install-parser.gif)
+![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/install-parser.gif)
 
     </p>
     </details>
