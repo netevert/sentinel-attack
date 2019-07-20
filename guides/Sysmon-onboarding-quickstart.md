@@ -7,26 +7,26 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
   You can follow microsoft's official documentation or use the included terraform [deployment script](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/lab) to quickly provision a lab. If you use the terraform script create a variables.tfvars file in the root directory, using the [variables.tfvars.txt](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/lab/variables.tfvars.txt) file as a template and making sure to complete all fields.
 
 - Step 2: Provision a log analytics workspace
-- 
+  
   The second step is to provision a log analytics workspace into which an Azure Sentinel will be deployed
   
   ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-analytics.gif)
 
 
 - Step 3: Deploy an Azure Sentinel instance
-- 
+
   The third step is to deploy the Azure Sentinel SIEM instance
   
   ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/deploy-sentinel.gif)
 
 - Step 4: Enable security events
-- 
+ 
   The fourth step is to enable the collection of security events
   
   ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/enable-security-events.gif)
 
 - Step 5: Activate windows event logs as data sources
-- 
+ 
   The fifth step is to activate the collection of the correct event logs. The correct event logs are:
     - Application
     - Microsoft-Windows-Sysmon/Operational
@@ -39,14 +39,14 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
 
 - Step 6: Connect Virtual Machine(s) to Sentinel
-- 
+  
   The sixth step is to connect the virtual machine to Sentinel to being collecting sysmon data
   
   ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/connect-vm.gif)
 
 
 - Step 7: Check Sysmon data transmission
-- 
+  
   The seventh step is to check that sysmon data is correctly being forwarded to sentinel, the following Kusto Query can be run to verify the correct transmission of sysmon data:
 
         Event | where Source == "Microsoft-Windows-Sysmon" | limit 20
@@ -56,7 +56,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
   ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/data-test.gif)
 
 - Step 8: Install Sysmon event parser
-- 
+  
   The final step is to install the windows event parser to ensure Sysmon events are stored and parsed according to the [OSSEM standard](https://github.com/Cyb3rWard0g/OSSEM) and to allow for compatibility with the repository's [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections).
 
   ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/docs/install-parser.gif)
