@@ -1,0 +1,31 @@
+authentication = {
+    subscription_id     = ""
+    client_id           = ""      
+    client_secret       = ""  
+    tenant_id           = ""      
+}
+
+location                      = ""  # eg. westus
+prefix                        = ""  # eg. azure-sentinel-lab
+
+tags =  {
+    environment = ""                # eg. dev, testing, staging
+}
+
+accounts = {
+    # workstation accounts
+    pc1_admin_user          = ""
+    pc1_admin_password      = ""
+}
+
+workstations = {
+    # Image configurations
+    os_manufacturer = ""            # eg. MicrosoftWindowsDesktop
+    os_type         = ""            # eg. Windows-10
+    os_sku          = ""            # eg. rs5-pro
+    os_version      = ""            # eg. latest
+    vm_size         = ""            # eg. Standard_B1ms
+
+    # Naming configurations
+    pc1             = ""            # eg. pc-test
+}
