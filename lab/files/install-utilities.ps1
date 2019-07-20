@@ -40,10 +40,6 @@ Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Starting Sysmon..."
 Start-Process -FilePath "$sysmonPath" -ArgumentList "-accepteula -i $sysmonConfigPath"
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Verifying that the Sysmon service is running..."
 Start-Sleep 5 # Give the service time to start
-If ((Get-Service -name Sysmon).Status -ne "Running")
-{
-  throw "The Sysmon service did not start successfully"
-}
 
 
 # Purpose: Installs chocolatey package manager, then installs custom utilities from Choco and adds syntax highlighting for Powershell, Batch, and Docker. Also installs Mimikatz into c:\Tools\Mimikatz.
@@ -72,10 +68,6 @@ If (-not (Test-Path "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe"))
   Start-Process -FilePath "c:\windows\system32\msiexec.exe" -ArgumentList '/i', "$msiFile", 'DEPLOYMENT_SERVER="10.0.1.7:8089" AGREETOLICENSE=Yes SERVICESTARTTYPE=1 LAUNCHSPLUNK=1 SPLUNKPASSWORD=F4354wtlsgkgje453 /quiet' -Wait
 } Else {
   Write-Host "Splunk is already installed. Moving on."
-}
-If ((Get-Service -name splunkforwarder).Status -ne "Running")
-{
-  throw "Splunk forwarder service not running"
 }
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk installation complete!"
 
