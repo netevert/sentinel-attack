@@ -15,4 +15,4 @@
 //
 SysmonOSSEM
 | where EventID == 1 and (process_commandline contains "mshta.exe"
-or process_parent_command_line contains "*\\mshta.exe")
+or process_parent_command_line contains "mshta.exe")
