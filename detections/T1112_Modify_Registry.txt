@@ -15,4 +15,4 @@
 //
 SysmonOSSEM
 | where process_path contains "reg.exe"
-and process_command_line contains "query"
+and file_directory contains "reg.exe\" query"
