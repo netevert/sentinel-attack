@@ -1,7 +1,7 @@
 // Name: Remote System Discovery - Network
 // Description: Checks for execution of MITRE ATT&CK T1018
 //
-// Severity: High
+// Severity: Medium
 //
 // QueryFrequency: 1h
 //
