@@ -1,7 +1,7 @@
 // Name: Modify Registry
 // Description: Checks for execution of MITRE ATT&CK T1112
 //
-// Severity: High
+// Severity: Medium
 //
 // QueryFrequency: 1h
 //
