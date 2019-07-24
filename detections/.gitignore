@@ -1,8 +1,0 @@
-.terraform.tfstate.lock.info
-terraform.tfstate
-terraform.tfstate.backup
-.terraform/
-variables.tfvars
-variables.txt
-files/.DS_Store
-.DS_Store
