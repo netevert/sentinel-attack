@@ -14,11 +14,11 @@
 // Tactics: #Discovery
 //
 SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" 
-or process_name contains "tasklist.exe" 
-or process_name contains "sc.exe" 
-or process_name contains "wmic.exe") 
-and (process_command_line contains "*net* start*" 
-or process_command_line contains "*tasklist \/svc*" 
-or process_command_line contains "*sc* query*" 
-or process_command_line contains "wmic* service where*")
+| where EventID == 1 and (process_path contains "net.exe" 
+or process_path contains "tasklist.exe" 
+or process_path contains "sc.exe" 
+or process_path contains "wmic.exe")
+and (file_directory contains "net.exe\" start"
+or file_directory contains "tasklist.exe\" /SVC"
+and file_directory contains "sc.exe\" query" 
+or file_directory contains "wmic.exe\" service where")
