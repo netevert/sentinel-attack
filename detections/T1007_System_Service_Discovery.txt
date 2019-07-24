@@ -1,7 +1,7 @@
 // Name: System Service Discovery
 // Description: Checks for execution of MITRE ATT&CK T1007
 //
-// Severity: High
+// Severity: Medium
 //
 // QueryFrequency: 1h
 //
