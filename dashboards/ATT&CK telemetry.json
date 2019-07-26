@@ -1,0 +1,688 @@
+{
+  "properties": {
+    "lenses": {
+      "0": {
+        "order": 0,
+        "parts": {
+          "0": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "colSpan": 12,
+              "rowSpan": 2
+            },
+            "metadata": {
+              "inputs": [],
+              "type": "Extension/HubsExtension/PartType/MarkdownPart",
+              "settings": {
+                "content": {
+                  "settings": {
+                    "content": "# ATT&CK telemetry dashboard \n\nThis dashboard provides an overview of Sysmon detection metrics mapped to the MITRE ATT&CK framework\n\n",
+                    "title": "ATT&CK telemetry",
+                    "subtitle": "Overview of MITRE ATT&CK techniques"
+                  }
+                }
+              }
+            }
+          },
+          "1": {
+            "position": {
+              "x": 0,
+              "y": 2,
+              "colSpan": 12,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "Sysmon2\r\n| summarize event_count = count() by phase_name\n"
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "P1D"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "phase_name",
+                      "type": "String"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "event_count",
+                        "type": "Int64"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "45ba14b6-6432-4420-a9f2-07f516a7c9d4"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsChart"
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Bar"
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "Killchain overview",
+                  "PartSubTitle": "Overview of ATT&CK techniques triggered",
+                  "Query": "Sysmon\n| where isnotempty(phase_name)\n| summarize event_count = count() by phase_name\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          },
+          "2": {
+            "position": {
+              "x": 0,
+              "y": 6,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "Sysmon\n| summarize count() by technique_id\n| sort by count_ desc\n"
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "P7D"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "technique_id",
+                      "type": "String"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "count_",
+                        "type": "Int64"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "89da52f9-c822-4d66-b7fa-087286cde8d7"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsDonut"
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "ATT&CK techniques",
+                  "PartSubTitle": "Overviwe of ATT&CK techniques triggered",
+                  "Query": "Sysmon\n| summarize count() by technique_id\n| where isnotempty(technique_id)\n| sort by count_ desc\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          },
+          "3": {
+            "position": {
+              "x": 6,
+              "y": 6,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "Sysmon2\n| summarize event_count = count() by Computer\n"
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "P1D"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "Computer",
+                      "type": "String"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "event_count",
+                        "type": "Int64"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "6f379841-6fab-43e6-8e51-44d5d684ab98"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsDonut"
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "Machines under attack",
+                  "PartSubTitle": "Overview of attacked machines and event count",
+                  "Query": "Sysmon\n| summarize event_count = count() by Computer\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          },
+          "4": {
+            "position": {
+              "x": 0,
+              "y": 10,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "Sysmon\n| summarize count() by tostring(process_commandline)\n| sort by count_ desc\n"
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "P1D"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "process_commandline",
+                      "type": "String"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "count_",
+                        "type": "Int64"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "1f33296f-5d3f-46eb-b8f7-5dc4b8c2cbde"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsDonut"
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "Command execution overview",
+                  "PartSubTitle": "Overview of commands executed",
+                  "Query": "Sysmon\n| summarize count() by tostring(process_commandline)\n| where isnotempty(process_commandline)\n| sort by count_ desc\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          },
+          "5": {
+            "position": {
+              "x": 6,
+              "y": 10,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "Sysmon\n| summarize count() by technique_name\n| sort by count_ desc\n"
+                },
+                {
+                  "name": "TimeRange",
+                  "value": "P1D"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "technique_name",
+                      "type": "String"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "count_",
+                        "type": "Int64"
+                      }
+                    ],
+                    "splitBy": [],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "7e51e25e-d48d-4fb2-b886-39da8b9e50bc"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsDonut"
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                },
+                {
+                  "name": "SpecificChart",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "Technique name",
+                  "PartSubTitle": "Overview of most popular technique names triggered",
+                  "Query": "Sysmon\n| summarize count() by technique_name\n| where isnotempty(technique_name)\n| sort by count_ desc\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          },
+          "6": {
+            "position": {
+              "x": 0,
+              "y": 14,
+              "colSpan": 12,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "ComponentId",
+                  "value": {
+                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
+                    "ResourceGroup": "sentinel-attack",
+                    "Name": "sentinel-attack-workspace",
+                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                  }
+                },
+                {
+                  "name": "Query",
+                  "value": "let min_t = toscalar(Sysmon2 | summarize min(TimeGenerated));\r\nlet max_t = toscalar(Sysmon2 | summarize max(TimeGenerated));\r\nSysmon2\r\n| where isnotempty(phase_name)\r\n| make-series num=count() default=0 on TimeGenerated in range(min_t, max_t, 1h) by phase_name\r\n| render timechart\n"
+                },
+                {
+                  "name": "Dimensions",
+                  "value": {
+                    "xAxis": {
+                      "name": "TimeGenerated",
+                      "type": "DateTime"
+                    },
+                    "yAxis": [
+                      {
+                        "name": "num",
+                        "type": "Double"
+                      }
+                    ],
+                    "splitBy": [
+                      {
+                        "name": "phase_name",
+                        "type": "String"
+                      }
+                    ],
+                    "aggregation": "Sum"
+                  }
+                },
+                {
+                  "name": "Version",
+                  "value": "1.0"
+                },
+                {
+                  "name": "PartId",
+                  "value": "61684c36-0614-4eb4-b142-98980d665ef5"
+                },
+                {
+                  "name": "PartTitle",
+                  "value": "Analytics"
+                },
+                {
+                  "name": "PartSubTitle",
+                  "value": "sentinel-attack-workspace"
+                },
+                {
+                  "name": "resourceTypeMode",
+                  "value": "workspace"
+                },
+                {
+                  "name": "ControlType",
+                  "value": "AnalyticsChart"
+                },
+                {
+                  "name": "SpecificChart",
+                  "value": "Line"
+                },
+                {
+                  "name": "TimeRange",
+                  "isOptional": true
+                },
+                {
+                  "name": "DashboardId",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/AppInsightsExtension/PartType/AnalyticsPart",
+              "settings": {
+                "content": {
+                  "PartTitle": "ATT&CK tactics",
+                  "PartSubTitle": "Overview of event series by ATT&CK tactic",
+                  "Query": "let min_t = toscalar(Sysmon2 | summarize min(TimeGenerated));\nlet max_t = toscalar(Sysmon2 | summarize max(TimeGenerated));\nSysmon\n| where isnotempty(phase_name)\n| make-series num=count() default=0 on TimeGenerated in range(min_t, max_t, 1h) by phase_name\n| render timechart\n"
+                }
+              },
+              "asset": {
+                "idInputName": "ComponentId",
+                "type": "ApplicationInsights"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "model": {
+        "timeRange": {
+          "value": {
+            "relative": {
+              "duration": 24,
+              "timeUnit": 1
+            }
+          },
+          "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+        },
+        "filterLocale": {
+          "value": "en-us"
+        },
+        "filters": {
+          "value": {
+            "MsPortalFx_TimeRange": {
+              "model": {
+                "format": "local",
+                "granularity": "auto",
+                "relative": "24h"
+              },
+              "displayCache": {
+                "name": "Local Time",
+                "value": "Past 24 hours"
+              },
+              "filteredPartIds": [
+                "StartboardPart-AnalyticsPart-55021efd-459b-43e4-a070-7ee742188007",
+                "StartboardPart-AnalyticsPart-55021efd-459b-43e4-a070-7ee742188009",
+                "StartboardPart-AnalyticsPart-ad081016-e634-43b2-aace-14bc4a656009",
+                "StartboardPart-AnalyticsPart-6253238a-9ac7-439d-a46e-4b264c76e007",
+                "StartboardPart-AnalyticsPart-6253238a-9ac7-439d-a46e-4b264c76e009",
+                "StartboardPart-AnalyticsPart-6253238a-9ac7-439d-a46e-4b264c76e00b",
+                "StartboardPart-AnalyticsPart-68d4fd59-dc9a-415e-93a6-7b14782b1007",
+                "StartboardPart-AnalyticsPart-68d4fd59-dc9a-415e-93a6-7b14782b1009",
+                "StartboardPart-AnalyticsPart-68d4fd59-dc9a-415e-93a6-7b14782b100b",
+                "StartboardPart-AnalyticsPart-68d4fd59-dc9a-415e-93a6-7b14782b100d",
+                "StartboardPart-AnalyticsPart-c75748a8-b000-4f44-8ecf-ee524b216007",
+                "StartboardPart-AnalyticsPart-c75748a8-b000-4f44-8ecf-ee524b216009",
+                "StartboardPart-AnalyticsPart-c75748a8-b000-4f44-8ecf-ee524b21600b",
+                "StartboardPart-AnalyticsPart-c75748a8-b000-4f44-8ecf-ee524b21600d",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c007",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c009",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c00b",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c00f",
+                "StartboardPart-AnalyticsPart-4ced7d0d-2f53-4775-9ae8-71497a69b007",
+                "StartboardPart-AnalyticsPart-4ced7d0d-2f53-4775-9ae8-71497a69b009",
+                "StartboardPart-AnalyticsPart-4ced7d0d-2f53-4775-9ae8-71497a69b00b",
+                "StartboardPart-AnalyticsPart-4ced7d0d-2f53-4775-9ae8-71497a69b00d",
+                "StartboardPart-AnalyticsPart-4ced7d0d-2f53-4775-9ae8-71497a69b00f",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-985742981007",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-985742981009",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-98574298100b",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-98574298100d",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-98574298100f",
+                "StartboardPart-AnalyticsPart-6946ce62-47b9-4b08-94b6-985742981011",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c13345099007",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c13345099009",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c1334509900b",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c1334509900d",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c1334509900f",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c13345099011",
+                "StartboardPart-AnalyticsPart-63f2cdbc-646b-43e1-acd2-c13345099013",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c682",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c684",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c686",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c688",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c68a",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c68c",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c68e",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da007",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da009",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da00d",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da00f",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da011",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da013",
+                "StartboardPart-AnalyticsPart-8a41f8f6-4b3a-4786-a994-d2c1864da015",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de54007",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de54009",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de5400b",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de5400d",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de5400f",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de54013",
+                "StartboardPart-AnalyticsPart-475e8f55-8080-4574-b293-96052de54015",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd19007",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd19009",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd1900b",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd1900d",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd1900f",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd19011",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd19013",
+                "StartboardPart-AnalyticsPart-d971a0a1-0d7d-4385-94b7-4f3d2fd19015",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c939",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c93b",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c93d",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c93f",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c941",
+                "StartboardPart-AnalyticsPart-e5114b1b-9e75-46c6-a052-f3861a07c943"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "name": "ATT&CK telemetry",
+  "type": "Microsoft.Portal/dashboards",
+  "location": "INSERT LOCATION",
+  "tags": {
+    "hidden-title": "ATT&CK telemetry"
+  },
+  "apiVersion": "2015-08-01-preview"
+}
