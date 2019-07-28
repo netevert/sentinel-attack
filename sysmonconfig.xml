@@ -193,6 +193,7 @@
       <Image>C:\Windows\System32\MusNotificationUx.exe</Image>
       <Image condition="end with">C:\Windows\System32\CompatTelRunner.exe</Image>
       <CommandLine>C:\Windows\system32\svchost.exe -k netsvcs -s SessionEnv</CommandLine>
+      <CommandLine>C:\windows\system32\cscript.exe /nologo MonitorKnowledgeDiscovery.vbs</CommandLine>
       <CommandLine>C:\Windows\system32\svchost.exe -k localSystemNetworkRestricted -p -s fhsvc</CommandLine>
       <CommandLine>C:\Windows\system32\SearchIndexer.exe /Embedding</CommandLine>
       <CommandLine>C:\Windows\system32\svchost.exe -k netsvcs</CommandLine>
