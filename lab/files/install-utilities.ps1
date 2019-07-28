@@ -1,6 +1,4 @@
 # Making sure all names are resolved
-Resolve-DnsName www.splunk.com
-Resolve-DnsName download.splunk.com
 Resolve-DnsName github.com
 Resolve-DnsName raw.githubusercontent.com
 Resolve-DnsName live.sysinternals.com
@@ -32,8 +30,8 @@ Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Sysmon.exe..."
 
 
 # Download Olaf Hartongs Sysmon config
-Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading Olaf Hartong's Sysmon config..."
-(New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/olafhartong/sysmon-configs/master/sysmonconfig-v10.xml', "$sysmonConfigPath")
+Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Downloading sentinel-ATT&CK Sysmon config..."
+(New-Object System.Net.WebClient).DownloadFile('https://raw.githubusercontent.com/BlueTeamToolkit/sentinel-attack/defcon/sysmonconfig.xml', "$sysmonConfigPath")
 
 # Start Sysmon
 Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Starting Sysmon..."
@@ -58,18 +56,6 @@ choco install -y Firefox
 choco install -y 7zip
 
 Write-Host "Utilties installation complete!"
-
-# Purpose: Installs a Splunk Universal Forwarder on the host
-If (-not (Test-Path "C:\Program Files\SplunkUniversalForwarder\bin\splunk.exe")) {
-  Write-Host "Downloading Splunk Universal Forwarder"
-  $msiFile = $env:Temp + "\splunkforwarder-7.1.0-2e75b3406c5b-x64-release.msi"
-  Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Installing & Starting Splunk"
-  (New-Object System.Net.WebClient).DownloadFile('https://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=windows&version=7.1.0&product=universalforwarder&filename=splunkforwarder-7.1.0-2e75b3406c5b-x64-release.msi&wget=true', $msiFile)
-  Start-Process -FilePath "c:\windows\system32\msiexec.exe" -ArgumentList '/i', "$msiFile", 'DEPLOYMENT_SERVER="10.0.1.7:8089" AGREETOLICENSE=Yes SERVICESTARTTYPE=1 LAUNCHSPLUNK=1 SPLUNKPASSWORD=F4354wtlsgkgje453 /quiet' -Wait
-} Else {
-  Write-Host "Splunk is already installed. Moving on."
-}
-Write-Host "$('[{0:HH:mm}]' -f (Get-Date)) Splunk installation complete!"
 
 # Debloat Windows
 if ($env:PACKER_BUILDER_TYPE -And $($env:PACKER_BUILDER_TYPE).startsWith("hyperv")) {
