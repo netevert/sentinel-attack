@@ -4,7 +4,7 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/BlueTeamToolkit/sentinel-attack.svg?style=flat-square)](https://github.com/BlueTeamToolkit/sentinel-attack/commit/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet)
+![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)
 
 Repository of Azure Sentinel alerts and hunting queries leveraging sysmon and the MITRE ATT&CK framework.
 
