@@ -6,6 +6,18 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)
 
-Repository of Azure Sentinel alerts and hunting queries leveraging sysmon and the MITRE ATT&CK framework.
+Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and MITRE ATT&CK on Azure Sentinel.
 
-**This repository is work in progress**
+**DISCLAIMER:** The tool presented is not a magic bullet. It will require tuning and real investigative work to be truly effective in your environment.
+
+ ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/demo.gif)
+
+ Sentinel ATT&CK provides the following features:
+ - A dashboard to monitor execution of ATT&CK techniques 
+ - A Sysmon log parser mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
+ - 119 Kusto queries detection rules mapped against ATT&CK
+ - A [Terraform](https://www.terraform.io/) script to provision a Sentinel ATT&CK test lab in Azure
+ - [Hunting Jupyter notebooks](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/hunting) to assist with process drill-down 
+ - [Guides](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides) to help you leverage the materials in this repository
+
+Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to get to know Sentinel ATT&CK.
