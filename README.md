@@ -14,6 +14,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 
  Sentinel ATT&CK provides the following:
  - A dashboard to monitor execution of ATT&CK techniques 
+ - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/sysmonconfig.xml) mapped to specific ATT&CK techniques  
  - A Sysmon log parser mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
  - 119 Kusto detection rules mapped against ATT&CK
  - A [Terraform](https://www.terraform.io/) script to provision a Sentinel ATT&CK test lab in Azure
