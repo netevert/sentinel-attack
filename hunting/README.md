@@ -32,4 +32,6 @@ You must also ensure to upload the [config.ini](https://github.com/BlueTeamToolk
 
 ## Caveats
 
-For the moment this Jupyter notebook allows nvestigators to perform process drilldowns only for Sysmon logs carrying event ID 1. Support for more event IDs will be added in the future.
+This notebook is **work in progress** and will consistently receive updates and improvements.
+
+Additionally this Jupyter notebook allows investigators to perform process drilldowns only for Sysmon logs carrying event ID 1. Support for more event IDs will be added in the future.
