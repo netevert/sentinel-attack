@@ -19,3 +19,5 @@ This terraform script provisions a win 10 machine and runs a post-deployment scr
 4. Run the following command:
 
     ```terraform apply --var-file="variables.tfvars"```
+
+As a next step you should [Deploy Sentinel and onboard Sysmon data](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/guides/Sysmon-onboarding-quickstart.md). 

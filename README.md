@@ -21,4 +21,6 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
  - [Hunting Jupyter notebooks](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/hunting) to assist with process drill-down 
  - [Guides](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides) to help you leverage the materials in this repository
 
-Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to get to know Sentinel ATT&CK.
+Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to install Sentinel ATT&CK.
+
+Please note that this repository is constantly being updated. If you spot any problems within the repository we warmly welcome pull requests or issue submissions.
