@@ -8,7 +8,7 @@ It is recommended to read the [official Microsoft documentation](https://docs.mi
 
 ## Overview
 
-This folder contains a [Jupyter notebook](https://jupyter.org/) to help with process investigations and especially with drilldowns. In a nutshell this notebook helps threat hunters with:
+This folder contains a Jupyter notebook to help with process investigations and especially with drilldowns. In a nutshell this notebook helps threat hunters with:
 
 a) gaining a high-level overview of ATT&CK tactics executed within a network and mapped against the [killchain](https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html):
 
