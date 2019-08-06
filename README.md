@@ -12,6 +12,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 
  ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/demo.gif)
 
+### Overview
  Sentinel ATT&CK provides the following:
  - A [dashboard](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/dashboards/attack_telemetry.json) to monitor execution of ATT&CK techniques 
  - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/sysmonconfig.xml) mapped to specific ATT&CK techniques  
@@ -21,6 +22,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
  - [Hunting Jupyter notebooks](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/hunting) to assist with process drill-down 
  - Guides to help you leverage the materials in this repository
 
+### Usage
 Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to install Sentinel ATT&CK.
 
 ### Contributing
