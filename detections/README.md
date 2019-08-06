@@ -1,7 +1,7 @@
 Sentinel ATT&CK detections usage guide
 ===
 
-This folder contains 119 Kusto queries than can be leveraged to:
+This folder contains 119 Kusto queries than can be used to:
 
 - Create Azure Sentinel detection rules
 - Execute hunts for specific ATT&CK techniques
