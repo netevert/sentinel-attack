@@ -23,4 +23,5 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 
 Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to install Sentinel ATT&CK.
 
-Please note that this repository is constantly being updated. If you spot any problems within the repository we warmly welcome pull requests or issue submissions.
+### Contributing
+As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or issue submissions.
