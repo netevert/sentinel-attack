@@ -10,7 +10,7 @@ In aggregate the queries cover a total of 156 ATT&CK techniques:
 
 ![coverage](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/sentinel_attack_coverage.JPG)
 
-**DISCLAIMER:** Please note that this folder is work in progress and is constaintly updated. It is likely you will come across detections that might require some fine tuning to function 100%. If you spot any issues in the Kusto source code feel free to open an issue or submit a pull request.
+**DISCLAIMER:** Please note that this folder is work in progress and is constantly being updated. It is likely you will come across detections that might require some fine tuning to function 100%. If you spot any issues in the Kusto source code feel free to open an issue or submit a pull request.
 
 ### Create Azure Sentinel detection rules
 
