@@ -25,5 +25,11 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 ### Usage
 Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/guides/getting-started.md) to install Sentinel ATT&CK.
 
+### ATT&CK coverage
+
+Sentinel ATT&CK's detection rules cover a total of 156 ATT&CK techniques:
+
+![coverage](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.JPG)
+
 ### Contributing
 As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or submissions on the issue tracker.
