@@ -10,20 +10,20 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 
 **DISCLAIMER:** The tool presented is not a magic bullet. It will require tuning and real investigative work to be truly effective in your environment.
 
- ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/demo.gif)
+ ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/demo.gif)
 
 ### Overview
  Sentinel ATT&CK provides the following:
- - A [dashboard](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/dashboards/attack_telemetry.json) to monitor execution of ATT&CK techniques 
- - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/sysmonconfig.xml) mapped to specific ATT&CK techniques  
- - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/parsers/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
- - 119 Kusto [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/detections) mapped against ATT&CK
+ - A [dashboard](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/dashboards/attack_telemetry.json) to monitor execution of ATT&CK techniques 
+ - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/sysmonconfig.xml) mapped to specific ATT&CK techniques  
+ - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parsers/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
+ - 119 Kusto [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections) mapped against ATT&CK
  - A [Terraform](https://www.terraform.io/) script to provision a Sentinel ATT&CK test lab in Azure
- - [Hunting Jupyter notebooks](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/hunting) to assist with process drill-down 
+ - [Hunting Jupyter notebooks](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/hunting) to assist with process drill-down 
  - Guides to help you leverage the materials in this repository
 
 ### Usage
-Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/defcon/guides/getting-started.md) to install Sentinel ATT&CK.
+Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/guides/getting-started.md) to install Sentinel ATT&CK.
 
 ### Contributing
 As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or submissions on the issue tracker.
