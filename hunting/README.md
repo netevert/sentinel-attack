@@ -12,23 +12,23 @@ This folder contains a Jupyter notebook to help with process investigations and 
 
 a) gaining a high-level overview of ATT&CK tactics executed within a network and mapped against the [killchain](https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html):
 
-![demo1](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/killchain-overview.png)
+![demo1](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/killchain-overview.png)
 
 b) generating a summary of ATT&CK techniques executed on a machine:
 
-![demo2](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/technique-overview.png)
+![demo2](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/technique-overview.png)
 
 c) inspecting individual ATT&CK techniques to extract and examine processes (by event ID) executed by attackers:
 
-![demo3](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/process-overview.png)
+![demo3](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/process-overview.png)
 
 ## Installation 
 
 Installing this notebook is quick and easy, to do so you must follow the steps outlined in the GIF below:
 
-![demo4](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/docs/upload-notebook.gif)
+![demo4](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-notebook.gif)
 
-You must also ensure to upload the [config.ini](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/hunting/config.ini) file provided and to complete all relevant credentials.
+You must also ensure to upload the [config.ini](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/hunting/config.ini) file provided and to complete all relevant credentials.
 
 ## Caveats
 
