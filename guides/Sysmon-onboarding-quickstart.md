@@ -76,4 +76,4 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
   
   [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/install-parser.gif)
 
-Next, you should [Install the ATT&CK telemetry dashboard on Azure](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/dashboards/README.md).
+Next, you should [install the ATT&CK telemetry dashboard](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/dashboards/README.md).
