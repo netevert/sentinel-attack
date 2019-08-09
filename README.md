@@ -8,7 +8,7 @@
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and MITRE ATT&CK on Azure Sentinel.
 
-**DISCLAIMER:** The tool presented is not a magic bullet. It will require tuning and real investigative work to be truly effective in your environment.
+**DISCLAIMER:** This tool is not a magic bullet. It will require tuning and real investigative work to be truly effective in your environment.
 
  ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/demo.gif)
 
