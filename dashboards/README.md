@@ -12,4 +12,4 @@ See the GIF below for a full demonstration:
 
 ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-dashboard.gif)
 
-Next, if needed, you should [Upload selected Kusto queries into Sentinel analytics](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/detections/README.md).
+Next, if needed, you should [upload selected Kusto queries into Sentinel analytics](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/detections/README.md).
