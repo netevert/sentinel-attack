@@ -18,7 +18,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
   The third step is to deploy the Azure Sentinel SIEM instance
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/deploy-sentinel.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/deploy-sentinel.gif)
 
 - **Step 4: Install Sysmon and load the provided sysmon configuration file on virtual machines**
 
@@ -38,7 +38,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
  
   The fifth step is to enable the collection of security events
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/enable-security-events.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/enable-security-events.gif)
 
 - **Step 6: Activate windows event logs as data sources**
  
@@ -50,14 +50,14 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
   **Note that _Microsoft-Windows-Sysmon/Operational_ does not appear in the drop down menu. You must hit enter after inputting the data source to add it to the list**
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/enable-event-logs.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/enable-event-logs.gif)
 
 
 - **Step 7: Connect Virtual Machine(s) to Sentinel**
   
   The seventh step is to connect the virtual machine to Sentinel to being collecting sysmon data
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/connect-vm.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/connect-vm.gif)
 
 
 - **Step 8: Check Sysmon data transmission**
@@ -68,12 +68,12 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
   **Note that at this stage raw, unparsed data is being sent to sentinel**
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/data-test.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/data-test.gif)
 
 - **Step 9: Install Sysmon event parser**
   
   The final step is to install the windows event parser to ensure Sysmon events are stored and parsed according to the [OSSEM standard](https://github.com/Cyb3rWard0g/OSSEM) and to allow for compatibility with the repository's [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections).
   
-  ![View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/install-parser.gif)
+  [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/install-parser.gif)
 
 Next, you should [Install the ATT&CK telemetry dashboard on Azure](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/dashboards/README.md).
