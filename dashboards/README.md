@@ -1,4 +1,4 @@
-Uploading dashboards in Azure
+Installing the ATT&CK telemetry dashboard in Azure
 ===
 
 Uploading dashboards in Azure sentinel is quick and easy. The following steps must be done:
