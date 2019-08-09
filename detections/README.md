@@ -38,7 +38,7 @@ The detection rules in this folder can also be used to conduct one-off threat hu
 
 ![demo2](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/execute-hunts.gif)
 
-Next, if needed, you could [Upload available threat hunting Jupyter notebooks in your Sentinel Azure workspace](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/hunting/README.md).
+Next, if needed, you could [upload available threat hunting Jupyter notebooks in your Sentinel Azure workspace](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/hunting/README.md).
 
 ### ATT&CK coverage report
 ATT&CK coverage reports for the detection rules in this folder are available in [SVG](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.svg), [Excel](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.xlsx) and [ATT&CK navigator](https://mitre-attack.github.io/attack-navigator/enterprise/) [JSON format](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.json).
