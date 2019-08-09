@@ -6,7 +6,7 @@ This folder contains 119 Kusto queries than can be used to:
 - Create Azure Sentinel detection rules
 - Execute hunts for specific ATT&CK techniques
 
-In aggregate the queries cover a total of 156 ATT&CK techniques:
+In aggregate the queries cover a total of 156 ATT&CK techniques applicable to Microsoft Windows environments:
 
 ![coverage](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.JPG)
 
