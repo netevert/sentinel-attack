@@ -195,7 +195,7 @@ resource "azurerm_virtual_machine" "pc1" {
 }
 
 resource "azurerm_storage_account" "storageaccount" {
-  name                     = "${var.prefix}storage"
+  name                     = "${var.prefix}strg"
   resource_group_name      = "${azurerm_resource_group.rg.name}"
   location                 = "${azurerm_resource_group.rg.location}"
   account_tier             = "Standard"
@@ -203,7 +203,7 @@ resource "azurerm_storage_account" "storageaccount" {
 }
 
 resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}container"
+  name                  = "${var.prefix}cont"
   resource_group_name   = "${azurerm_resource_group.rg.name}"
   storage_account_name  = "${azurerm_storage_account.storageaccount.name}"
   container_access_type = "blob"
