@@ -17,7 +17,7 @@
               "settings": {
                 "content": {
                   "settings": {
-                    "content": "# ATT&CK telemetry dashboard \n\nThis dashboard provides an overview of Sysmon detection metrics mapped to the MITRE ATT&CK framework over a selected timeperiod. For usage instructions and guidance refer to [Sentinel ATT&CK documentation](https://github.com/BlueTeamToolkit/sentinel-attack/blob/defcon/guides/getting-started.md).\n\n",
+                    "content": "# ATT&CK telemetry dashboard \n\nThis dashboard provides an overview of Sysmon detection metrics mapped to the MITRE ATT&CK framework over a selected timeperiod. For usage instructions and guidance refer to [Sentinel ATT&CK documentation](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/guides/getting-started.md).\n\n",
                     "title": "ATT&CK telemetry",
                     "subtitle": "Overview of MITRE ATT&CK events triggered over selected timeperiod"
                   }
@@ -37,10 +37,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -82,7 +82,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
@@ -127,10 +127,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -172,7 +172,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
@@ -217,10 +217,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -262,7 +262,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
@@ -307,10 +307,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -352,7 +352,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
@@ -397,10 +397,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -442,7 +442,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
@@ -487,10 +487,10 @@
                 {
                   "name": "ComponentId",
                   "value": {
-                    "SubscriptionId": "86ddb844-4026-4cd2-903a-b5c8ffdaeb80",
-                    "ResourceGroup": "sentinel-attack",
-                    "Name": "sentinel-attack-workspace",
-                    "ResourceId": "/subscriptions/86ddb844-4026-4cd2-903a-b5c8ffdaeb80/resourceGroups/sentinel-attack/providers/Microsoft.OperationalInsights/workspaces/sentinel-attack-workspace"
+                    "SubscriptionId": "{Subscription_Id}",
+                    "ResourceGroup": "{Resource_Group}",
+                    "Name": "{Workspace_Name}",
+                    "ResourceId": "/subscriptions/{Subscription_Id}/resourceGroups/{Resource_Group}/providers/Microsoft.OperationalInsights/workspaces/{Workspace_Name}"
                   }
                 },
                 {
@@ -533,7 +533,7 @@
                 },
                 {
                   "name": "PartSubTitle",
-                  "value": "sentinel-attack-workspace"
+                  "value": "{Workspace_Name}"
                 },
                 {
                   "name": "resourceTypeMode",
