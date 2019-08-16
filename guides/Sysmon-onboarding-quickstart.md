@@ -72,7 +72,7 @@ This is a quick, super terse guide to onboarding Sysmon data to Azure Sentinel. 
 
 - **Step 9: Install Sysmon event parser**
   
-  The final step is to install the windows event parser to ensure Sysmon events are stored and parsed according to the [OSSEM standard](https://github.com/Cyb3rWard0g/OSSEM) and to allow for compatibility with the repository's [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections).
+  The final step is to install [the parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parsers/Sysmon-OSSEM.txt) to ensure Sysmon events are stored and parsed according to the [OSSEM standard](https://github.com/Cyb3rWard0g/OSSEM) and to allow for compatibility with the repository's [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections).
   
   [View demo](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/install-parser.gif)
 
