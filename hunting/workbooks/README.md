@@ -23,6 +23,6 @@ This folder contains an Azure workbook that provides an overview of ATT&CK trigg
 10. Click Apply
 11. Click on the Save button
 
-A GIF outlining the process above can be seen below:
+A GIF outlining the process above can be seen at the link below:
 
-![demo4](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-workbook.gif)
+[View GIF](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-workbook.gif)
