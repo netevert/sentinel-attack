@@ -28,7 +28,7 @@ Installing this notebook is quick and easy, to do so you must follow the steps o
 
 ![demo4](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-notebook.gif)
 
-You must also ensure to upload the [config.ini](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/hunting/config.ini) file provided and to complete all relevant credentials.
+You must also ensure to upload the [config.ini](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/hunting/notebooks/config.ini) file provided and to complete all relevant credentials.
 
 ## Caveats
 
