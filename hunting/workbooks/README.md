@@ -25,4 +25,4 @@ This folder contains an Azure workbook that provides an overview of ATT&CK trigg
 
 A GIF outlining the process above can be seen at the link below:
 
-[View GIF](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-workbook.gif)
+[demo4](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-workbooks.gif)
