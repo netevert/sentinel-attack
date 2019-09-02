@@ -1,7 +1,7 @@
 Hunting workbooks quickstart
 ====
 
-Within Sentinel, [workbooks](https://jupyter.org/) are made available in preview form as a means to build richer and more interactive dashboards over log analytics workspaces. Workbooks can be used to build more powerful dashboards with better drill-down capabilities without having to leverage the full-power and granularity offered by Jupyter notebooks.
+Within Sentinel, workbooks are made available in preview form as a means to build richer and more interactive dashboards over log analytics workspaces. Workbooks can be used to build more powerful dashboards with better drill-down capabilities without having to leverage the full-power and granularity offered by Jupyter notebooks.
 
 It is recommended to read the [official Microsoft documentation](https://docs.microsoft.com/en-us/azure/azure-monitor/app/usage-workbooks) to get an understanding of how workbooks function.
 
