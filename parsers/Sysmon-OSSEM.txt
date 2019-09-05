@@ -2,11 +2,19 @@
 // Date: Sept 04, 2019
 // Original work by the Azure Sentinel team
 // Mapping to OSSEM by Olaf Hartong
+// Modifications and updates by NetEvert
 // OSSEM link > https://github.com/Cyb3rWard0g/OSSEM
 // Notes:
 // 1. This parser works against the current version of events from Sysmon, it may need updates if Sysmon is updated.
+<<<<<<< HEAD
 // 2. technique_id and technique_name will only be parsed/available if deployed via a custom XML
 // 3. To parse dns events, make sure to use sysmon v10 with custom XML which is configured to include dns events (Event ID 22)
+=======
+// 2. technique_id, technique_name and phase_name will only be parsed/available if deployed via the custom XML provided in this repository
+//
+// NOTE: You must specify a timeframe, see comment on line 12
+// let timeframe = ago(1d);
+>>>>>>> d0ae2c53b13253b407294352137126fc5814f247
 let EventData = Event
 | where Source == "Microsoft-Windows-Sysmon"
 | extend RenderedDescription = tostring(split(RenderedDescription, ":")[0])
@@ -23,7 +31,7 @@ file_version = EventDetail.[5].["#text"],file_description = EventDetail.[6].["#t
 process_commandline = EventDetail.[9].["#text"], file_directory = EventDetail.[10].["#text"], user_name = EventDetail.[11].["#text"], user_logon_guid = EventDetail.[12].["#text"],
 user_logon_id = EventDetail.[13].["#text"], user_session_id = EventDetail.[14].["#text"], process_integrity_level = EventDetail.[15].["#text"], Hashes = EventDetail.[16].["#text"], 
 process_parent_guid = EventDetail.[17].["#text"], process_parent_id = EventDetail.[18].["#text"], process_parent_path = EventDetail.[19].["#text"], process_parent_command_line = EventDetail.[20].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name, Hashes
 ;
@@ -34,7 +42,7 @@ let processEvents = EventData
 | where EventID == 2
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"],
 file_path = EventDetail.[5].["#text"], file_creation_time = EventDetail.[6].["#text"], file_previous_creation_time = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name, Hashes 
 ;
@@ -47,7 +55,7 @@ let processEvents = EventData
 user_name = EventDetail.[5].["#text"], network_protocol = EventDetail.[6].["#text"], network_connection_initiated = EventDetail.[7].["#text"], src_is_ipv6 = EventDetail.[8].["#text"], src_ip = EventDetail.[9].["#text"], 
 src_host_name = EventDetail.[10].["#text"], src_port = EventDetail.[11].["#text"], src_port_name = EventDetail.[12].["#text"], dst_is_ipv6 = EventDetail.[13].["#text"], 
 dst_ip = EventDetail.[14].["#text"], dst_host_name = EventDetail.[15].["#text"], dst_port = EventDetail.[16].["#text"], dst_port_name = EventDetail.[17].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name, Hashes
 ;
@@ -65,7 +73,7 @@ let SysmonEvent5_ProcessTerminate=() {
 let processEvents = EventData
 | where EventID == 5
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -75,7 +83,7 @@ let processEvents = EventData
 | where EventID == 6
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_pathLoaded = EventDetail.[2].["#text"], Hashes = EventDetail.[3].["#text"],
 driver_is_signed = EventDetail.[4].["#text"], driver_signature = EventDetail.[5].["#text"], driver_signature_status = EventDetail.[6].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name 
 ;
@@ -87,7 +95,7 @@ let processEvents = EventData
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"], 
 module_loaded = EventDetail.[5].["#text"], file_version = EventDetail.[6].["#text"],file_description = EventDetail.[7].["#text"], file_product = EventDetail.[8].["#text"], file_company = EventDetail.[9].["#text"], 
 Hashes = EventDetail.[10].["#text"], module_is_signed = EventDetail.[11].["#text"], module_signature = EventDetail.[12].["#text"], module_signature_status = EventDetail.[13].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name 
 ;
@@ -99,7 +107,7 @@ let processEvents = EventData
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"],
 process_path = EventDetail.[4].["#text"], target_process_guid = EventDetail.[5].["#text"], target_process_id = EventDetail.[6].["#text"], target_process_path = EventDetail.[7].["#text"],
 thread_new_id = EventDetail.[8].["#text"], thread_start_address = EventDetail.[9].["#text"], thread_start_module = EventDetail.[10].["#text"], thread_start_function = EventDetail.[11].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -108,7 +116,7 @@ let SysmonEvent9_RawAccessRead=() {
 let processEvents = EventData
 | where EventID == 9
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"], target_device = EventDetail.[5].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -119,7 +127,7 @@ let processEvents = EventData
 | extend rule_name = EventDetail.[0].["#text"],UtcTime = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], 
 thread_id = EventDetail.[4].["#text"],process_path = EventDetail.[5].["#text"], target_process_guid = EventDetail.[6].["#text"], target_process_id = EventDetail.[7].["#text"], 
 target_process_path = EventDetail.[8].["#text"],process_granted_access = EventDetail.[9].["#text"], process_call_trace = EventDetail.[10].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -129,7 +137,7 @@ let processEvents = EventData
 | where EventID == 11
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"],
 process_path = EventDetail.[4].["#text"], file_name = EventDetail.[5].["#text"], file_creation_time = EventDetail.[6].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name 
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -139,7 +147,7 @@ let processEvents = EventData
 | where EventID == 12
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], process_guid = EventDetail.[3].["#text"],
 process_id = EventDetail.[4].["#text"],process_path = EventDetail.[5].["#text"],registry_key_path = EventDetail.[6].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -149,7 +157,7 @@ let processEvents = EventData
 | where EventID == 13
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], process_guid = EventDetail.[3].["#text"],
 process_id = EventDetail.[4].["#text"],process_path = EventDetail.[5].["#text"],registry_key_path = EventDetail.[6].["#text"],registry_key_details = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -159,7 +167,7 @@ let processEvents = EventData
 | where EventID == 14
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], process_guid = EventDetail.[3].["#text"],
 process_id = EventDetail.[4].["#text"],process_path = EventDetail.[5].["#text"],registry_key_path = EventDetail.[6].["#text"],registry_key_new_name = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -169,7 +177,7 @@ let processEvents = EventData
 | where EventID == 15
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"],
 process_path = EventDetail.[4].["#text"],file_name = EventDetail.[5].["#text"],file_creation_time = EventDetail.[6].["#text"],hash = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -187,7 +195,7 @@ let processEvents = EventData
 | where EventID == 17
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], pipe_name = EventDetail.[4].["#text"], 
 process_path = EventDetail.[5].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -197,7 +205,7 @@ let processEvents = EventData
 | where EventID == 18
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], pipe_name = EventDetail.[4].["#text"], 
 process_path = EventDetail.[5].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -207,7 +215,7 @@ let processEvents = EventData
 | where EventID == 19
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], wmi_operation = EventDetail.[3].["#text"],
 user_name = EventDetail.[4].["#text"],wmi_namespace = EventDetail.[5].["#text"],wmi_filter_name = EventDetail.[6].["#text"],wmi_query = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -217,7 +225,7 @@ let processEvents = EventData
 | where EventID == 20
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], wmi_operation = EventDetail.[3].["#text"],
 user_name = EventDetail.[4].["#text"],wmi_consumer_name = EventDetail.[5].["#text"],wmi_consumer_type = EventDetail.[6].["#text"],wmi_consumer_destination = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -227,7 +235,7 @@ let processEvents = EventData
 | where EventID == 21
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], wmi_operation = EventDetail.[3].["#text"],
 user_name = EventDetail.[4].["#text"],wmi_consumer_path = EventDetail.[5].["#text"],Type = EventDetail.[6].["#text"],wmi_filter_path = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -247,6 +255,7 @@ SysmonEvent1_ProcessCreate,SysmonEvent2_FileCreateTime,SysmonEvent3_NetworkConne
 SysmonEvent6_DriverLoad,SysmonEvent7_ImageLoad,SysmonEvent8_CreateRemoteThread,SysmonEvent9_RawAccessRead,SysmonEvent10_ProcessAccess,
 SysmonEvent11_FileCreate,SysmonEvent12_RegistryObjectAddDel,SysmonEvent13_RegistrySetValue,SysmonEvent14_RegistryObjectRename,
 SysmonEvent15_FileCreateStreamHash,SysmonEvent16_ConfigChange,SysmonEvent17_CreateNamedPipe,SysmonEvent18_ConnectNamedPipe,
+<<<<<<< HEAD
 SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter,SysmonEvent22_DNSEvents)
 | project TimeGenerated, Source, EventID, Computer, UserName, RenderedDescription, event_creation_time, process_guid, process_id, process_path,
 file_version, file_description, file_product, file_company, process_commandline, file_directory, user_name, user_logon_guid, user_logon_id,
@@ -258,3 +267,6 @@ thread_start_module, thread_start_function, target_device, UtcTime, thread_id, p
 file_name, file_creation_time, EventType, registry_key_path, registry_key_new_name, hash, sysmon_configuration, sysmon_configuration_hash,
 pipe_name, wmi_operation, wmi_namespace, wmi_filter_name, wmi_query, wmi_consumer_name, wmi_consumer_type, wmi_consumer_destination,
 wmi_consumer_path, Type, wmi_filter_path, dns_query_name, dns_query_status, dns_query_results
+=======
+SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter)
+>>>>>>> d0ae2c53b13253b407294352137126fc5814f247

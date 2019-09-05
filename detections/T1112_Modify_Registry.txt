@@ -1,7 +1,7 @@
 // Name: Modify Registry
 // Description: Checks for execution of MITRE ATT&CK T1112
 //
-// Severity: High
+// Severity: Medium
 //
 // QueryFrequency: 1h
 //
@@ -15,4 +15,4 @@
 //
 SysmonOSSEM
 | where process_path contains "reg.exe"
-and process_command_line contains "query"
+and file_directory contains "reg.exe\" query"

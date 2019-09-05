@@ -18,3 +18,4 @@ SysmonOSSEM
 or process_path contains "wscript"
 or process_path contains "certutil"
 or process_path contains "jjs"
+and file_directory !contains " /nologo \"MonitorKnowledgeDiscovery.vbs\""

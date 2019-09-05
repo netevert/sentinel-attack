@@ -1,4 +1,4 @@
-// Name: Permission Group Discovery
+// Name: Permission Groups Discovery
 // Description: Checks for execution of MITRE ATT&CK T1069
 //
 // Severity: High
@@ -15,6 +15,6 @@
 //
 SysmonOSSEM
 | where process_path contains "net"
-and (process_command_line contains "user"
-or process_command_line contains "group"
-or process_command_line contains "localgroup")
+and (file_directory contains "user"
+or file_directory contains "group"
+or file_directory contains "localgroup")
