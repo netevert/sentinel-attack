@@ -6,15 +6,12 @@
 // OSSEM link > https://github.com/Cyb3rWard0g/OSSEM
 // Notes:
 // 1. This parser works against the current version of events from Sysmon, it may need updates if Sysmon is updated.
-<<<<<<< HEAD
-// 2. technique_id and technique_name will only be parsed/available if deployed via a custom XML
-// 3. To parse dns events, make sure to use sysmon v10 with custom XML which is configured to include dns events (Event ID 22)
-=======
 // 2. technique_id, technique_name and phase_name will only be parsed/available if deployed via the custom XML provided in this repository
-//
+// 3. To parse dns events, make sure to use sysmon v10 with custom XML provided in this repository
+// 
 // NOTE: You must specify a timeframe, see comment on line 12
 // let timeframe = ago(1d);
->>>>>>> d0ae2c53b13253b407294352137126fc5814f247
+
 let EventData = Event
 | where Source == "Microsoft-Windows-Sysmon"
 | extend RenderedDescription = tostring(split(RenderedDescription, ":")[0])
@@ -255,7 +252,6 @@ SysmonEvent1_ProcessCreate,SysmonEvent2_FileCreateTime,SysmonEvent3_NetworkConne
 SysmonEvent6_DriverLoad,SysmonEvent7_ImageLoad,SysmonEvent8_CreateRemoteThread,SysmonEvent9_RawAccessRead,SysmonEvent10_ProcessAccess,
 SysmonEvent11_FileCreate,SysmonEvent12_RegistryObjectAddDel,SysmonEvent13_RegistrySetValue,SysmonEvent14_RegistryObjectRename,
 SysmonEvent15_FileCreateStreamHash,SysmonEvent16_ConfigChange,SysmonEvent17_CreateNamedPipe,SysmonEvent18_ConnectNamedPipe,
-<<<<<<< HEAD
 SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter,SysmonEvent22_DNSEvents)
 | project TimeGenerated, Source, EventID, Computer, UserName, RenderedDescription, event_creation_time, process_guid, process_id, process_path,
 file_version, file_description, file_product, file_company, process_commandline, file_directory, user_name, user_logon_guid, user_logon_id,
@@ -267,6 +263,3 @@ thread_start_module, thread_start_function, target_device, UtcTime, thread_id, p
 file_name, file_creation_time, EventType, registry_key_path, registry_key_new_name, hash, sysmon_configuration, sysmon_configuration_hash,
 pipe_name, wmi_operation, wmi_namespace, wmi_filter_name, wmi_query, wmi_consumer_name, wmi_consumer_type, wmi_consumer_destination,
 wmi_consumer_path, Type, wmi_filter_path, dns_query_name, dns_query_status, dns_query_results
-=======
-SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter)
->>>>>>> d0ae2c53b13253b407294352137126fc5814f247
