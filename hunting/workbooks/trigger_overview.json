@@ -4,7 +4,7 @@
       {
         "type": 1,
         "content": {
-          "json": "ATT&CK trigger overview\r\n======\r\nThis workbook provides an overview of ATT&CK triggers within a selected time range. Edit the `Time Range` and `Time Interval` below to select a time range and interval.\r\n\r\nThis workbook is inspired by [ThreatHunting App](https://splunkbase.splunk.com/app/4305/) for Splunk, written by [Olaf Hartong](https://twitter.com/olafhartong).\r\nFor guidance consult [Sentinel ATT&CK documentation](https://github.com/BlueTeamToolkit/sentinel-attack) or contact [the author](https://twitter.com/netevert).\r\n\r\nFor bug submissions please [open an issue](https://github.com/BlueTeamToolkit/sentinel-attack/issues) on GitHub."
+          "json": "ATT&CK trigger overview\r\n======\r\nThis workbook provides an overview of ATT&CK triggers within a selected time range. Edit the `Time Range` and `Time Interval` below to select a time range and interval.\r\n\r\nThis workbook is written by [Edoardo Gerosa](https://twitter.com/netevert) based on the [ThreatHunting App](https://splunkbase.splunk.com/app/4305/) for Splunk, by [Olaf Hartong](https://twitter.com/olafhartong).\r\nFor guidance consult [Sentinel ATT&CK documentation](https://github.com/BlueTeamToolkit/sentinel-attack) or contact [the author](https://twitter.com/netevert).\r\n\r\nFor bug submissions please [open an issue](https://github.com/BlueTeamToolkit/sentinel-attack/issues) on GitHub."
         },
         "name": "text - 3"
       },
