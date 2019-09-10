@@ -35,3 +35,17 @@ Sentinel ATT&CK's detection rules cover a total of 156 ATT&CK techniques:
 
 ### Contributing
 As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or submissions on the issue tracker.
+
+### Authors and contributors
+Sentinel ATT&CK is built with :blue_heart: by:
+- Edoardo Gerosa 
+[![Twitter Follow](https://img.shields.io/twitter/follow/netevert.svg?style=social)](https://twitter.com/netevert)
+- Olaf Hartong
+[![Twitter Follow](https://img.shields.io/twitter/follow/olafhartong.svg?style=social)](https://twitter.com/olafhartong) 
+
+Special thanks go to the following contributors:
+
+- Ashwin Patil
+[![Twitter Follow](https://img.shields.io/twitter/follow/ashwinpatil.svg?style=social)](https://twitter.com/ashwinpatil)
+- Mor Shabi
+[![Twitter Follow](https://img.shields.io/twitter/follow/Mor44574618.svg?style=social)](https://twitter.com/Mor44574618)
