@@ -1,7 +1,7 @@
 // Name: Windows Management Instrumentation - Process
 // Description: Checks for execution of MITRE ATT&CK T1047
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
+Sysmon
 | where EventID == 3 and (process_path contains "wmic.exe"
-or process_command_line contains "wmic")
+or process_commandline contains "wmic")

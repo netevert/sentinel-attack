@@ -13,6 +13,7 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonOSSEM // This needs to be tested as it is not clear if registry_key_path is parsed
-| where (EventID == 12 or EventID == 13 or EventID == 14) and(process_path contains "LogonUI.exe"
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and (process_path contains "LogonUI.exe"
 or registry_key_path contains "\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\Terminal Services\\")

@@ -1,7 +1,7 @@
 // Name: PowerShell
 // Description: Checks for execution of MITRE ATT&CK T1086
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,8 +13,8 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and 
-(process_name contains "powershell.exe" 
-or process_name contains "powershell_ise.exe" 
-or process_name contains "psexec.exe")
+Sysmon
+| where EventID == 1
+and (process_path contains "powershell.exe"
+or process_path contains "powershell_ise.exe"
+or process_path contains "psexec.exe")

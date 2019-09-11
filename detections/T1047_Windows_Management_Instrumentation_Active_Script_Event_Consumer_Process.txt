@@ -1,7 +1,7 @@
 // Name: Windows Management Instrumentation - Instances of an Active Script Event Consumer - Process
 // Description: Checks for execution of MITRE ATT&CK T1047
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
+Sysmon
 | where EventID == 1 and (process_parent_command_line contains "C:\\Windows\\System32\\svchost.exe"
-or process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe")
+or process_commandline contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe")

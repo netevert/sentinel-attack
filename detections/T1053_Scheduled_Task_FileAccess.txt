@@ -13,7 +13,7 @@
 //
 // Tactics: #Persistence #Privilege Escalation #Execution
 //
-SysmonOSSEM
-| where EventID == 11 and process_command_line contains "C:\\WINDOWS\\system32\\svchost.exe" 
-or file_path contains "C:\\Windows\\System32\\Tasks\\"
-or file_path contains "C:\\Windows\\Tasks\\"
+Sysmon
+| where EventID == 11 and process_commandline contains "C:\\WINDOWS\\system32\\svchost.exe"
+or file_name contains "C:\\Windows\\System32\\Tasks\\"
+or file_name contains "C:\\Windows\\Tasks\\"

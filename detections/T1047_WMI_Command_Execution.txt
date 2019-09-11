@@ -13,5 +13,5 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonOSSEM
+Sysmon
 | where EventID == 20 and wmi_consumer_type contains "Command Line"

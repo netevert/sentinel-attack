@@ -1,7 +1,7 @@
 // Name: Suspicious filename used
 // Description: Checks for execution of MITRE ATT&CK T0000
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,41 +13,41 @@
 //
 // Tactics: #Privilege Escalation #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "a.exe" 
-or process_name contains "b.exe" 
-or process_name contains "c.exe" 
-or process_name contains "d.exe" 
-or process_name contains "e.exe" 
-or process_name contains "f.exe" 
-or process_name contains "g.exe" 
-or process_name contains "h.exe" 
-or process_name contains "i.exe" 
-or process_name contains "j.exe" 
-or process_name contains "k.exe" 
-or process_name contains "l.exe" 
-or process_name contains "m.exe" 
-or process_name contains "n.exe" 
-or process_name contains "o.exe" 
-or process_name contains "p.exe" 
-or process_name contains "q.exe" 
-or process_name contains "r.exe" 
-or process_name contains "s.exe" 
-or process_name contains "t.exe" 
-or process_name contains "u.exe" 
-or process_name contains "v.exe" 
-or process_name contains "w.exe" 
-or process_name contains "x.exe" 
-or process_name contains "y.exe" 
-or process_name contains "z.exe" 
-or process_name contains "1.exe" 
-or process_name contains "2.exe" 
-or process_name contains "3.exe" 
-or process_name contains "4.exe" 
-or process_name contains "5.exe" 
-or process_name contains "6.exe" 
-or process_name contains "7.exe" 
-or process_name contains "8.exe" 
-or process_name contains "9.exe" 
-or process_name contains "0.exe" 
-or process_name contains "10.exe")
+Sysmon
+| where EventID == 1 and (process_path == "a.exe"
+or process_path == "b.exe"
+or process_path == "c.exe"
+or process_path == "d.exe"
+or process_path == "e.exe"
+or process_path == "f.exe"
+or process_path == "g.exe"
+or process_path == "h.exe"
+or process_path == "i.exe"
+or process_path == "j.exe"
+or process_path == "k.exe"
+or process_path == "l.exe"
+or process_path == "m.exe"
+or process_path == "n.exe"
+or process_path == "o.exe"
+or process_path == "p.exe"
+or process_path == "q.exe"
+or process_path == "r.exe"
+or process_path == "s.exe"
+or process_path == "t.exe"
+or process_path == "u.exe"
+or process_path == "v.exe"
+or process_path == "w.exe"
+or process_path == "x.exe"
+or process_path == "y.exe"
+or process_path == "z.exe"
+or process_path == "1.exe"
+or process_path == "2.exe"
+or process_path == "3.exe"
+or process_path == "4.exe"
+or process_path == "5.exe"
+or process_path == "6.exe"
+or process_path == "7.exe"
+or process_path == "8.exe"
+or process_path == "9.exe"
+or process_path == "0.exe"
+or process_path == "10.exe")

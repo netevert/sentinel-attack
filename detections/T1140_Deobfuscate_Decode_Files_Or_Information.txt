@@ -13,5 +13,7 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "certutil.exe" and process_command_line contains "decode")
+Sysmon
+| where EventID == 1
+and (process_path contains "certutil.exe"
+and process_commandline contains "decode")

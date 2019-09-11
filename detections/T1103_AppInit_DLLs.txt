@@ -1,7 +1,7 @@
 // Name: AppInit DLLs
 // Description: Checks for execution of MITRE ATT&CK T1103
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,7 +13,7 @@
 //
 // Tactics: #Privilege Escalation, #Persistence
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) and 
-(registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\Appinit_Dlls\\" 
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and (registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\Appinit_Dlls\\"
 or registry_key_path contains "\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\Appinit_Dlls\\")

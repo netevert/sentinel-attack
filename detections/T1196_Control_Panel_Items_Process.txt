@@ -1,7 +1,7 @@
 // Name: Control Panel Items - Process
 // Description: Checks for execution of MITRE ATT&CK T1196
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,7 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and (process_command_line contains "control \/name" 
-or process_command_line contains "rundll32 shell32.dll,Control_RunDLL")
+Sysmon
+| where EventID == 1
+and (process_commandline contains "control \\/name" 
+or process_commandline contains "rundll32 shell32.dll,Control_RunDLL")

@@ -13,6 +13,6 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonOSSEM 
+Sysmon
 | where EventID == 1 and(process_path contains "tscon.exe"
 or process_path contains "mstsc.exe")

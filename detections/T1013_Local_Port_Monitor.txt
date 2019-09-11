@@ -1,7 +1,7 @@
 // Name: Local Port Monitor
 // Description: Checks for execution of MITRE ATT&CK T1013
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Persistence, #Privilege Escalation
 //
-SysmonOSSEM
+Sysmon
 | where (EventID == 12 or EventID == 13 or EventID == 14)
-and registry_key_path contains "\\SYSTEM\CurrentControlSet\Control\Print\Monitors\\"
+and registry_key_path contains "\\SYSTEM\\CurrentControlSet\\Control\\Print\\Monitors\\"

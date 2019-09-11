@@ -1,7 +1,7 @@
 Sentinel ATT&CK detections usage guide
 ===
 
-This folder contains 119 Kusto queries than can be used to:
+This folder contains 117 Kusto queries than can be used to:
 
 - Create Azure Sentinel detection rules
 - Execute hunts for specific ATT&CK techniques
@@ -10,7 +10,7 @@ In aggregate the queries cover a total of 156 ATT&CK techniques applicable to Mi
 
 ![coverage](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/sentinel_attack_coverage.JPG)
 
-**DISCLAIMER:** Please note that this folder is work in progress and is constantly being updated. It is likely you will come across detections that might require some fine tuning to function 100%. If you spot any issues in the Kusto source code feel free to open an issue or submit a pull request.
+**Note:** Each detection rule in this folder has been individually tested and should work out of the box. However if you spot any issues in the Kusto source code feel free to open an issue or submit a pull request.
 
 ### Create Azure Sentinel detection rules
 
@@ -31,6 +31,16 @@ Each detection rule provides the following information in the rule comments:
 Creating detection rules in Azure sentinel is done like so:
 
 ![demo1](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/upload-detection-rules.gif)
+
+Alternatively the [AZSentinel](https://github.com/wortell/AZSentinel) PowerShell module, developed by the folks at [Wortell Sec](https://security.wortell.nl/) can be used to bulk upload in an automated manner all the rules in this folder to your Sentinel instance. A [JSON configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/detections/sentinel_attack_rules.json) is provided for this purpose.
+
+Instructions for the prerequisites needed to run AZSentinel can be found [here](https://github.com/wortell/AZSentinel/wiki#getting-started).
+
+Once AZSentinel is installed, the rules in this folder can be automatically imported with this command:
+
+    Import-AzSentinelAlertRule -WorkspaceName "{workspace_name}" -SettingsFile "sentinel_attack_rules.json"
+
+**Note:** Please ensure that you have first followed the steps in [this documentation](https://github.com/BlueTeamLabs/sentinel-attack/blob/master/guides/Sysmon-onboarding-quickstart.md) before attempting to upload the rules. Additionally please note that you must save the parser function with the name "Sysmon" for the automatic import to work.
 
 ### Execute hunts for specific ATT&CK techniques
 

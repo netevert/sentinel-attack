@@ -13,7 +13,9 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_path contains "*\\net.exe" 
-and process_command_line contains "*net* time*") 
-or process_name contains "w32tm.exe" or process_command_line contains "*Get-Date*"
+Sysmon
+| where EventID == 1
+and (process_path contains "*\\net.exe"
+and process_commandline contains "*net* time*")
+or process_path contains "w32tm.exe"
+or process_commandline contains "*Get-Date*"

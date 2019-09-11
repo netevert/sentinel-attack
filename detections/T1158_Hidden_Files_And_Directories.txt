@@ -13,6 +13,8 @@
 //
 // Tactics: #Persistence #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and process_name contains "attrib.exe" 
-and (process_command_line contains "+h" or process_command_line contains "+s")
+Sysmon
+| where EventID == 1
+and process_path contains "attrib.exe"
+and (process_commandline contains "+h"
+or process_commandline contains "+s")

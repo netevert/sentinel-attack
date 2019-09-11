@@ -13,6 +13,6 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
+Sysmon
 | where process_path contains "reg.exe"
 and file_directory contains "reg.exe\" query"

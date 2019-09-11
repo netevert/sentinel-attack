@@ -13,5 +13,8 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" or process_name contains "sc.exe") and cmdline contains "stop"
+Sysmon
+| where EventID == 1
+and (process_path contains "net.exe"
+or process_path contains "sc.exe")
+and file_directory contains "stop"

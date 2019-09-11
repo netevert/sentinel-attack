@@ -13,17 +13,17 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 11 and (file_path contains "*SysWOW64*" 
-or file_path contains "*System32*" 
-or file_path contains "*AppData*" 
-or file_path contains "*Temp*") 
-and (file_name contains "*.exe" 
-or file_name contains "*.dll" 
-or file_name contains "*.bat" 
-or file_name contains "*.com" 
-or file_name contains "*.ps1" 
-or file_name contains "*.py" 
-or file_name contains "*.js" 
-or file_name contains "*.vbs" 
-or file_name contains "*.hta")
+Sysmon
+| where EventID == 11 and (process_path contains "SysWOW64"
+or process_path contains "System32"
+or process_path contains "AppData"
+or process_path contains "Temp")
+and (file_name contains ".exe"
+or file_name contains ".dll"
+or file_name contains ".bat"
+or file_name contains ".com"
+or file_name contains ".ps1"
+or file_name contains ".py"
+or file_name contains ".js"
+or file_name contains ".vbs"
+or file_name contains ".hta")

@@ -13,7 +13,7 @@
 //
 // Tactics: #Exfiltration
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) 
-and (registry_key_path contains "*\\SOFTWARE\\Classes\\*\\*" 
-or registry_key_path contains "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\GlobalAssocChangedCounter")
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and (registry_key_path contains "\\SOFTWARE\\Classes\\"
+or registry_key_path contains "\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\GlobalAssocChangedCounter")

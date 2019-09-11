@@ -13,5 +13,5 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and process_name contains "cmd.exe"
+Sysmon
+| where EventID == 1 and process_path contains "cmd.exe"

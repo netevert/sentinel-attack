@@ -13,8 +13,8 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" 
-and (process_command_line contains "net view" 
-or process_command_line contains "net share")) 
-or process_command_line contains "get-smbshare -Name"
+Sysmon
+| where EventID == 1 and (process_path contains "net.exe"
+and (process_commandline contains "net view"
+or process_commandline contains "net share"))
+or process_commandline contains "get-smbshare -Name"

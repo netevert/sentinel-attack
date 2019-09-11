@@ -13,9 +13,9 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) 
-and  (registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\SysmonDrv\\*" 
-or registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\Sysmon\\*" 
-or registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\Sysmon64\\*") 
-and (process_name !contains "Sysmon64.exe" or process_name !contains "Sysmon.exe")
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and  (registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\SysmonDrv\\*"
+or registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\Sysmon\\*"
+or registry_key_path contains "HKLM\\System\\CurrentControlSet\\Services\\Sysmon64\\*")
+and (process_path !contains "Sysmon64.exe" or process_path !contains "Sysmon.exe")

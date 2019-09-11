@@ -1,7 +1,7 @@
 // Name: Logon Scripts
 // Description: Checks for execution of MITRE ATT&CK T1037
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,5 @@
 //
 // Tactics: #Lateral Movement #Persistence
 //
-SysmonOSSEM
-| where EventID == 1 and process_command_line contains "*REG*ADD*HKCU\\Environment*UserInitMprLogonScript*"
+Sysmon
+| where EventID == 1 and process_commandline contains "*REG*ADD*HKCU\\Environment*UserInitMprLogonScript*"

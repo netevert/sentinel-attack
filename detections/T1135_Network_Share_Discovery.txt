@@ -13,7 +13,7 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM 
+Sysmon
 | where process_path contains "net.exe"
-and (process_command_line contains "view"
-or process_command_line contains "share")
+and (process_commandline contains "view"
+or process_commandline contains "share")

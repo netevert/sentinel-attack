@@ -13,8 +13,8 @@
 //
 // Tactics: #Persistence #Privilege Escalation #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and (process_path contains "taskeng.exe" 
+Sysmon
+| where EventID == 1 and (process_path contains "taskeng.exe"
 or process_path contains "schtasks.exe"
-or (process_path contains "svchost.exe" and
-process_parent_command_line != "C:\\Windows\\System32\\services.exe"))
+or (process_path contains "svchost.exe"
+and process_parent_command_line != "C:\\Windows\\System32\\services.exe"))

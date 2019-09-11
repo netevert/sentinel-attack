@@ -1,7 +1,7 @@
 // Name: Netsh Helper DLL - Process
 // Description: Checks for execution of MITRE ATT&CK T1128
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,7 @@
 //
 // Tactics: #Persistence
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "netsh.exe" and process_command_line contains "*helper*")
+Sysmon
+| where EventID == 1
+and (process_path contains "netsh.exe"
+and process_commandline contains "*helper*")

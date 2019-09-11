@@ -13,5 +13,6 @@
 //
 // Tactics: #Defense Evasion #Execution
 //
-SysmonOSSEM
-| where (EventID == 11 or EventID == 15) and file_name contains ".hta"
+Sysmon
+| where (EventID == 11 or EventID == 15)
+and file_name contains ".hta"

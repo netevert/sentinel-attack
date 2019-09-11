@@ -13,5 +13,5 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 3 and process_name contains "reg.exe" and process_command_line contains "*reg* query*"
+Sysmon
+| where EventID == 3 and process_path contains "reg.exe" and process_commandline contains "reg query"

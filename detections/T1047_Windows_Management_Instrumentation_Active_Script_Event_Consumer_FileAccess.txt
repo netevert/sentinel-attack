@@ -1,7 +1,7 @@
 // Name: Windows Management Instrumentation - Instances of an Active Script Event Consumer - FileAccess 
 // Description: Checks for execution of MITRE ATT&CK T1047
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,5 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
-| where EventID == 11 and process_command_line contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe"
+Sysmon
+| where EventID == 11 and process_commandline contains "C:\\WINDOWS\\system32\\wbem\\scrcons.exe"

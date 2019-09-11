@@ -1,7 +1,7 @@
 // Name: Bypass User Account Control - Registry
 // Description: Checks for execution of MITRE ATT&CK T1088
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,8 +13,7 @@
 //
 // Tactics: #Privilege Escalation #Defense Evasion
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) 
-and (registry_key_path contains "*\\mscfile\\shell\\open\\command\\*" 
-or registry_key_path contains "*\\ms-settings\\shell\\open\\command\\*") 
-and (user_sid !contains "S-1-5-18" or user_sid !contains "S-1-5-19" or user_sid !contains "S-1-5-20")
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and (registry_key_path contains "*\\mscfile\\shell\\open\\command\\*"
+or registry_key_path contains "*\\ms-settings\\shell\\open\\command\\*")

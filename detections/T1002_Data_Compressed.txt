@@ -13,8 +13,8 @@
 //
 // Tactics: #Exfiltration
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "powershell.exe" 
-and process_command_line contains "*-Recurse | Compress-Archive*") 
-or (process_name contains "rar.exe" 
-and process_command_line contains "rar*a*")
+Sysmon
+| where EventID == 1 and (process_path contains "powershell.exe" 
+and process_commandline contains "-Recurse | Compress-Archive") 
+or (process_path contains "rar.exe" 
+and process_commandline contains "rar*a*")

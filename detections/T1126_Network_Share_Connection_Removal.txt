@@ -13,8 +13,8 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" 
-and process_command_line contains "net delete") 
-or process_command_line contains "Remove-SmbShare" 
-or process_command_line contains "Remove-FileShare"
+Sysmon
+| where EventID == 1 and (process_path contains "net.exe"
+and process_commandline contains "net delete")
+or process_commandline contains "Remove-SmbShare"
+or process_commandline contains "Remove-FileShare"

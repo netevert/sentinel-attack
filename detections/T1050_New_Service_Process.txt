@@ -1,7 +1,7 @@
 // Name: New Service - Process
 // Description: Checks for execution of MITRE ATT&CK T1050
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,10 +13,10 @@
 //
 // Tactics: #Persistence
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "sc.exe" 
-or process_name contains "powershell.exe" 
-or process_name contains "cmd.exe") 
-and (process_command_line contains "*New-Service*BinaryPathName*" 
-or process_command_line contains "*sc*create*binpath*" 
-or process_command_line contains "*Get-WmiObject*Win32_Service*create*")
+Sysmon
+| where EventID == 1 and (process_path contains "sc.exe"
+or process_path contains "powershell.exe"
+or process_path contains "cmd.exe")
+and (process_commandline contains "*New-Service*BinaryPathName*"
+or process_commandline contains "*sc*create*binpath*"
+or process_commandline contains "*Get-WmiObject*Win32_Service*create*")

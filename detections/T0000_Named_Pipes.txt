@@ -13,20 +13,20 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonOSSEM
-| where EventID == 17 and (pipe_name contains "\\isapi_http*" 
-or pipe_name contains "\\isapi_dg*" 
-or pipe_name contains "\\isapi_dg2*" 
-or pipe_name contains "\\isapi_http*" 
-or pipe_name contains "\\sdlrpc*" 
-or pipe_name contains "\\aheec*" 
-or pipe_name contains "\\winsession*" 
-or pipe_name contains "\\lsassw*" 
-or pipe_name contains "\\rpchlp_3*" 
-or pipe_name contains "\\NamePipe_MoreWindows*" 
-or pipe_name contains "\\pcheap_reuse*" 
-or pipe_name contains "\\PSEXESVC*" 
-or pipe_name contains "\\PowerShellISEPipeName_*" 
-or pipe_name contains "\\csexec*" 
-or pipe_name contains "\\paexec*" 
-or pipe_name contains "\\remcom*")
+Sysmon
+| where EventID == 17 and (pipe_name contains "\\isapi_http"
+or pipe_name contains "\\isapi_dg"
+or pipe_name contains "\\isapi_dg2"
+or pipe_name contains "\\isapi_http"
+or pipe_name contains "\\sdlrpc"
+or pipe_name contains "\\aheec"
+or pipe_name contains "\\winsession"
+or pipe_name contains "\\lsassw"
+or pipe_name contains "\\rpchlp_3"
+or pipe_name contains "\\NamePipe_MoreWindows"
+or pipe_name contains "\\pcheap_reuse"
+or pipe_name contains "\\PSEXESVC"
+or pipe_name contains "\\PowerShellISEPipeName_"
+or pipe_name contains "\\csexec"
+or pipe_name contains "\\paexec"
+or pipe_name contains "\\remcom")

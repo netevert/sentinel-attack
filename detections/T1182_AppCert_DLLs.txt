@@ -1,7 +1,7 @@
 // Name: AppCert DLLs
 // Description: Checks for execution of MITRE ATT&CK T1182
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Privilege Escalation, #Persistence
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) and 
-registry_key_path contains "\\System\\CurrentControlSet\\Control\\Session Manager\\AppCertDlls\\")
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and registry_key_path contains "\\System\\CurrentControlSet\\Control\\Session Manager\\AppCertDlls\\"

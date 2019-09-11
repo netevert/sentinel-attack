@@ -1,7 +1,7 @@
 // Name: BITS Jobs - Network
 // Description: Checks for execution of MITRE ATT&CK T1197
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,6 @@
 //
 // Tactics: #Defense Evasion, #Persistence
 //
-SysmonOSSEM
-| where EventID == 3 and process_path contains "bitsadmin.exe"
+Sysmon
+| where EventID == 3
+and process_path contains "bitsadmin.exe"

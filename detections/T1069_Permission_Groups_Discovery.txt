@@ -13,7 +13,7 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
+Sysmon
 | where process_path contains "net"
 and (file_directory contains "user"
 or file_directory contains "group"

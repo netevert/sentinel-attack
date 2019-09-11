@@ -13,14 +13,14 @@
 //
 // Tactics: #Discovery 
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" 
-or process_name contains "powershell.exe") 
-and (process_command_line contains "*net* user*" 
-or process_command_line contains "*net* group*" 
-or process_command_line contains "*net* localgroup*" 
-or process_command_line contains "cmdkey*\/list*" 
-or process_command_line contains "*get-localuser*" 
-or process_command_line contains "*get-localgroupmembers*" 
-or process_command_line contains "*get-aduser*" 
-or process_command_line contains "query*user*")
+Sysmon
+| where EventID == 1 and (process_path contains "net.exe"
+or process_path contains "powershell.exe")
+and (process_commandline contains "*net* user*"
+or process_commandline contains "*net* group*"
+or process_commandline contains "*net* localgroup*"
+or process_commandline contains "cmdkey*\\/list*"
+or process_commandline contains "*get-localuser*"
+or process_commandline contains "*get-localgroupmembers*"
+or process_commandline contains "*get-aduser*"
+or process_commandline contains "query*user*")

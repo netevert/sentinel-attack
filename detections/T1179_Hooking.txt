@@ -1,7 +1,7 @@
 // Name: Hooking
 // Description: Checks for execution of MITRE ATT&CK T1179
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,7 @@
 //
 // Tactics: #Persistence #Privilege Escalation #Credential Access
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "mavinject.exe" or process_command_line contains "/INJECTRUNNING")
+Sysmon
+| where EventID == 1
+and (process_path contains "mavinject.exe"
+or process_commandline contains "/INJECTRUNNING")

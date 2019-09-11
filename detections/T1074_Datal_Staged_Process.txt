@@ -13,7 +13,8 @@
 //
 // Tactics: #Collection
 //
-SysmonOSSEM
-| where EventID == 1 and (process_command_line contains "*DownloadString*" 
-and process_command_line contains "*Net.WebClient*") 
-or (process_command_line="*New-Object*" AND process_command_line="*IEX*")
+Sysmon
+| where EventID == 1 and (process_commandline contains "DownloadString"
+and process_commandline contains "Net.WebClient")
+or (process_commandline contains "New-Object"
+and process_commandline contains "IEX")

@@ -1,7 +1,7 @@
 // Name: Install Root Certificate
 // Description: Checks for execution of MITRE ATT&CK T1130
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,8 +13,8 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) 
-and process_name !contains "svchost.exe" 
-and (registry_key_path contains "*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\Root\\Certificates\\*" 
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and process_path !contains "svchost.exe"
+and (registry_key_path contains "*\\SOFTWARE\\Microsoft\\EnterpriseCertificates\\Root\\Certificates\\*"
 or registry_key_path contains "*\\Microsoft\\SystemCertificates\\Root\\Certificates\\*")

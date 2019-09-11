@@ -1,7 +1,7 @@
 // Name: Component Object Model Hijacking
 // Description: Checks for execution of MITRE ATT&CK T1122
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,6 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) and registry_key_path contains "\\Software\\Classes\\CLSID\\"
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and registry_key_path contains "\\Software\\Classes\\CLSID\\"

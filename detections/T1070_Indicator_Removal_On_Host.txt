@@ -13,5 +13,5 @@
 //
 // Tactics: #Defense Evasion
 //
-sysmon_parser 
+Sysmon
 | where process_path contains "wevtutil"

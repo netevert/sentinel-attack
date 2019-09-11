@@ -1,7 +1,7 @@
 // Name: Application Shimming - Process
 // Description: Checks for execution of MITRE ATT&CK T1138
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,5 +13,6 @@
 //
 // Tactics: #Privilege Escalation, #Persistence
 //
-SysmonOSSEM
-| where EventID == 1 and process_path contains "sdbinst.exe"
+Sysmon
+| where EventID == 1
+and process_path contains "sdbinst.exe"

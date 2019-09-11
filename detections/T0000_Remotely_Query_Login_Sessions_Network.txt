@@ -13,5 +13,5 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 3 and process_name contains "qwinsta.exe"
+Sysmon
+| where EventID == 3 and process_path contains "qwinsta.exe"

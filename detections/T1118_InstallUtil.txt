@@ -1,7 +1,7 @@
 // Name: InstallUtil
 // Description: Checks for execution of MITRE ATT&CK T1118
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 3 and (process_path contains "InstallUtil.exe" 
-or process_command_line contains "\/logfile= \/LogToConsole=false \/U")
+Sysmon
+| where EventID == 3 and (process_path contains "InstallUtil.exe"
+or process_commandline contains "\\/logfile= \\/LogToConsole=false \\/U")

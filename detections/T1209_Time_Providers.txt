@@ -13,6 +13,6 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) and 
-registry_key_path contains "\\System\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\"
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and registry_key_path contains "\\System\\CurrentControlSet\\Services\\W32Time\\TimeProviders\\"

@@ -1,7 +1,7 @@
 // Name: Rundll32
 // Description: Checks for execution of MITRE ATT&CK T1085
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,7 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and (process_parent_path contains "\\rundll32.exe" 
+Sysmon
+| where EventID == 1
+and (process_parent_path contains "\\rundll32.exe"
 or process_path contains "rundll32.exe")

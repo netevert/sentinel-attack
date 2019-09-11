@@ -1,7 +1,7 @@
 // Name: Signed Binary Proxy Execution - Network
 // Description: Checks for execution of MITRE ATT&CK T1218
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,8 +13,8 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 3 and 
-(process_path contains "certutil.exe" 
-or process_command_line contains "*certutil*script\:http\[\:\]\/\/*" 
+Sysmon
+| where EventID == 3
+and (process_path contains "certutil.exe"
+or process_commandline contains "*certutil*script\\:http\\[\\:\\]\\/\\/*"
 or process_path contains "*\\replace.exe")

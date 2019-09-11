@@ -1,7 +1,7 @@
 // Name: Screensaver
 // Description: Checks for execution of MITRE ATT&CK T1180
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,9 +13,9 @@
 //
 // Tactics: #Persistence
 //
-SysmonOSSEM
-| where (EventID == 12 or EventID == 13 or EventID == 14) 
-and (registry_key_path contains "*\\Control Panel\\Desktop\\SCRNSAVE.EXE") 
-and (process_parent_name !contains "explorer.exe" 
-or process_name !contains "rundll32.exe" 
-or process_command_line !contains "*shell32.dll,Control_RunDLL desk.cpl,ScreenSaver,*")
+Sysmon
+| where (EventID == 12 or EventID == 13 or EventID == 14)
+and (registry_key_path contains "*\\Control Panel\\Desktop\\SCRNSAVE.EXE")
+and (process_parent_command_line !contains "explorer.exe"
+or process_path !contains "rundll32.exe"
+or process_commandline !contains "*shell32.dll,Control_RunDLL desk.cpl,ScreenSaver,*")

@@ -1,7 +1,7 @@
 // Name: Signed Binary Proxy Execution - Process
 // Description: Checks for execution of MITRE ATT&CK T1218
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,11 +13,11 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and 
-(process_command_line contains "mavinject*\/injectrunning" 
-or process_command_line contains "mavinject32*\/injectrunning*" 
-or process_command_line contains "*certutil*script\:http\[\:\]\/\/*" 
-or process_command_line contains "*certutil*script\:https\[\:\]\/\/*" 
-or process_command_line contains "*msiexec*http\[\:\]\/\/*" 
-or process_command_line contains "*msiexec*https\[\:\]\/\/*")
+Sysmon
+| where EventID == 1
+and (process_commandline contains "mavinject*\\/injectrunning"
+or process_commandline contains "mavinject32*\\/injectrunning*"
+or process_commandline contains "*certutil*script\\:http\\[\\:\\]\\/\\/*"
+or process_commandline contains "*certutil*script\\:https\\[\\:\\]\\/\\/*"
+or process_commandline contains "*msiexec*http\\[\\:\\]\\/\\/*"
+or process_commandline contains "*msiexec*https\\[\\:\\]\\/\\/*")

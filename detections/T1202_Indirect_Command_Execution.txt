@@ -13,8 +13,9 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_parent_name contains "pcalua.exe" 
-or process_name contains "pcalua.exe" 
-or process_name contains "bash.exe" 
-or process_name contains "forfiles.exe")
+Sysmon
+| where EventID == 1
+and (process_parent_command_line contains "pcalua.exe"
+or process_path contains "pcalua.exe"
+or process_path contains "bash.exe"
+or process_path contains "forfiles.exe")

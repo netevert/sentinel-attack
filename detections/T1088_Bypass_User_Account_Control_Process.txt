@@ -13,7 +13,7 @@
 //
 // Tactics: #Privilege Escalation, #Persistence
 //
-SysmonOSSEM
-| where EventID == 1 and (process_parent_command_line contains "eventvwr.exe" 
+Sysmon
+| where EventID == 1 and (process_parent_command_line contains "eventvwr.exe"
 or process_parent_command_line contains "fodhelper.exe"
 or process_path contains "ShellRunas.exe")

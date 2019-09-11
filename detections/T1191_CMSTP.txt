@@ -13,5 +13,6 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and process_path contains "CMSTP.exe"
+Sysmon
+| where EventID == 1
+and process_path contains "CMSTP.exe"

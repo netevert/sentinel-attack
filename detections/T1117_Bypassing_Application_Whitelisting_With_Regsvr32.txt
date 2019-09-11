@@ -13,8 +13,8 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "regsvr32.exe" 
-or process_name contains "rundll32.exe" 
-or process_name contains "certutil.exe") 
-or process_command_line contains "scrobj.dll"
+Sysmon
+| where EventID == 1 and (process_path contains "regsvr32.exe"
+or process_path contains "rundll32.exe"
+or process_path contains "certutil.exe")
+or process_commandline contains "scrobj.dll"

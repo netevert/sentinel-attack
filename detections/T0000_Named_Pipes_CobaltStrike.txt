@@ -13,5 +13,5 @@
 //
 // Tactics: #Lateral Movement
 //
-SysmonOSSEM
-| where EventID == 17 and pipe_name="\\msagent_*"
+Sysmon
+| where EventID == 17 and pipe_name contains "\\msagent_"

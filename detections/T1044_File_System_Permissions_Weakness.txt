@@ -13,7 +13,7 @@
 //
 // Tactics: #Credential Access
 //
-SysmonOSSEM
-| where EventID == 7 and (driver_loaded contains "*\\Temp\\*" 
-or driver_loaded contains "C:\\Users\\*" 
+Sysmon
+| where EventID == 7 and (module_loaded contains "\\Temp\\"
+or module_loaded contains "C:\\Users\\"
 or driver_signature_status !contains "Valid")

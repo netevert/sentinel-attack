@@ -1,7 +1,7 @@
 // Name: Signed Script Proxy Execution
 // Description: Checks for execution of MITRE ATT&CK T1216
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,7 +13,7 @@
 //
 // Tactics: #Defense Evasion, #Execution
 //
-SysmonOSSEM 
+Sysmon
 | where process_path contains "cscript"
 or process_path contains "wscript"
 or process_path contains "certutil"

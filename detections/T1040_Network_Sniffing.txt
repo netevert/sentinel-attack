@@ -1,7 +1,7 @@
 // Name: Network Sniffing
 // Description: Checks for execution of MITRE ATT&CK T1040
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,10 +13,10 @@
 //
 // Tactics: #Credential Access #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "tshark.exe" 
-or process_name contains "windump.exe" 
-or process_name contains "logman.exe" 
-or process_name contains "tcpdump.exe" 
-or process_name contains "wprui.exe" 
-or process_name contains "wpr.exe")
+Sysmon
+| where EventID == 1 and (process_path contains "tshark.exe"
+or process_path contains "windump.exe"
+or process_path contains "logman.exe"
+or process_path contains "tcpdump.exe"
+or process_path contains "wprui.exe"
+or process_path contains "wpr.exe")

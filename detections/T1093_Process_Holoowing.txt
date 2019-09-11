@@ -13,21 +13,23 @@
 //
 // Tactics: #Defense Evasion
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "smss.exe" and process_parent_name !contains "smss.exe") 
-or (process_name contains "csrss.exe" and (
-process_parent_name !contains "smss.exe" 
-or process_parent_name !contains "svchost.exe")) 
-or (process_name contains "wininit.exe" and process_parent_name !contains "smss.exe") 
-or (process_name contains "winlogon.exe" and process_parent_name !contains "smss.exe") 
-or (process_name contains "lsass.exe" and parent_process_name !contains "wininit.exe") 
-or (process_name contains "LogonUI.exe" 
-and (process_parent_name !contains "winlogon.exe" or process_parent_name !contains "wininit.exe")) 
-or (process_name contains "services.exe" and process_parent_name !contains "wininit.exe") 
-or (process_name contains "spoolsv.exe" and process_parent_name !contains "services.exe") 
-or (process_name contains "taskhost.exe" 
-and (process_parent_name !contains "services.exe" or process_parent_name !contains "svchost.exe")) 
-or (process_name contains "taskhostw.exe" 
-and (process_parent_name !contains "services.exe" or process_parent_name !contains "svchost.exe")) 
-or (process_name contains "userinit.exe" 
-and (process_parent_name !contains "dwm.exe" or process_parent_name !contains "winlogon.exe")
+Sysmon
+| where EventID == 1
+and (process_path contains "smss.exe"
+and process_parent_command_line !contains "smss.exe")
+or (process_path contains "csrss.exe"
+and (process_parent_command_line !contains "smss.exe"
+or process_parent_command_line !contains "svchost.exe"))
+or (process_path contains "wininit.exe"and process_parent_command_line !contains "smss.exe")
+or (process_path contains "winlogon.exe" and process_parent_command_line !contains "smss.exe")
+or (process_path contains "lsass.exe" and process_parent_command_line !contains "wininit.exe")
+or (process_path contains "LogonUI.exe"
+and (process_parent_command_line !contains "winlogon.exe" or process_parent_command_line !contains "wininit.exe"))
+or (process_path contains "services.exe" and process_parent_command_line !contains "wininit.exe")
+or (process_path contains "spoolsv.exe" and process_parent_command_line !contains "services.exe")
+or (process_path contains "taskhost.exe"
+and (process_parent_command_line !contains "services.exe" or process_parent_command_line !contains "svchost.exe"))
+or (process_path contains "taskhostw.exe"
+and (process_parent_command_line !contains "services.exe" or process_parent_command_line !contains "svchost.exe"))
+or (process_path contains "userinit.exe"
+and (process_parent_command_line !contains "dwm.exe" or process_parent_command_line !contains "winlogon.exe"))

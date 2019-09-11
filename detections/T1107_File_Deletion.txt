@@ -13,10 +13,10 @@
 //
 // Tactics: #Defense Evasion 
 //
-SysmonOSSEM
-| where EventID == 1 and (process_command_line contains "*remove-item*" 
-or process_command_line contains "vssadmin*Delete Shadows /All /Q*" 
-or process_command_line contains "*wmic*shadowcopy delete*" 
-or process_command_line contains "*wbdadmin* delete catalog -q*" 
-or process_command_line contains "*bcdedit*bootstatuspolicy ignoreallfailures*" 
-or process_command_line contains "*bcdedit*recoveryenabled no*")
+Sysmon
+| where EventID == 1 and (process_commandline contains "*remove-item*"
+or process_commandline contains "vssadmin*Delete Shadows /All /Q*"
+or process_commandline contains "*wmic*shadowcopy delete*"
+or process_commandline contains "*wbdadmin* delete catalog -q*"
+or process_commandline contains "*bcdedit*bootstatuspolicy ignoreallfailures*"
+or process_commandline contains "*bcdedit*recoveryenabled no*")

@@ -13,11 +13,11 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_name contains "net.exe" 
-or process_name contains "netstat.exe") 
-and (process_command_line contains "*net* use*" 
-or process_command_line contains "*net* sessions*" 
-or process_command_line contains "*net* file*" 
-or process_command_line contains "*netstat*") 
-or process_command_line contains "*Get-NetTCPConnection*"
+Sysmon
+| where EventID == 1 and (process_path contains "net.exe"
+or process_path contains "netstat.exe")
+and (process_commandline contains "*net* use*"
+or process_commandline contains "*net* sessions*"
+or process_commandline contains "*net* file*"
+or process_commandline contains "*netstat*")
+or process_commandline contains "*Get-NetTCPConnection*"

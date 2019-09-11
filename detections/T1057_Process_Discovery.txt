@@ -1,7 +1,7 @@
 // Name: Process Discovery
 // Description: Checks for execution of MITRE ATT&CK T1075
 //
-// Severity: Critical
+// Severity: High
 //
 // QueryFrequency: 1h
 //
@@ -13,6 +13,6 @@
 //
 // Tactics: #Execution
 //
-SysmonOSSEM
-| where EventID == 1 and process_path contains "tasklist.exe" 
-or process_command_line contains "Get-Process"
+Sysmon
+| where EventID == 1 and process_path contains "tasklist.exe"
+or process_commandline contains "Get-Process"

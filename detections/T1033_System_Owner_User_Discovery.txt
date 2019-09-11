@@ -13,10 +13,10 @@
 //
 // Tactics: #Discovery
 //
-SysmonOSSEM
-| where EventID == 1 and (process_path contains "whoami.exe" 
-or process_commandline contains "whoami" 
-or file_directory contains "useraccount get /ALL" 
-or process_path contains "qwinsta.exe" 
+Sysmon
+| where EventID == 1 and (process_path contains "whoami.exe"
+or process_commandline contains "whoami"
+or file_directory contains "useraccount get /ALL"
+or process_path contains "qwinsta.exe"
 or process_path contains "quser.exe"
 or process_path contains "systeminfo.exe")
