@@ -1201,7 +1201,7 @@
         "description": "Checks for execution of MITRE ATT&CK T1146",
         "severity": "High",
         "enabled": "true",
-        "query": "Sysmon | where EventID == 1 and (process_commandline contains \"*rm (Get-PSReadlineOption).HistorySavePath*\" or process_commandline contains \"*del (Get-PSReadlineOption).HistorySavePath*\" or process_commandline contains \"*Set-PSReadlineOption â€“HistorySaveStyle SaveNothing*\" or process_commandline contains \"*Remove-Item (Get-PSReadlineOption).HistorySavePath*\")",
+        "query": "Sysmon | where EventID == 1 and (process_commandline contains \"*rm (Get-PSReadlineOption).HistorySavePath*\" or process_commandline contains \"*del (Get-PSReadlineOption).HistorySavePath*\" or process_commandline contains \"*Set-PSReadlineOption -HistorySaveStyle SaveNothing*\" or process_commandline contains \"*Remove-Item (Get-PSReadlineOption).HistorySavePath*\")",
         "queryFrequency": "1H",
         "queryPeriod": "1H",
         "triggerOperator": "GreaterThan",
