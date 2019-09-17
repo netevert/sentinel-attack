@@ -242,7 +242,7 @@ let processEvents = EventData
 | where EventID == 22
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"],
 dns_query_name = EventDetail.[4].["#text"],dns_query_status = EventDetail.[5].["#text"],dns_query_results = EventDetail.[6].["#text"],process_path = EventDetail.[7].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name 
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name 
 ;
 processEvents;
@@ -253,13 +253,3 @@ SysmonEvent6_DriverLoad,SysmonEvent7_ImageLoad,SysmonEvent8_CreateRemoteThread,S
 SysmonEvent11_FileCreate,SysmonEvent12_RegistryObjectAddDel,SysmonEvent13_RegistrySetValue,SysmonEvent14_RegistryObjectRename,
 SysmonEvent15_FileCreateStreamHash,SysmonEvent16_ConfigChange,SysmonEvent17_CreateNamedPipe,SysmonEvent18_ConnectNamedPipe,
 SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter,SysmonEvent22_DNSEvents)
-| project TimeGenerated, Source, EventID, Computer, UserName, RenderedDescription, event_creation_time, process_guid, process_id, process_path,
-file_version, file_description, file_product, file_company, process_commandline, file_directory, user_name, user_logon_guid, user_logon_id,
-user_session_id, process_integrity_level, process_parent_guid, process_parent_id, process_parent_path, process_parent_command_line,
-technique_id, technique_name, hash_sha1, hash_md5, hash_sha256, hash_imphash, service_state, sysmon_schema, sysmon_schema_version,
-process_pathLoaded, Hashes, driver_is_signed, driver_signature, driver_signature_status, module_loaded, module_is_signed,
-module_signature, module_signature_status, target_process_guid, target_process_id, target_process_path, thread_new_id, thread_start_address,
-thread_start_module, thread_start_function, target_device, UtcTime, thread_id, process_granted_access, process_call_trace,
-file_name, file_creation_time, EventType, registry_key_path, registry_key_new_name, hash, sysmon_configuration, sysmon_configuration_hash,
-pipe_name, wmi_operation, wmi_namespace, wmi_filter_name, wmi_query, wmi_consumer_name, wmi_consumer_type, wmi_consumer_destination,
-wmi_consumer_path, Type, wmi_filter_path, dns_query_name, dns_query_status, dns_query_results
