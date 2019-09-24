@@ -4,7 +4,7 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)]()
 [![GitHub last commit](https://img.shields.io/github/last-commit/BlueTeamToolkit/sentinel-attack.svg?style=flat-square)](https://github.com/BlueTeamToolkit/sentinel-attack/commit/master)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/)
+[![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/#talks?olafedoardo)
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and MITRE ATT&CK on Azure Sentinel.
 
@@ -25,7 +25,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 ### Usage
 Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/guides/getting-started.md) to install Sentinel ATT&CK.
 
-A copy of the DEF CON 27 presentation introducing Sentinel ATT&CK can be found [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
+A copy of the DEF CON 27 presentation introducing Sentinel ATT&CK can be found [here](https://cloud-village.org/#talks?olafedoardo) and [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
 
 ### ATT&CK coverage
 
