@@ -15,5 +15,5 @@
 //
 Sysmon
 | where EventID == 1
-and (process_commandline contains "control \\/name" 
+and (process_command_line contains "control \\/name"
 or process_commandline contains "rundll32 shell32.dll,Control_RunDLL")

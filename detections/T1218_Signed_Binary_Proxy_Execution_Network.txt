@@ -16,5 +16,5 @@
 Sysmon
 | where EventID == 3
 and (process_path contains "certutil.exe"
-or process_commandline contains "*certutil*script\\:http\\[\\:\\]\\/\\/*"
+or process_command_line contains "*certutil*script\\:http\\[\\:\\]\\/\\/*"
 or process_path contains "*\\replace.exe")

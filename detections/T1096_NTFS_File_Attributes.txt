@@ -14,4 +14,4 @@
 // Tactics: #Defense Evasion
 //
 Sysmon
-| where EventID == 1 and process_path contains "fsutil.exe" and process_commandline contains "*usn*deletejournal*"
+| where EventID == 1 and process_path contains "fsutil.exe" and process_command_line contains "*usn*deletejournal*"

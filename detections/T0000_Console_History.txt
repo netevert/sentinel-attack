@@ -14,6 +14,6 @@
 // Tactics: #Collection
 //
 Sysmon
-| where EventID == 1 and (process_commandline contains "Get-History" 
-or process_commandline contains "AppData\\Roaming\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" 
-or process_commandline contains "(Get-PSReadlineOption).HistorySavePath")
+| where EventID == 1 and (process_command_line contains "Get-History"
+or process_command_line contains "AppData\\Roaming\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt"
+or process_command_line contains "(Get-PSReadlineOption).HistorySavePath")

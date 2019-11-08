@@ -15,4 +15,4 @@
 //
 Sysmon
 | where EventID == 1
-and (process_commandline contains "*firefox*places.sqlite*")
+and (process_command_line contains "*firefox*places.sqlite*")

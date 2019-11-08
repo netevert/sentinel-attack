@@ -17,4 +17,4 @@ Sysmon
 | where EventID == 1 and (process_path contains "regsvr32.exe"
 or process_path contains "rundll32.exe"
 or process_path contains "certutil.exe")
-or process_commandline contains "scrobj.dll"
+or process_command_line contains "scrobj.dll"

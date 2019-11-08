@@ -15,7 +15,7 @@
 //
 Sysmon
 | where EventID == 1
-and (process_commandline contains "*rm (Get-PSReadlineOption).HistorySavePath*"
-or process_commandline contains "*del (Get-PSReadlineOption).HistorySavePath*"
-or process_commandline contains "*Set-PSReadlineOption –HistorySaveStyle SaveNothing*"
-or process_commandline contains "*Remove-Item (Get-PSReadlineOption).HistorySavePath*")
+and (process_command_line contains "*rm (Get-PSReadlineOption).HistorySavePath*"
+or process_command_line contains "*del (Get-PSReadlineOption).HistorySavePath*"
+or process_command_line contains "*Set-PSReadlineOption –HistorySaveStyle SaveNothing*"
+or process_command_line contains "*Remove-Item (Get-PSReadlineOption).HistorySavePath*")

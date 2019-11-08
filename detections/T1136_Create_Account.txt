@@ -15,5 +15,5 @@
 //
 Sysmon
 | where EventID == 1
-and (process_commandline contains "New-LocalUser"
-or process_commandline contains "net user add")
+and (process_command_line contains "New-LocalUser"
+or process_command_line contains "net user add")

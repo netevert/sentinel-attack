@@ -18,7 +18,7 @@ Sysmon
 (process_path contains "netsh.exe"
 or process_path contains "reg.exe"
 or process_path contains "tasklist.exe")
-and (process_commandline contains "*reg* query*"
-or process_commandline contains "*tasklist *"
-or process_commandline contains "*netsh*"
-or process_commandline contains "*fltmc*|*findstr*")
+and (process_command_line contains "*reg* query*"
+or process_command_line contains "*tasklist *"
+or process_command_line contains "*netsh*"
+or process_command_line contains "*fltmc*|*findstr*")

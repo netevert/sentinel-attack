@@ -405,7 +405,7 @@
                 },
                 {
                   "name": "Query",
-                  "value": "Sysmon\n| summarize count() by tostring(process_commandline)\n| sort by count_ desc\n"
+                  "value": "Sysmon\n| summarize count() by tostring(process_command_line)\n| sort by count_ desc\n"
                 },
                 {
                   "name": "TimeRange",
@@ -415,7 +415,7 @@
                   "name": "Dimensions",
                   "value": {
                     "xAxis": {
-                      "name": "process_commandline",
+                      "name": "process_command_line",
                       "type": "String"
                     },
                     "yAxis": [
@@ -466,7 +466,7 @@
                 "content": {
                   "PartTitle": "Command execution overview",
                   "PartSubTitle": "Overview of commands executed over selected timeperiod",
-                  "Query": "Sysmon\n| summarize count() by tostring(process_commandline)\n| where isnotempty(process_commandline)\n| sort by count_ desc\n"
+                  "Query": "Sysmon\n| summarize count() by tostring(process_command_line)\n| where isnotempty(process_command_line)\n| sort by count_ desc\n"
                 }
               },
               "asset": {

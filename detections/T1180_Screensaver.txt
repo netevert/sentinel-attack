@@ -18,4 +18,4 @@ Sysmon
 and (registry_key_path contains "*\\Control Panel\\Desktop\\SCRNSAVE.EXE")
 and (process_parent_command_line !contains "explorer.exe"
 or process_path !contains "rundll32.exe"
-or process_commandline !contains "*shell32.dll,Control_RunDLL desk.cpl,ScreenSaver,*")
+or process_command_line !contains "*shell32.dll,Control_RunDLL desk.cpl,ScreenSaver,*")

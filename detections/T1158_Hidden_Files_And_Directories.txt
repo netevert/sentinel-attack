@@ -16,5 +16,5 @@
 Sysmon
 | where EventID == 1
 and process_path contains "attrib.exe"
-and (process_commandline contains "+h"
-or process_commandline contains "+s")
+and (process_command_line contains "+h"
+or process_command_line contains "+s")

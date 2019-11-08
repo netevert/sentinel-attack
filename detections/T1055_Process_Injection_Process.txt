@@ -14,5 +14,5 @@
 // Tactics: #Privilege Escalation #Defense Evasion
 //
 Sysmon
-| where EventID == 1 and process_commandline contains "*Invoke-DllInjection*"
-or process_commandline contains "C:\\windows\\sysnative\\"
+| where EventID == 1 and process_command_line contains "*Invoke-DllInjection*"
+or process_command_line contains "C:\\windows\\sysnative\\"

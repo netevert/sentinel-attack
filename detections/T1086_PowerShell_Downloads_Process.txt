@@ -15,5 +15,5 @@
 //
 Sysmon
 | where EventID == 1
-and (process_commandline contains "*.Download*"
-or process_commandline contains "*Net.WebClient*")
+and (process_command_line contains "*.Download*"
+or process_command_line contains "*Net.WebClient*")
