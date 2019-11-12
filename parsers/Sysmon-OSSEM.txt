@@ -23,11 +23,11 @@ let EventData = Event
 let SysmonEvent1_ProcessCreate=() {
 let processEvents = EventData
 | where EventID == 1
-| extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"],
-file_version = EventDetail.[5].["#text"],file_description = EventDetail.[6].["#text"], file_product = EventDetail.[7].["#text"], file_company = EventDetail.[8].["#text"],
-process_commandline = EventDetail.[9].["#text"], file_directory = EventDetail.[10].["#text"], user_name = EventDetail.[11].["#text"], user_logon_guid = EventDetail.[12].["#text"],
-user_logon_id = EventDetail.[13].["#text"], user_session_id = EventDetail.[14].["#text"], process_integrity_level = EventDetail.[15].["#text"], Hashes = EventDetail.[16].["#text"], 
-process_parent_guid = EventDetail.[17].["#text"], process_parent_id = EventDetail.[18].["#text"], process_parent_path = EventDetail.[19].["#text"], process_parent_command_line = EventDetail.[20].["#text"]
+| extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"], 
+file_version = EventDetail.[5].["#text"], file_description = EventDetail.[6].["#text"], file_product = EventDetail.[7].["#text"], file_company = EventDetail.[8].["#text"], file_name = EventDetail.[9].["#text"], 
+process_commandline = EventDetail.[10].["#text"], file_directory = EventDetail.[11].["#text"], user_name = EventDetail.[12].["#text"], user_logon_guid = EventDetail.[13].["#text"], 
+user_logon_id = EventDetail.[14].["#text"], user_session_id = EventDetail.[15].["#text"], process_integrity_level = EventDetail.[16].["#text"], Hashes = EventDetail.[17].["#text"], 
+process_parent_guid = EventDetail.[18].["#text"], process_parent_id = EventDetail.[19].["#text"], process_parent_path = EventDetail.[20].["#text"], process_parent_command_line = EventDetail.[21].["#text"]
 | parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash 
 | project-away EventDetail, rule_name, Hashes
