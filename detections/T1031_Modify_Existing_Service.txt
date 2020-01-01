@@ -17,4 +17,4 @@ Sysmon
 | where EventID == 1 and (process_path contains "sc.exe"
 or process_path contains "powershell.exe"
 or process_path contains "cmd.exe")
-and process_commandline contains "*sc*config*binpath*"
+and process_command_line contains "*sc*config*binpath*"

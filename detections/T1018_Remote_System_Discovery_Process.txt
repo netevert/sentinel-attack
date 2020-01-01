@@ -16,5 +16,5 @@
 Sysmon
 | where (process_path contains "net.exe"
 or process_path contains "ping.exe")
-and (process_commandline contains "view"
-or process_commandline contains "ping")
+and (process_command_line contains "view"
+or process_command_line contains "ping")

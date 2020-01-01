@@ -16,4 +16,4 @@
 Sysmon
 | where EventID == 1
 and (process_path contains "certutil.exe"
-and process_commandline contains "decode")
+and process_command_line contains "decode")

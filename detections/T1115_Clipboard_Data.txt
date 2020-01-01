@@ -15,4 +15,4 @@
 //
 Sysmon
 | where EventID == 1 and (process_path contains "clip.exe"
-or process_commandline contains "*Get-Clipboard*")
+or process_command_line contains "*Get-Clipboard*")

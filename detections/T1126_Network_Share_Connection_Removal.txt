@@ -15,6 +15,6 @@
 //
 Sysmon
 | where EventID == 1 and (process_path contains "net.exe"
-and process_commandline contains "net delete")
-or process_commandline contains "Remove-SmbShare"
-or process_commandline contains "Remove-FileShare"
+and process_command_line contains "net delete")
+or process_command_line contains "Remove-SmbShare"
+or process_command_line contains "Remove-FileShare"

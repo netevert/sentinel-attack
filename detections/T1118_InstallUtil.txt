@@ -15,4 +15,4 @@
 //
 Sysmon
 | where EventID == 3 and (process_path contains "InstallUtil.exe"
-or process_commandline contains "\\/logfile= \\/LogToConsole=false \\/U")
+or process_command_line contains "\\/logfile= \\/LogToConsole=false \\/U")

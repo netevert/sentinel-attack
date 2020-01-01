@@ -14,9 +14,9 @@
 // Tactics: #Discovery
 //
 Sysmon
-| where EventID == 1 and (process_commandline contains "net.exe"
+| where EventID == 1 and (process_command_line contains "net.exe"
 and file_directory contains "config")
-or (process_commandline contains "ipconfig.exe"
-or process_commandline contains "netsh.exe"
-or process_commandline contains "arp.exe"
-or process_commandline contains "nbtstat.exe")
+or (process_command_line contains "ipconfig.exe"
+or process_command_line contains "netsh.exe"
+or process_command_line contains "arp.exe"
+or process_command_line contains "nbtstat.exe")

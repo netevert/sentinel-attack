@@ -16,4 +16,4 @@
 Sysmon
 | where EventID == 1
 and (process_path contains "mavinject.exe"
-or process_commandline contains "/INJECTRUNNING")
+or process_command_line contains "/INJECTRUNNING")

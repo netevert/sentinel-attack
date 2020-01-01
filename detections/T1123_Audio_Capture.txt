@@ -16,5 +16,5 @@
 Sysmon
 | where EventID == 1
 and (process_path contains "SoundRecorder.exe"
-or process_commandline contains "*Get-AudioDevice*"
-or process_commandline contains "*WindowsAudioDevice-Powershell-Cmdlet*")
+or process_command_line contains "*Get-AudioDevice*"
+or process_command_line contains "*WindowsAudioDevice-Powershell-Cmdlet*")

@@ -15,8 +15,8 @@
 //
 Sysmon
 | where EventID == 1 and process_path contains "net.exe"
-and (process_commandline contains "*net* user*"
-or process_commandline contains "*net* group*"
-or process_commandline contains "*net* localgroup*"
-or process_commandline contains "*get-localgroup*"
-or process_commandline contains "*get-ADPrinicipalGroupMembership*")
+and (process_command_line contains "*net* user*"
+or process_command_line contains "*net* group*"
+or process_command_line contains "*net* localgroup*"
+or process_command_line contains "*get-localgroup*"
+or process_command_line contains "*get-ADPrinicipalGroupMembership*")

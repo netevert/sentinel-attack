@@ -16,4 +16,4 @@
 Sysmon
 | where EventID == 1
 and (process_path contains "netsh.exe"
-and process_commandline contains "*helper*")
+and process_command_line contains "*helper*")

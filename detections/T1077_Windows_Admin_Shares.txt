@@ -15,6 +15,6 @@
 //
 Sysmon
 | where EventID == 3 and process_path contains "net.exe"
-and (process_commandline contains "use"
-or process_commandline contains "session"
-or process_commandline contains "file")
+and (process_command_line contains "use"
+or process_command_line contains "session"
+or process_command_line contains "file")

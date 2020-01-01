@@ -14,4 +14,4 @@
 // Tactics: #Lateral Movement #Persistence
 //
 Sysmon
-| where EventID == 1 and process_commandline contains "*REG*ADD*HKCU\\Environment*UserInitMprLogonScript*"
+| where EventID == 1 and process_command_line contains "*REG*ADD*HKCU\\Environment*UserInitMprLogonScript*"

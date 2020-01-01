@@ -16,4 +16,4 @@
 Sysmon
 | where EventID == 1
 and process_path contains "net.exe"
-and process_commandline contains "net share"
+and process_command_line contains "net share"

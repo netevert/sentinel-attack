@@ -16,6 +16,6 @@
 Sysmon
 | where EventID == 1
 and (process_path contains "*\\net.exe"
-and process_commandline contains "*net* time*")
+and process_command_line contains "*net* time*")
 or process_path contains "w32tm.exe"
-or process_commandline contains "*Get-Date*"
+or process_command_line contains "*Get-Date*"

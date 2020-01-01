@@ -14,4 +14,4 @@
 // Tactics: #Defense Evasion
 //
 Sysmon
-| where EventID == 1 and (process_path contains "fltmc.exe" or process_commandline contains "*fltmc*unload*")
+| where EventID == 1 and (process_path contains "fltmc.exe" or process_command_line contains "*fltmc*unload*")
