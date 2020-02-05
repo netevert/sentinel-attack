@@ -9,9 +9,8 @@
 // 1. This parser works against the current version of events from Sysmon, it may need updates if Sysmon is updated.
 // 2. technique_id, technique_name and phase_name will only be parsed/available if deployed via the custom XML provided in this repository
 // 3. To parse dns events, make sure to use sysmon v10 with custom XML provided in this repository
-// 4. You must specify a timeframe for the parser to work, see comment on line 14
 
-// let timeframe = ago(1d);
+let timeframe = "{time_range}";
 let EventData = Event
 | where Source == "Microsoft-Windows-Sysmon"
 | extend RenderedDescription = tostring(split(RenderedDescription, ":")[0])
