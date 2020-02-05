@@ -2,7 +2,7 @@
 =========
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2020.svg?style=flat-square)]()
-[![GitHub last commit](https://img.shields.io/github/last-commit/BlueTeamToolkit/sentinel-attack.svg?style=flat-square)](https://github.com/BlueTeamToolkit/sentinel-attack/commit/master)
+[![GitHub release](https://img.shields.io/github/release/sentinel-attack/pockint.svg?style=flat-square)](https://github.com/netevert/sentinel-attack/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/#talks?olafedoardo)
 
@@ -49,3 +49,4 @@ Special thanks go to the following contributors:
 [![Twitter Follow](https://img.shields.io/twitter/follow/ashwinpatil.svg?style=social)](https://twitter.com/ashwinpatil)
 - Mor Shabi
 [![Twitter Follow](https://img.shields.io/twitter/follow/Mor44574618.svg?style=social)](https://twitter.com/Mor44574618)
+- [Adrian Corona](https://github.com/temores)

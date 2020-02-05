@@ -14,6 +14,28 @@ resource "azurerm_resource_group" "rg" {
     tags     = var.tags
 }
 
+# create underlying sentinel log analytics workspace
+resource "azurerm_log_analytics_workspace" "rgcore-management-la" {
+  name                = "la-example-utv-weu"
+  location            = azurerm_resource_group.rg.location
+ resource_group_name = azurerm_resource_group.rg.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 90
+}
+
+# Deploy Sentinel
+resource "azurerm_log_analytics_solution" "la-opf-solution-sentinel" {
+  solution_name         = "SecurityInsights"
+  location              = azurerm_resource_group.rg.location
+  resource_group_name   = azurerm_resource_group.rg.name
+  workspace_resource_id = azurerm_log_analytics_workspace.rgcore-management-la.id
+  workspace_name        = azurerm_log_analytics_workspace.rgcore-management-la.name
+  plan {
+    publisher = "Microsoft"
+    product   = "OMSGallery/SecurityInsights"
+  }
+}
+
 # Create lab virtual network
 resource "azurerm_virtual_network" "vnet" {
     name                = "${var.prefix}-vnet"
@@ -21,7 +43,7 @@ resource "azurerm_virtual_network" "vnet" {
     location            = var.location
     resource_group_name = azurerm_resource_group.rg.name
     tags                = var.tags
-    depends_on          = [azurerm_resource_group.rg]
+    depends_on          = [azurerm_resource_group.rg, azurerm_log_analytics_solution.la-opf-solution-sentinel]
 }
 
 # Create Network Security Group and rules
@@ -30,6 +52,7 @@ resource "azurerm_network_security_group" "nsg" {
     location            = var.location
     resource_group_name = azurerm_resource_group.rg.name
     tags                = var.tags
+    depends_on          = [azurerm_log_analytics_solution.la-opf-solution-sentinel]
 
     security_rule {
         name                       = "RDP"
@@ -195,17 +218,19 @@ resource "azurerm_virtual_machine" "pc1" {
 }
 
 resource "azurerm_storage_account" "storageaccount" {
-  name                     = "${var.prefix}strg"
+  name                     = "${var.prefix}sablobstrg01"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "GRS"
+  depends_on               = [azurerm_log_analytics_solution.la-opf-solution-sentinel]
 }
 
 resource "azurerm_storage_container" "blobstorage" {
   name                  = "${var.prefix}-cont"
   storage_account_name  = azurerm_storage_account.storageaccount.name
   container_access_type = "blob"
+  depends_on            = [azurerm_storage_account.storageaccount]
 }
 
 # create storage blob for install-utilities.ps1 file
