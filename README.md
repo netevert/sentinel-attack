@@ -2,7 +2,6 @@
 =========
 
 [![Maintenance](https://img.shields.io/maintenance/yes/2020.svg?style=flat-square)]()
-# [![GitHub release](https://img.shields.io/github/release/sentinel-attack/pockint.svg?style=flat-square)](https://github.com/netevert/sentinel-attack/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/#talks?olafedoardo)
 
