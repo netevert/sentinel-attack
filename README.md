@@ -22,7 +22,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
  - Guides to help you leverage the materials in this repository
 
 ### Usage
-Head over to the [getting started guide](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/guides/getting-started.md) to install Sentinel ATT&CK.
+Head over to the [wiki](https://github.com/BlueTeamLabs/sentinel-attack/wiki) to learn how to deploy Sentinel ATT&CK.
 
 A copy of the DEF CON 27 presentation introducing Sentinel ATT&CK can be found [here](https://cloud-village.org/#talks?olafedoardo) and [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
 
