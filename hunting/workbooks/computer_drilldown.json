@@ -20,7 +20,7 @@
             "label": "Timespan",
             "type": 4,
             "value": {
-              "durationMs": 3600000
+              "durationMs": 172800000
             },
             "typeSettings": {
               "selectableValues": [
@@ -973,7 +973,7 @@
             },
             {
               "columnMatch": "process_guid",
-              "formatter": 0,
+              "formatter": 1,
               "formatOptions": {
                 "showIcon": true
               }
