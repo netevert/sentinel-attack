@@ -48,12 +48,11 @@ let SysmonEvent3_NetworkConnect=() {
 let processEvents = EventData
 | where EventID == 3
 | extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], process_path = EventDetail.[4].["#text"],
-user_name = EventDetail.[5].["#text"], network_protocol = EventDetail.[6].["#text"], network_connection_initiated = EventDetail.[7].["#text"], src_is_ipv6 = EventDetail.[8].["#text"], src_ip = EventDetail.[9].["#text"],
-src_host_name = EventDetail.[10].["#text"], src_port = EventDetail.[11].["#text"], src_port_name = EventDetail.[12].["#text"], dst_is_ipv6 = EventDetail.[13].["#text"],
+user_name = EventDetail.[5].["#text"], network_protocol = EventDetail.[6].["#text"], network_connection_initiated = EventDetail.[7].["#text"], src_is_ipv6 = EventDetail.[8].["#text"], src_ip = EventDetail.[9].["#text"], 
+src_host_name = EventDetail.[10].["#text"], src_port = EventDetail.[11].["#text"], src_port_name = EventDetail.[12].["#text"], dst_is_ipv6 = EventDetail.[13].["#text"], 
 dst_ip = EventDetail.[14].["#text"], dst_host_name = EventDetail.[15].["#text"], dst_port = EventDetail.[16].["#text"], dst_port_name = EventDetail.[17].["#text"]
-| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
-| parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash
-| project-away EventDetail, rule_name, Hashes
+| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name  
+| project-away EventDetail, rule_name
 ;
 processEvents;
 };
@@ -252,4 +251,3 @@ SysmonEvent6_DriverLoad,SysmonEvent7_ImageLoad,SysmonEvent8_CreateRemoteThread,S
 SysmonEvent11_FileCreate,SysmonEvent12_RegistryObjectAddDel,SysmonEvent13_RegistrySetValue,SysmonEvent14_RegistryObjectRename,
 SysmonEvent15_FileCreateStreamHash,SysmonEvent16_ConfigChange,SysmonEvent17_CreateNamedPipe,SysmonEvent18_ConnectNamedPipe,
 SysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter,SysmonEvent22_DNSEvents)
-| where EventID == 7
