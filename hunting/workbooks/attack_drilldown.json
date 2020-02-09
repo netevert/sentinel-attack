@@ -1,0 +1,411 @@
+// process access
+// file created
+// image loaded
+// network connection
+// registry access
+// pipes
+// dns
+
+{
+    "version": "Notebook/1.0",
+    "items": [
+      {
+        "type": 1,
+        "content": {
+          "json": "## MITRE ATT&CK drilldown workbook\n---"
+        },
+        "name": "intro-text"
+      },
+      {
+        "type": 9,
+        "content": {
+          "version": "KqlParameterItem/1.0",
+          "parameters": [
+            {
+              "id": "e7936a65-94c9-40a1-8d5f-e8ef336007a1",
+              "version": "KqlParameterItem/1.0",
+              "name": "time_range",
+              "label": "Timespan",
+              "type": 4,
+              "description": "Selects the time range for the drilldown",
+              "isRequired": true,
+              "value": {
+                "durationMs": 604800000
+              },
+              "typeSettings": {
+                "selectableValues": [
+                  {
+                    "durationMs": 300000
+                  },
+                  {
+                    "durationMs": 900000
+                  },
+                  {
+                    "durationMs": 1800000
+                  },
+                  {
+                    "durationMs": 3600000
+                  },
+                  {
+                    "durationMs": 14400000
+                  },
+                  {
+                    "durationMs": 43200000
+                  },
+                  {
+                    "durationMs": 86400000
+                  },
+                  {
+                    "durationMs": 172800000
+                  },
+                  {
+                    "durationMs": 259200000
+                  },
+                  {
+                    "durationMs": 604800000
+                  },
+                  {
+                    "durationMs": 1209600000
+                  },
+                  {
+                    "durationMs": 2419200000
+                  },
+                  {
+                    "durationMs": 2592000000
+                  },
+                  {
+                    "durationMs": 5184000000
+                  },
+                  {
+                    "durationMs": 7776000000
+                  }
+                ],
+                "allowCustom": true
+              }
+            },
+            {
+              "id": "e1b35895-cd18-4ca9-a54d-4646445159bc",
+              "version": "KqlParameterItem/1.0",
+              "name": "tactic",
+              "label": "ATT&CK tactic",
+              "type": 2,
+              "description": "The ATT&CK tactic to target during the drilldown analysis",
+              "isRequired": true,
+              "multiSelect": true,
+              "quote": "'",
+              "delimiter": ",",
+              "query": "Sysmon\r\n| where isnotempty(phase_name)\r\n| summarize by phase_name",
+              "value": [
+                "Persistence"
+              ],
+              "typeSettings": {
+                "additionalResourceOptions": [
+                  "value::all"
+                ]
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            {
+              "id": "e54e76ab-79bf-47b6-bae1-69e8a0239774",
+              "version": "KqlParameterItem/1.0",
+              "name": "technique",
+              "label": "ATT&CK technique",
+              "type": 2,
+              "description": "The ATT&CK technique to target during the drilldown analysis",
+              "isRequired": true,
+              "multiSelect": true,
+              "quote": "'",
+              "delimiter": ",",
+              "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize by technique_name",
+              "value": [
+                "value::all"
+              ],
+              "typeSettings": {
+                "additionalResourceOptions": [
+                  "value::all"
+                ]
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            {
+              "id": "86e49edd-28ea-4a60-aae3-32e2d6d4b880",
+              "version": "KqlParameterItem/1.0",
+              "name": "technique_id_value",
+              "label": "ATT&CK technique ID",
+              "type": 2,
+              "description": "The ATT&CK technique ID to target during the drilldown analysis",
+              "isRequired": true,
+              "multiSelect": true,
+              "quote": "'",
+              "delimiter": ",",
+              "query": "Sysmon\r\n| where isnotempty(technique_id)\r\n| summarize by technique_id",
+              "value": [
+                "value::all"
+              ],
+              "typeSettings": {
+                "additionalResourceOptions": [
+                  "value::all"
+                ]
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            {
+              "id": "494f5101-a136-4622-89bc-6dcd6983eeac",
+              "version": "KqlParameterItem/1.0",
+              "name": "excluded_host",
+              "label": "Exclude host",
+              "type": 2,
+              "description": "The hosts to exclude during the drilldown analysis",
+              "isRequired": true,
+              "multiSelect": true,
+              "quote": "'",
+              "delimiter": ",",
+              "query": "Sysmon\r\n| summarize by Computer",
+              "value": [
+                "pc-archer"
+              ],
+              "typeSettings": {
+                "additionalResourceOptions": [
+                  "value::all"
+                ]
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            }
+          ],
+          "style": "pills",
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces"
+        },
+        "name": "search-parameters",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon \r\n| where EventID == 1\r\n| where isnotempty(technique_name)\r\n| where phase_name in ({tactic})\r\n| where technique_name in ({technique})\r\n| where technique_id in ({technique_id_value})\r\n| where Computer !in ({excluded_host})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Process create",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "user_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "file_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_command_line",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_command_line",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "hash_sha256",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "user_name",
+                "label": "User"
+              },
+              {
+                "columnId": "process_parent_path",
+                "label": "Process parent path"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "file_name",
+                "label": "Original file name"
+              },
+              {
+                "columnId": "process_parent_command_line",
+                "label": "Process parent commandline"
+              },
+              {
+                "columnId": "process_command_line",
+                "label": "Process commandline"
+              },
+              {
+                "columnId": "process_parent_guid",
+                "label": "Process parent GUID"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              },
+              {
+                "columnId": "hash_sha256",
+                "label": "SHA256"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "process_parent_id",
+                "label": "Process parent ID"
+              }
+            ]
+          }
+        },
+        "name": "process-create-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      }
+    ],
+    "fromTemplateId": "sentinel-UserWorkbook",
+    "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+  }
