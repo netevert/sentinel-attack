@@ -22,7 +22,7 @@
             "description": "Selects the time range for the drilldown",
             "isRequired": true,
             "value": {
-              "durationMs": 3600000
+              "durationMs": 86400000
             },
             "typeSettings": {
               "selectableValues": [
@@ -102,7 +102,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| summarize count() by technique_name, TimeGenerated",
+        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 0,
         "title": "Activity by technique",
         "timeContext": {
