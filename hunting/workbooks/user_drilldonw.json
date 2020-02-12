@@ -1,0 +1,121 @@
+{
+    "version": "Notebook/1.0",
+    "items": [
+      {
+        "type": 1,
+        "content": {
+          "json": "## User drilldown workbook\n---\n"
+        },
+        "name": "text - 2"
+      },
+      {
+        "type": 9,
+        "content": {
+          "version": "KqlParameterItem/1.0",
+          "parameters": [
+            {
+              "id": "1e71dd48-a0e4-44df-bd9e-1d40e8fd5691",
+              "version": "KqlParameterItem/1.0",
+              "name": "time_span",
+              "label": "Timespan",
+              "type": 4,
+              "description": "Selects time range of the drilldown",
+              "isRequired": true,
+              "value": {
+                "durationMs": 604800000
+              },
+              "typeSettings": {
+                "selectableValues": [
+                  {
+                    "durationMs": 300000
+                  },
+                  {
+                    "durationMs": 900000
+                  },
+                  {
+                    "durationMs": 1800000
+                  },
+                  {
+                    "durationMs": 3600000
+                  },
+                  {
+                    "durationMs": 14400000
+                  },
+                  {
+                    "durationMs": 43200000
+                  },
+                  {
+                    "durationMs": 86400000
+                  },
+                  {
+                    "durationMs": 172800000
+                  },
+                  {
+                    "durationMs": 259200000
+                  },
+                  {
+                    "durationMs": 604800000
+                  },
+                  {
+                    "durationMs": 1209600000
+                  },
+                  {
+                    "durationMs": 2419200000
+                  },
+                  {
+                    "durationMs": 2592000000
+                  },
+                  {
+                    "durationMs": 5184000000
+                  },
+                  {
+                    "durationMs": 7776000000
+                  }
+                ]
+              }
+            },
+            {
+              "id": "4963c841-91ea-4077-98a4-56e8130a4927",
+              "version": "KqlParameterItem/1.0",
+              "name": "user_name_value",
+              "label": "User name",
+              "type": 2,
+              "description": "Selects the username to target during drilldown",
+              "isRequired": true,
+              "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize by UserName",
+              "value": "NT AUTHORITY\\SYSTEM",
+              "typeSettings": {
+                "additionalResourceOptions": []
+              },
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            }
+          ],
+          "style": "pills",
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces"
+        },
+        "name": "parameters - 2"
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\n| where UserName contains @\"{user_name_value}\"\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+          "size": 1,
+          "showAnalytics": true,
+          "title": "User activity by technique",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "visualization": "scatterchart"
+        },
+        "name": "user-activity-by-technique-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      }
+    ],
+    "fromTemplateId": "sentinel-UserWorkbook",
+    "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+  }
