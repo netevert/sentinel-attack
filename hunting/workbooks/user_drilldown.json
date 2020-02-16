@@ -1,0 +1,478 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 1,
+      "content": {
+        "json": "## User drilldown workbook\n---\n"
+      },
+      "name": "text - 2"
+    },
+    {
+      "type": 9,
+      "content": {
+        "version": "KqlParameterItem/1.0",
+        "parameters": [
+          {
+            "id": "1e71dd48-a0e4-44df-bd9e-1d40e8fd5691",
+            "version": "KqlParameterItem/1.0",
+            "name": "time_span",
+            "label": "Timespan",
+            "type": 4,
+            "description": "Selects time range of the drilldown",
+            "isRequired": true,
+            "value": {
+              "durationMs": 1209600000
+            },
+            "typeSettings": {
+              "selectableValues": [
+                {
+                  "durationMs": 300000
+                },
+                {
+                  "durationMs": 900000
+                },
+                {
+                  "durationMs": 1800000
+                },
+                {
+                  "durationMs": 3600000
+                },
+                {
+                  "durationMs": 14400000
+                },
+                {
+                  "durationMs": 43200000
+                },
+                {
+                  "durationMs": 86400000
+                },
+                {
+                  "durationMs": 172800000
+                },
+                {
+                  "durationMs": 259200000
+                },
+                {
+                  "durationMs": 604800000
+                },
+                {
+                  "durationMs": 1209600000
+                },
+                {
+                  "durationMs": 2419200000
+                },
+                {
+                  "durationMs": 2592000000
+                },
+                {
+                  "durationMs": 5184000000
+                },
+                {
+                  "durationMs": 7776000000
+                }
+              ]
+            }
+          },
+          {
+            "id": "4963c841-91ea-4077-98a4-56e8130a4927",
+            "version": "KqlParameterItem/1.0",
+            "name": "user_name_value",
+            "label": "User name",
+            "type": 2,
+            "description": "Selects the username to target during drilldown",
+            "isRequired": true,
+            "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize by UserName",
+            "value": "NT AUTHORITY\\SYSTEM",
+            "typeSettings": {
+              "additionalResourceOptions": []
+            },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "time_span",
+            "queryType": 0,
+            "resourceType": "microsoft.operationalinsights/workspaces"
+          }
+        ],
+        "style": "pills",
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "name": "parameters - 2"
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Sysmon\n| where UserName contains @\"{user_name_value}\"\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+        "size": 1,
+        "showAnalytics": true,
+        "title": "User activity by technique",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "scatterchart"
+      },
+      "name": "user-activity-by-technique-query",
+      "styleSettings": {
+        "progressStyle": "loader"
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize c=count() by Computer, UserName\r\n| sort by c desc\r\n| project Computer, UserName, c",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "User activity by host",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "gridSettings": {
+          "formatters": [
+            {
+              "columnMatch": "Computer",
+              "formatter": 0,
+              "formatOptions": {
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "UserName",
+              "formatter": 0,
+              "formatOptions": {
+                "showIcon": true
+              }
+            },
+            {
+              "columnMatch": "c",
+              "formatter": 3,
+              "formatOptions": {
+                "palette": "green",
+                "showIcon": true,
+                "aggregation": "Count"
+              }
+            },
+            {
+              "columnMatch": "count_",
+              "formatter": 9,
+              "formatOptions": {
+                "palette": "green",
+                "showIcon": true
+              }
+            }
+          ],
+          "labelSettings": [
+            {
+              "columnId": "Computer",
+              "label": "Host"
+            },
+            {
+              "columnId": "UserName",
+              "label": "User name"
+            },
+            {
+              "columnId": "c",
+              "label": "ATT&CK Events"
+            }
+          ]
+        }
+      },
+      "customWidth": "50",
+      "name": "user-activity-by-host-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where (EventID == 4771 and FailureReason != 0x19) or EventID == 4625\r\n| where Account contains split(@\"{user_name_value}\", @\"\\\")[1]\r\n| summarize count() by bin(TimeGenerated, 1d)",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Authentication Failures over time",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "barchart",
+        "tileSettings": {
+          "showBorder": false,
+          "titleContent": {
+            "columnMatch": "Computer",
+            "formatter": 1
+          },
+          "leftContent": {
+            "columnMatch": "count_",
+            "formatter": 12,
+            "formatOptions": {
+              "palette": "auto"
+            },
+            "numberFormat": {
+              "unit": 17,
+              "options": {
+                "maximumSignificantDigits": 3,
+                "maximumFractionDigits": 2
+              }
+            }
+          }
+        }
+      },
+      "customWidth": "50",
+      "name": "failed-authentications-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where (EventID == 4771 and FailureReason != 0x19) or EventID == 4624\r\n| summarize count() by Account, Computer\r\n| project Account, Computer\r\n",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Authentication failures by user and host",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "graph",
+        "tileSettings": {
+          "showBorder": false
+        },
+        "graphSettings": {
+          "type": 2,
+          "topContent": {
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            }
+          },
+          "centerContent": {
+            "columnMatch": "Account",
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            },
+            "tooltipFormat": {
+              "tooltip": "User account"
+            }
+          },
+          "hivesContent": {
+            "columnMatch": "Computer",
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            },
+            "numberFormat": {
+              "unit": 0,
+              "options": {
+                "style": "decimal"
+              }
+            }
+          },
+          "nodeIdField": "Account",
+          "targetIdField": "Computer",
+          "edgeLabel": "Account",
+          "nodeSize": null,
+          "staticNodeSize": 150,
+          "colorSettings": {
+            "nodeColorField": "Account",
+            "type": 1,
+            "colorPalette": "cool"
+          },
+          "groupByField": "Computer",
+          "hivesMargin": 5
+        }
+      },
+      "customWidth": "50",
+      "name": "authentication-failures-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where EventID == 4624\r\n| summarize count() by Account, Computer, LogonType\r\n| project Account, Computer, LogonType\r\n",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Authentication success by user and host",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces",
+        "visualization": "graph",
+        "graphSettings": {
+          "type": 2,
+          "topContent": {
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            }
+          },
+          "centerContent": {
+            "columnMatch": "Account",
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            },
+            "tooltipFormat": {
+              "tooltip": "User account"
+            }
+          },
+          "bottomContent": {
+            "columnMatch": "LogonType",
+            "formatter": 12,
+            "formatOptions": {
+              "showIcon": true
+            },
+            "tooltipFormat": {
+              "tooltip": "Logon type"
+            }
+          },
+          "hivesContent": {
+            "columnMatch": "Computer",
+            "formatter": 1,
+            "formatOptions": {
+              "showIcon": true
+            }
+          },
+          "nodeIdField": "Account",
+          "nodeSize": null,
+          "staticNodeSize": 150,
+          "colorSettings": {
+            "nodeColorField": "Account",
+            "type": 1,
+            "colorPalette": "pastel"
+          },
+          "groupByField": "Computer",
+          "hivesMargin": 5
+        }
+      },
+      "customWidth": "50",
+      "name": "Authentication-successes-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where EventID == 4720",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "EventID 4720 - SA Accounts are excluded",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "customWidth": "30",
+      "name": "eventid-4720-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where EventID == 4722",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "EventID 4722 - SA and Computer Accounts are excluded",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "customWidth": "40",
+      "name": "eventid-4722-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where EventID == 4726",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "EventID 4726 - SA and Computer Accounts are excluded",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "customWidth": "30",
+      "name": "eventid-4726-query",
+      "styleSettings": {
+        "progressStyle": "loader",
+        "showBorder": true
+      }
+    },
+    {
+      "type": 3,
+      "content": {
+        "version": "KqlItem/1.0",
+        "query": "SecurityEvent\r\n| where (EventID==4720 or EventID==4738 or EventID==4728 or EventID==4732 or EventID==4746 or EventID==4751 or EventID==4756 or EventID==4761)",
+        "size": 0,
+        "showAnalytics": true,
+        "title": "Accounts Created or Changed and Added to Group",
+        "timeContext": {
+          "durationMs": 0
+        },
+        "timeContextFromParameter": "time_span",
+        "showExportToExcel": true,
+        "queryType": 0,
+        "resourceType": "microsoft.operationalinsights/workspaces"
+      },
+      "customWidth": "100",
+      "name": "accounts-created-or-changed-and-added-to-group-query",
+      "styleSettings": {
+        "progressStyle": "loader"
+      }
+    }
+  ],
+  "fromTemplateId": "sentinel-UserWorkbook",
+  "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+}
