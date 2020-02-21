@@ -8,3 +8,5 @@ files/.DS_Store
 .DS_Store
 Thumbs.db
 hunting/config.ini
+lab/files/create-ad.ps1
+lab/files/install-utilities.ps1
