@@ -1,0 +1,1550 @@
+{
+    "version": "Notebook/1.0",
+    "items": [
+      {
+        "type": 1,
+        "content": {
+          "json": "## Process GUID drilldown workbook\n---"
+        },
+        "name": "text - 2"
+      },
+      {
+        "type": 9,
+        "content": {
+          "version": "KqlParameterItem/1.0",
+          "parameters": [
+            {
+              "id": "59e47110-94b7-42ce-9c93-4461d4ebf6f7",
+              "version": "KqlParameterItem/1.0",
+              "name": "time_range",
+              "label": "Time span",
+              "type": 4,
+              "description": "Selects the time range for the drilldown",
+              "isRequired": true,
+              "value": {
+                "durationMs": 1209600000
+              },
+              "typeSettings": {
+                "selectableValues": [
+                  {
+                    "durationMs": 300000
+                  },
+                  {
+                    "durationMs": 900000
+                  },
+                  {
+                    "durationMs": 1800000
+                  },
+                  {
+                    "durationMs": 3600000
+                  },
+                  {
+                    "durationMs": 14400000
+                  },
+                  {
+                    "durationMs": 43200000
+                  },
+                  {
+                    "durationMs": 86400000
+                  },
+                  {
+                    "durationMs": 172800000
+                  },
+                  {
+                    "durationMs": 259200000
+                  },
+                  {
+                    "durationMs": 604800000
+                  },
+                  {
+                    "durationMs": 1209600000
+                  },
+                  {
+                    "durationMs": 2419200000
+                  },
+                  {
+                    "durationMs": 2592000000
+                  },
+                  {
+                    "durationMs": 5184000000
+                  },
+                  {
+                    "durationMs": 7776000000
+                  }
+                ]
+              }
+            },
+            {
+              "id": "64a2ba73-0cf3-4865-97fb-1ecd00c1fd5f",
+              "version": "KqlParameterItem/1.0",
+              "name": "process_guid_selection",
+              "label": "Process guid",
+              "type": 2,
+              "isRequired": true,
+              "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| summarize count() by tostring(process_guid)\r\n| project process_guid",
+              "value": "{0151c5e9-bd5c-5e43-0000-001087d40b00}",
+              "typeSettings": {
+                "additionalResourceOptions": []
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            {
+              "id": "08e73a7b-6251-4907-a370-4cd3c601b8bc",
+              "version": "KqlParameterItem/1.0",
+              "name": "process",
+              "label": "Process parent path",
+              "type": 2,
+              "query": "Sysmon\r\n| where EventID == 1\r\n| where process_guid == \"{process_guid_selection}\"\r\n| project strcat(process_parent_id, \"-\", process_parent_path)",
+              "value": "5064-C:\\Windows\\System32\\cmd.exe",
+              "typeSettings": {
+                "additionalResourceOptions": []
+              },
+              "timeContext": {
+                "durationMs": 0
+              },
+              "timeContextFromParameter": "time_range",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            }
+          ],
+          "style": "pills",
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces"
+        },
+        "name": "parameters - 2"
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| project TimeGenerated, EventID, RenderedDescription, process_path, process_guid",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Process create GUID overview",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "EventID",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "RenderedDescription",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "EventID",
+                "label": "Event ID"
+              },
+              {
+                "columnId": "RenderedDescription",
+                "label": "Event description"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              }
+            ]
+          }
+        },
+        "customWidth": "50",
+        "name": "overview-query",
+        "styleSettings": {
+          "progressStyle": "loader",
+          "showBorder": true
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where isnotempty(technique_name)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, EventID, process_path, process_guid",
+          "size": 0,
+          "showAnalytics": true,
+          "title": " ATT&CK triggered process GUID overview",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "EventID",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "EventID",
+                "label": "Event ID"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              }
+            ]
+          }
+        },
+        "customWidth": "50",
+        "name": "ATT&CK-process-guid-query",
+        "styleSettings": {
+          "progressStyle": "loader",
+          "showBorder": true
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| project TimeGenerated, EventID, RenderedDescription, process_guid, process_path, process_parent_path",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Drilldown for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "visualization": "table",
+          "showExpandCollapseGrid": true,
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "EventID",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "RenderedDescription",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "EventID",
+                "label": "Event ID"
+              },
+              {
+                "columnId": "RenderedDescription",
+                "label": "Event description"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_parent_path",
+                "label": "Process parent path"
+              }
+            ]
+          },
+          "graphSettings": {
+            "type": 0,
+            "topContent": {
+              "formatOptions": {
+                "showIcon": true
+              }
+            },
+            "nodeIdField": "process_guid",
+            "sourceIdField": "process_guid",
+            "targetIdField": "process_path",
+            "nodeSize": null,
+            "staticNodeSize": 100,
+            "colorSettings": null,
+            "hivesMargin": 5
+          }
+        },
+        "customWidth": "50",
+        "name": "query - 2",
+        "styleSettings": {
+          "progressStyle": "loader",
+          "showBorder": true
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_parent_path)\r\n| where process_parent_path == tostring(split(@\"{process}\", \"-\")[1])\r\n| where isnotempty(process_path)\r\n| summarize c=count() by tostring(process_path), tostring(process_id)\r\n| sort by c desc",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Overview of spawned  child processes by selected process parent",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "c",
+                "formatter": 8,
+                "formatOptions": {
+                  "palette": "red",
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "sortBy": [
+              {
+                "itemKey": "process_id",
+                "sortOrder": 1
+              }
+            ],
+            "labelSettings": [
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "c",
+                "label": "Count"
+              }
+            ]
+          },
+          "sortBy": [
+            {
+              "itemKey": "process_id",
+              "sortOrder": 1
+            }
+          ]
+        },
+        "customWidth": "50",
+        "name": "query - 3",
+        "styleSettings": {
+          "showBorder": true
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 1\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, hash_sha256, process_id, process_parent_id",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Process create",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "UserName",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "file_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_command_line",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_command_line",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "hash_sha256",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_parent_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "UserName",
+                "label": "User name"
+              },
+              {
+                "columnId": "process_parent_path",
+                "label": "Process parent path"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "file_name",
+                "label": "File name"
+              },
+              {
+                "columnId": "process_parent_command_line",
+                "label": "Process parent command line"
+              },
+              {
+                "columnId": "process_command_line",
+                "label": "Process command line"
+              },
+              {
+                "columnId": "process_parent_guid",
+                "label": "Process parent GUID"
+              },
+              {
+                "columnId": "hash_sha256",
+                "label": "Hash SHA256"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "process_parent_id",
+                "label": "Process parent ID"
+              }
+            ]
+          }
+        },
+        "name": "process-create-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 10\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Process access",
+          "noDataMessage": "No process access activity found for this GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "target_process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_granted_access",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "target_process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "target_process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "target_process_path",
+                "label": "Target process path"
+              },
+              {
+                "columnId": "process_granted_access",
+                "label": "Process granted access"
+              },
+              {
+                "columnId": "target_process_guid",
+                "label": "Target process GUID"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "target_process_id",
+                "label": "Target process ID"
+              }
+            ]
+          }
+        },
+        "name": "process-access-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 11\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "File create",
+          "noDataMessage": "No file create activity for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "file_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "file_name",
+                "label": "File path"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              }
+            ]
+          }
+        },
+        "name": "file-create-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 7\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Image loaded",
+          "noDataMessage": "No image loaded activity for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "module_loaded",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "module_is_signed",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "module_signature",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "module_signature_status",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "module_loaded",
+                "label": "Module loaded"
+              },
+              {
+                "columnId": "module_is_signed",
+                "label": "Module is loaded"
+              },
+              {
+                "columnId": "module_signature",
+                "label": "Module signature"
+              },
+              {
+                "columnId": "module_signature_status",
+                "label": "Module signature status"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              }
+            ]
+          }
+        },
+        "name": "image-loaded-query"
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 3\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Network connection",
+          "noDataMessage": "No network connection activity for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "UserName",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "src_ip",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dst_ip",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dst_port",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "src_host_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dst_host_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "UserName",
+                "label": "User"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              },
+              {
+                "columnId": "src_ip",
+                "label": "Source IP"
+              },
+              {
+                "columnId": "dst_ip",
+                "label": "Destination IP"
+              },
+              {
+                "columnId": "dst_port",
+                "label": "Destination port"
+              },
+              {
+                "columnId": "src_host_name",
+                "label": "Source hostname"
+              },
+              {
+                "columnId": "dst_host_name",
+                "label": "Destination hostname"
+              }
+            ]
+          }
+        },
+        "name": "network-connection-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 12 or EventID == 13\r\n| project TimeGenerated, technique_id, technique_name, phase_name, EventType, Computer, process_path, process_id, process_guid, registry_key_path",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "Registry access",
+          "noDataMessage": "No registry access activity found for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "technique_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "phase_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "EventType",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_id",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_guid",
+                "formatter": 1,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "registry_key_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "technique_id",
+                "label": "ID"
+              },
+              {
+                "columnId": "technique_name",
+                "label": "Technique"
+              },
+              {
+                "columnId": "phase_name",
+                "label": "Category"
+              },
+              {
+                "columnId": "EventType",
+                "label": "Event type"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "process_id",
+                "label": "Process ID"
+              },
+              {
+                "columnId": "process_guid",
+                "label": "Process GUID"
+              },
+              {
+                "columnId": "registry_key_path",
+                "label": "Registry key path"
+              }
+            ]
+          }
+        },
+        "name": "registry-access-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      },
+      {
+        "type": 3,
+        "content": {
+          "version": "KqlItem/1.0",
+          "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 22\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, Computer",
+          "size": 0,
+          "showAnalytics": true,
+          "title": "DNS requests",
+          "noDataMessage": "No DNS request activity for selected GUID",
+          "timeContext": {
+            "durationMs": 0
+          },
+          "timeContextFromParameter": "time_range",
+          "showExportToExcel": true,
+          "queryType": 0,
+          "resourceType": "microsoft.operationalinsights/workspaces",
+          "gridSettings": {
+            "formatters": [
+              {
+                "columnMatch": "TimeGenerated",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dns_query_name",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dns_query_status",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "dns_query_results",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "process_path",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              },
+              {
+                "columnMatch": "Computer",
+                "formatter": 0,
+                "formatOptions": {
+                  "showIcon": true
+                }
+              }
+            ],
+            "filter": true,
+            "labelSettings": [
+              {
+                "columnId": "TimeGenerated",
+                "label": "Time generated"
+              },
+              {
+                "columnId": "dns_query_name",
+                "label": "DNS query name"
+              },
+              {
+                "columnId": "dns_query_status",
+                "label": "DNS query status"
+              },
+              {
+                "columnId": "dns_query_results",
+                "label": "DNS query results"
+              },
+              {
+                "columnId": "process_path",
+                "label": "Process path"
+              },
+              {
+                "columnId": "Computer",
+                "label": "Host"
+              }
+            ]
+          }
+        },
+        "name": "DNS-request-query",
+        "styleSettings": {
+          "progressStyle": "loader"
+        }
+      }
+    ],
+    "fromTemplateId": "sentinel-UserWorkbook",
+    "$schema": "https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json"
+  }
