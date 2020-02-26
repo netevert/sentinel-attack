@@ -35,11 +35,11 @@ As this repository is constantly being updated and worked on, if you spot any pr
 Sentinel ATT&CK is built with ❤ by:
 - Edoardo Gerosa 
 [![Twitter Follow](https://img.shields.io/twitter/follow/netevert.svg?style=social)](https://twitter.com/netevert)
-- Olaf Hartong
-[![Twitter Follow](https://img.shields.io/twitter/follow/olafhartong.svg?style=social)](https://twitter.com/olafhartong) 
 
 Special thanks go to the following contributors:
 
+- Olaf Hartong
+[![Twitter Follow](https://img.shields.io/twitter/follow/olafhartong.svg?style=social)](https://twitter.com/olafhartong) 
 - Ashwin Patil
 [![Twitter Follow](https://img.shields.io/twitter/follow/ashwinpatil.svg?style=social)](https://twitter.com/ashwinpatil)
 - Mor Shabi
