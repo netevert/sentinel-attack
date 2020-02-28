@@ -14,16 +14,17 @@ resource "azurerm_resource_group" "rg" {
     tags     = var.tags
 }
 
-# create underlying sentinel log analytics workspace
+# Create underlying log analytics workspace for sentinel
 resource "azurerm_log_analytics_workspace" "rgcore-management-la" {
   name                = "la-example-utv-weu"
   location            = azurerm_resource_group.rg.location
- resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.rg.name
   sku                 = "PerGB2018"
   retention_in_days   = 90
+  depends_on          = [azurerm_resource_group.rg]
 }
 
-# Deploy Sentinel
+# Deploy sentinel
 resource "azurerm_log_analytics_solution" "la-opf-solution-sentinel" {
   solution_name         = "SecurityInsights"
   location              = azurerm_resource_group.rg.location
@@ -34,6 +35,7 @@ resource "azurerm_log_analytics_solution" "la-opf-solution-sentinel" {
     publisher = "Microsoft"
     product   = "OMSGallery/SecurityInsights"
   }
+  depends_on            = [azurerm_log_analytics_workspace.rgcore-management-la]
 }
 
 # Create lab virtual network
@@ -43,16 +45,16 @@ resource "azurerm_virtual_network" "vnet" {
     location            = var.location
     resource_group_name = azurerm_resource_group.rg.name
     tags                = var.tags
-    depends_on          = [azurerm_resource_group.rg, azurerm_log_analytics_solution.la-opf-solution-sentinel]
+    depends_on          = [azurerm_log_analytics_solution.la-opf-solution-sentinel]
 }
 
-# Create Network Security Group and rules
+# Create network security group and rules
 resource "azurerm_network_security_group" "nsg" {
     name                = "${var.prefix}-nsg"
     location            = var.location
     resource_group_name = azurerm_resource_group.rg.name
     tags                = var.tags
-    depends_on          = [azurerm_log_analytics_solution.la-opf-solution-sentinel]
+    depends_on          = [azurerm_virtual_network.vnet]
 
     security_rule {
         name                       = "RDP"
@@ -127,49 +129,174 @@ resource "azurerm_network_security_group" "nsg" {
     }
 }
 
-# Create prod subnet
+# Create lab subnet
 resource "azurerm_subnet" "subnet" {
     name                        = "${var.prefix}-subnet"
     resource_group_name         = azurerm_resource_group.rg.name
     virtual_network_name        = azurerm_virtual_network.vnet.name
     address_prefix              = "10.0.1.0/24"
     network_security_group_id   = azurerm_network_security_group.nsg.id
+    depends_on                  = [azurerm_network_security_group.nsg]
 }
 
-# Set local data for workstation 1
-locals {
-    pc1_custom_data_params  = "Param($ComputerName = \"${var.workstations.pc1}\")"
-    pc1_custom_data_content = "${local.pc1_custom_data_params} ${file("./files/winrm.ps1")}"
+# Create storage account
+resource "azurerm_storage_account" "storageaccount" {
+  name                     = "${var.prefix}sablobstrg01"
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "GRS"
+  depends_on               = [azurerm_subnet.subnet]
 }
 
-# Create public IP for workstation 1
-resource "azurerm_public_ip" "pc1_publicip" {
-    name                         = "${var.workstations.pc1}-external"
+# Create blob storage container
+resource "azurerm_storage_container" "blobstorage" {
+  name                  = "${var.prefix}-cont"
+  storage_account_name  = azurerm_storage_account.storageaccount.name
+  container_access_type = "blob"
+  depends_on            = [azurerm_storage_account.storageaccount]
+}
+
+# Create storage blob for install-utilities.ps1 file
+resource "azurerm_storage_blob" "utilsblob" {
+  depends_on             = [azurerm_storage_container.blobstorage]
+  name                   = "install-utilities.ps1"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.blobstorage.name
+  type                   = "block"
+  source                 =  "./files/install-utilities.ps1"
+}
+
+# Create storage blob for create-ad.ps1 file
+resource "azurerm_storage_blob" "adblob" {
+  depends_on             = [azurerm_storage_container.blobstorage]
+  name                   = "create-ad.ps1"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.blobstorage.name
+  type                   = "block"
+  source                 =  "./files/create-ad.ps1"
+}
+
+# Create public ip for domain controller 1
+resource "azurerm_public_ip" "dc1_publicip" {
+    name                         = "${var.workstations.dc1}-external"
     location                     = var.location
     resource_group_name          = azurerm_resource_group.rg.name
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_network_security_group.nsg]
+    depends_on                   = [azurerm_storage_blob.utilsblob]
 }
 
-# Create network interface for workstation 1
-resource "azurerm_network_interface" "pc1_nic" {
-    name                      = "${var.workstations.pc1}-primary"
+# Create network interface for domain controller 1
+resource "azurerm_network_interface" "dc1_nic" {
+    name                      = "${var.workstations.dc1}-primary"
     location                  = var.location
     resource_group_name       = azurerm_resource_group.rg.name
     network_security_group_id = azurerm_network_security_group.nsg.id
     tags                      = var.tags
 
     ip_configuration {
-        name                          = "${var.workstations.pc1}-nic-conf"
+        name                          = "${var.workstations.dc1}-nic-conf"
         subnet_id                     = azurerm_subnet.subnet.id
         private_ip_address_allocation = "dynamic"
-        public_ip_address_id          = azurerm_public_ip.pc1_publicip.id
+        public_ip_address_id          = azurerm_public_ip.dc1_publicip.id
     }
-    depends_on = [azurerm_public_ip.pc1_publicip]
+    depends_on = [azurerm_public_ip.dc1_publicip]
 }
 
-# Create a Windows virtual machine for workstation 1
+# Deploy domain controller 1
+resource "azurerm_virtual_machine" "dc1" {
+  name                          = var.workstations.dc1
+  location                      = var.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  network_interface_ids         = ["${azurerm_network_interface.dc1_nic.id}"]
+  vm_size                       = var.workstations.vm_size
+  tags                          = var.tags
+
+  # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
+  # This may not be optimal in all cases.
+  delete_os_disk_on_termination = true
+
+  storage_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2012-R2-Datacenter"
+    version   = "latest"
+  }
+
+  storage_os_disk {
+    name              = "${var.workstations.dc1}-disk1"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+  }
+
+  os_profile {
+    computer_name  = var.workstations.dc1
+    admin_username = var.accounts.dc1_admin_user
+    admin_password = var.accounts.dc1_admin_password
+  }
+
+  os_profile_windows_config {
+    provision_vm_agent        = true
+    enable_automatic_upgrades = false
+
+    additional_unattend_config {
+      pass         = "oobeSystem"
+      component    = "Microsoft-Windows-Shell-Setup"
+      setting_name = "AutoLogon"
+      content      = "<AutoLogon><Password><Value>${var.accounts.dc1_admin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.accounts.dc1_admin_user}</Username></AutoLogon>"
+    }
+  }
+  depends_on = [azurerm_network_interface.dc1_nic]
+}
+
+# Create active directory domain forest
+resource "azurerm_virtual_machine_extension" "create_ad" {
+  name                 = "create_ad"
+  location             = var.location
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_machine_name = azurerm_virtual_machine.dc1.name
+  publisher            = "Microsoft.Compute"
+  type                 = "CustomScriptExtension"
+  type_handler_version = "1.9"
+  tags                 = var.tags
+  settings = <<SETTINGS
+    {
+        "fileUris": ["https://${azurerm_storage_account.storageaccount.name}.blob.core.windows.net/${azurerm_storage_container.blobstorage.name}/create-ad.ps1"],
+        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1"
+    }
+SETTINGS
+  depends_on = [azurerm_virtual_machine.dc1]
+}
+ 
+# Create public IP for workstation 1
+resource "azurerm_public_ip" "pc1_publicip" {
+  name                         = "${var.workstations.pc1}-external"
+  location                     = var.location
+  resource_group_name          = azurerm_resource_group.rg.name
+  allocation_method            = "Dynamic"
+  tags                         = var.tags
+  depends_on                   = [azurerm_virtual_machine_extension.create_ad]
+}
+
+# Create network interface for workstation 1
+resource "azurerm_network_interface" "pc1_nic" {
+  name                      = "${var.workstations.pc1}-primary"
+  location                  = var.location
+  resource_group_name       = azurerm_resource_group.rg.name
+  network_security_group_id = azurerm_network_security_group.nsg.id
+  tags                      = var.tags#
+  ip_configuration {
+      name                          = "${var.workstations.pc1}-nic-conf"
+      subnet_id                     = azurerm_subnet.subnet.id
+      private_ip_address_allocation = "dynamic"
+      public_ip_address_id          = azurerm_public_ip.pc1_publicip.id
+  }
+  depends_on = [azurerm_public_ip.pc1_publicip]
+}
+
+# Create workstation 1
 resource "azurerm_virtual_machine" "pc1" {
   name                  = var.workstations.pc1
   location              = var.location
@@ -179,7 +306,7 @@ resource "azurerm_virtual_machine" "pc1" {
   tags                  = var.tags
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
-  # NOTE: This may not be optimal in all cases.
+  # This may not be optimal in all cases.
   delete_os_disk_on_termination = true
 
   storage_image_reference {
@@ -200,7 +327,6 @@ resource "azurerm_virtual_machine" "pc1" {
     computer_name  = var.workstations.pc1
     admin_username = var.accounts.pc1_admin_user
     admin_password = var.accounts.pc1_admin_password
-    custom_data    = local.pc1_custom_data_content
   }
 
   os_profile_windows_config {
@@ -216,34 +342,8 @@ resource "azurerm_virtual_machine" "pc1" {
   }
   depends_on = [azurerm_network_interface.pc1_nic]
 }
-
-resource "azurerm_storage_account" "storageaccount" {
-  name                     = "${var.prefix}sablobstrg01"
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  depends_on               = [azurerm_log_analytics_solution.la-opf-solution-sentinel]
-}
-
-resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}-cont"
-  storage_account_name  = azurerm_storage_account.storageaccount.name
-  container_access_type = "blob"
-  depends_on            = [azurerm_storage_account.storageaccount]
-}
-
-# create storage blob for install-utilities.ps1 file
-resource "azurerm_storage_blob" "utilsblob" {
-  depends_on             = [azurerm_storage_container.blobstorage]
-  name                   = "install-utilities.ps1"
-  storage_account_name   = azurerm_storage_account.storageaccount.name
-  storage_container_name = azurerm_storage_container.blobstorage.name
-  type                   = "block"
-  source                 =  "./files/install-utilities.ps1"
-}
-
-# install utilities on pc1
+ 
+# Install utilities on workstation 1 and join domain
 resource "azurerm_virtual_machine_extension" "utils_pc1" {
   name                 = "utils_pc1"
   location             = var.location
