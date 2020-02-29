@@ -22,7 +22,7 @@
             "description": "Selects the time range for the drilldown",
             "isRequired": true,
             "value": {
-              "durationMs": 3600000
+              "durationMs": 2592000000
             },
             "typeSettings": {
               "selectableValues": [
@@ -88,6 +88,10 @@
             "typeSettings": {
               "additionalResourceOptions": []
             },
+            "timeContext": {
+              "durationMs": 0
+            },
+            "timeContextFromParameter": "time_range",
             "queryType": 0,
             "resourceType": "microsoft.operationalinsights/workspaces"
           }
@@ -102,7 +106,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| summarize count() by technique_name, TimeGenerated",
+        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 0,
         "title": "Activity by technique",
         "timeContext": {
@@ -122,7 +126,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where EventID == 1\r\n| where isnotempty(technique_name)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "query": "let host_whitelist = process_create_whitelist | project host;\r\nlet user_whitelist = process_create_whitelist | project user;\r\nlet process_ppath_whitelist = process_create_whitelist | project process_parent_path;\r\nlet process_path_whitelist = process_create_whitelist | project process_path;\r\nlet command_line_whitelist = process_create_whitelist | project replace(\"'\", \"\", replace('\"', '', process_command_line));\r\nlet hash_whitelist = process_create_whitelist | project hash_sha256;\r\nSysmon\r\n| where Computer contains \"{host}\"\r\n| where EventID == 1\r\n| where isnotempty(technique_name)\r\n| where (Computer !in~ (host_whitelist)) or (user_name !in~ (user_whitelist)) or (process_parent_path !in~ (process_ppath_whitelist)) or (process_path !in~ (process_path_whitelist)) or (replace('\"', '', tostring(process_command_line)) !in (command_line_whitelist)) or (hash_sha256 !in~ (hash_whitelist))\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, user_name, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process create",
