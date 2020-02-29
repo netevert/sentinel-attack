@@ -149,9 +149,9 @@ resource "azurerm_storage_account" "storageaccount" {
   depends_on               = [azurerm_subnet.subnet]
 }
 
-# Create blob storage container
+# Create blob storage container for post configuration files
 resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}-cont"
+  name                  = "${var.prefix}-store1"
   storage_account_name  = azurerm_storage_account.storageaccount.name
   container_access_type = "blob"
   depends_on            = [azurerm_storage_account.storageaccount]
@@ -169,12 +169,50 @@ resource "azurerm_storage_blob" "utilsblob" {
 
 # Create storage blob for create-ad.ps1 file
 resource "azurerm_storage_blob" "adblob" {
-  depends_on             = [azurerm_storage_container.blobstorage]
+  depends_on             = [azurerm_storage_blob.utilsblob]
   name                   = "create-ad.ps1"
   storage_account_name   = azurerm_storage_account.storageaccount.name
   storage_container_name = azurerm_storage_container.blobstorage.name
   type                   = "block"
   source                 =  "./files/create-ad.ps1"
+}
+
+# Create blob storage container for whitelisting files
+resource "azurerm_storage_container" "whiteliststorage" {
+  name                  = "${var.prefix}-store2"
+  storage_account_name  = azurerm_storage_account.storageaccount.name
+  container_access_type = "private"
+  depends_on            = [azurerm_storage_blob.adblob]
+}
+
+# Create storage blob for process create whitelist file
+resource "azurerm_storage_blob" "pcwhitelist" {
+  depends_on             = [azurerm_storage_container.whiteliststorage]
+  name                   = "process_create_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/process_create_whitelist.csv"
+}
+
+# Create storage blob for dns whitelist file
+resource "azurerm_storage_blob" "dnswhitelist" {
+  depends_on             = [azurerm_storage_blob.pcwhitelist]
+  name                   = "dns_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/dns_whitelist.csv"
+}
+
+# Create storage blob for file access whitelist file
+resource "azurerm_storage_blob" "fawhitelist" {
+  depends_on             = [azurerm_storage_blob.dnswhitelist]
+  name                   = "file_access_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/file_access_whitelist.csv"
 }
 
 # Create public ip for domain controller 1
@@ -184,7 +222,7 @@ resource "azurerm_public_ip" "dc1_publicip" {
     resource_group_name          = azurerm_resource_group.rg.name
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_storage_blob.utilsblob]
+    depends_on                   = [azurerm_storage_blob.fawhitelist]
 }
 
 # Create network interface for domain controller 1
@@ -360,4 +398,35 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
     }
 SETTINGS
   depends_on = [azurerm_storage_blob.utilsblob]
+}
+
+# Retrieve whitelist storage account SAS token
+data "azurerm_storage_account_blob_container_sas" "whitelistsas" {
+  depends_on        = [azurerm_storage_container.whiteliststorage]
+  connection_string = azurerm_storage_account.storageaccount.primary_connection_string
+  container_name    = azurerm_storage_container.whiteliststorage.name
+  https_only        = true
+
+  start  = "2020-02-29"
+  expiry = "2020-03-29"
+
+  permissions {
+    read   = true
+    add    = false
+    create = false
+    write  = false
+    delete = false
+    list   = false
+  }
+
+  cache_control       = "max-age=5"
+  content_disposition = "inline"
+  content_encoding    = "deflate"
+  content_language    = "en-US"
+  content_type        = "application/json"
+}
+
+# Output whitelist storage account SAS token
+output "sas_url_query_string" {
+  value = data.azurerm_storage_account_blob_container_sas.whitelistsas.sas
 }
