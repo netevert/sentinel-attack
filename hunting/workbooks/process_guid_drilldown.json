@@ -82,7 +82,7 @@
             "type": 2,
             "isRequired": true,
             "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| summarize count() by tostring(process_guid)\r\n| project process_guid",
-            "value": "{2dbf40f2-af92-5e4d-0000-001070750101}",
+            "value": "{2dbf40f2-adb2-5e4d-0000-00102797ff00}",
             "typeSettings": {
               "additionalResourceOptions": []
             },
@@ -1453,7 +1453,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 22\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, Computer",
+        "query": "let host_whitelist = dns_whitelist\r\n| project host;\r\nlet process_whitelist = dns_whitelist\r\n| project process_path;\r\nlet query_whitelist = dns_whitelist\r\n| project query_name;\r\nSysmon\r\n| where isnotempty(process_guid)\r\n| where process_guid == \"{process_guid_selection}\"\r\n| where EventID == 22\r\n| where Computer !in~ (host_whitelist) or process_path !in~ (process_whitelist) or dns_query_name !in~ (query_whitelist)\r\n| project TimeGenerated, dns_query_name, dns_query_status, dns_query_results, process_path, Computer",
         "size": 0,
         "showAnalytics": true,
         "title": "DNS requests",
