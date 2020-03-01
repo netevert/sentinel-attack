@@ -256,6 +256,16 @@ resource "azurerm_storage_blob" "pipewhitelist" {
   source                 =  "./files/pipe_whitelist.csv"
 }
 
+# Create storage blob for process access whitelist file
+resource "azurerm_storage_blob" "pawhitelist" {
+  depends_on             = [azurerm_storage_blob.pipewhitelist]
+  name                   = "process_access_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/process_access_whitelist.csv"
+}
+
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
     name                         = "${var.workstations.dc1}-external"
