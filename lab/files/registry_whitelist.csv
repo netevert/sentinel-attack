@@ -1,2 +1,2 @@
-host,event_type,process_path,registry_key_path,registry_key_details,reason
-,,,,,
+host,event_type,process_path,registry_key_path,reason
+,,,,
