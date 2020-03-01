@@ -217,12 +217,23 @@ resource "azurerm_storage_blob" "fawhitelist" {
 
 # Create storage blob for file create whitelist file
 resource "azurerm_storage_blob" "fcwhitelist" {
-  depends_on             = [azurerm_storage_blob.dnswhitelist]
+  depends_on             = [azurerm_storage_blob.fawhitelist]
   name                   = "file_create_whitelist.csv"
   storage_account_name   = azurerm_storage_account.storageaccount.name
   storage_container_name = azurerm_storage_container.whiteliststorage.name
   type                   = "block"
   source                 =  "./files/file_create_whitelist.csv"
+}
+
+
+# Create storage blob for image load whitelist file
+resource "azurerm_storage_blob" "ilwhitelist" {
+  depends_on             = [azurerm_storage_blob.fcwhitelist]
+  name                   = "image_load_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/image_load_whitelist.csv"
 }
 
 # Create public ip for domain controller 1
@@ -232,7 +243,7 @@ resource "azurerm_public_ip" "dc1_publicip" {
     resource_group_name          = azurerm_resource_group.rg.name
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_storage_blob.fcwhitelist]
+    depends_on                   = [azurerm_storage_blob.ilwhitelist]
 }
 
 # Create network interface for domain controller 1
