@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "## Pipe name drilldown workbook\n---\n**Note:** With the exception of the \"Raw events\" table all data in this workbook excludes whitelisted network connection activity."
+        "json": "## Pipe name drilldown workbook\n---\n**Note:** With the exception of the \"Raw events\" table all data in this workbook excludes whitelisted pipe created and connected events."
       },
       "name": "text - 2"
     },

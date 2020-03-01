@@ -425,6 +425,13 @@
       "styleSettings": {
         "progressStyle": "loader"
       }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "---\r\nNetwork connection drilldown v.1.3.0, built by **Edoardo Gerosa**"
+      },
+      "name": "text - 7"
     }
   ],
   "fromTemplateId": "sentinel-UserWorkbook",
