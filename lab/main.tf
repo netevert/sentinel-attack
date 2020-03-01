@@ -246,6 +246,16 @@ resource "azurerm_storage_blob" "netwhitelist" {
   source                 =  "./files/network_whitelist.csv"
 }
 
+# Create storage blob for pipe whitelist file
+resource "azurerm_storage_blob" "pipewhitelist" {
+  depends_on             = [azurerm_storage_blob.netwhitelist]
+  name                   = "pipe_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/pipe_whitelist.csv"
+}
+
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
     name                         = "${var.workstations.dc1}-external"
