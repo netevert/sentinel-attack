@@ -276,6 +276,16 @@ resource "azurerm_storage_blob" "regwhitelist" {
   source                 =  "./files/registry_whitelist.csv"
 }
 
+# Create storage blob for remote thread whitelist file
+resource "azurerm_storage_blob" "rtwhitelist" {
+  depends_on             = [azurerm_storage_blob.pawhitelist]
+  name                   = "remote_thread_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/remote_thread_whitelist.csv"
+}
+
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
     name                         = "${var.workstations.dc1}-external"
@@ -283,7 +293,7 @@ resource "azurerm_public_ip" "dc1_publicip" {
     resource_group_name          = azurerm_resource_group.rg.name
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_storage_blob.regwhitelist]
+    depends_on                   = [azurerm_storage_blob.rtwhitelist]
 }
 
 # Create network interface for domain controller 1
