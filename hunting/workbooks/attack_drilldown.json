@@ -169,7 +169,7 @@
             "delimiter": ",",
             "query": "Sysmon\r\n| summarize by Computer",
             "value": [
-              "pc-bishop"
+              "pc-archer"
             ],
             "typeSettings": {
               "additionalResourceOptions": [
@@ -1284,7 +1284,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon \r\n| where EventID == 22\r\n| where isnotempty(technique_name)\r\n| where phase_name in ({tactic})\r\n| where technique_name in ({technique})\r\n| where technique_id in ({technique_id_value})\r\n| where Computer !in ({excluded_host})\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, dns_query_name, dns_query_status, dns_query_results, process_guid",
+        "query": "let host_whitelist = dns_whitelist | project host;\r\nlet process_whitelist = dns_whitelist | project process_path;\r\nlet query_whitelist = dns_whitelist | project query_name;\r\nSysmon \r\n| where EventID == 22\r\n| where isnotempty(technique_name)\r\n| where phase_name in ({tactic})\r\n| where technique_name in ({technique})\r\n| where technique_id in ({technique_id_value})\r\n| where Computer !in ({excluded_host})\r\n| where Computer !in~ (host_whitelist) or process_path !in~ (process_whitelist) or dns_query_name !in~ (query_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, dns_query_name, dns_query_status, dns_query_results, process_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "DNS",
