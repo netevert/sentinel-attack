@@ -106,7 +106,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+        "query": "let process_path_create_whitelist = process_create_whitelist | project process_path;\r\nlet process_path_access_whitelist = process_access_whitelist | project process_path;\r\nlet process_path_dns_whitelist = dns_whitelist | project process_path;\r\nlet process_path_file_create_whitelist = file_create_whitelist | project process_path;\r\nlet process_path_image_load_whitelist = image_load_whitelist | project process_path;\r\nlet process_path_network_whitelist = network_whitelist | project process_path;\r\nlet process_path_pipe_whitelist = pipe_whitelist | project process_path;\r\nlet process_path_registry_whitelist = registry_whitelist | project process_path;\r\nSysmon\r\n| where Computer contains \"{host}\"\r\n| where isnotempty(technique_name)\r\n| where process_path !in~ (process_path_create_whitelist) and process_path !in~ (process_path_access_whitelist) and process_path !in~ (process_path_dns_whitelist) and process_path !in~ (process_path_file_create_whitelist) and process_path !in~ (process_path_image_load_whitelist) and process_path !in~ (process_path_network_whitelist) and process_path !in~ (process_path_pipe_whitelist) and process_path !in~ (process_path_registry_whitelist)\r\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 0,
         "title": "Activity by technique",
         "timeContext": {
@@ -1240,7 +1240,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "let host_whitelist = dns_whitelist | project host;\r\nlet process_whitelist = dns_whitelist | project process_path;\r\nlet query_whitelist = dns_whitelist | project query_name;\r\nSysmon\r\n| where Computer contains \"{host}\"\r\n| where EventID == 22\r\n| where isnotempty(technique_name)\r\n| where Computer !in~ (host_whitelist) or process_path !in~ (process_whitelist) or dns_query_name !in~ (query_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, dns_query_name, dns_query_status, dns_query_results, process_guid",
+        "query": "let host_whitelist = dns_whitelist | project host;\r\nlet process_whitelist = dns_whitelist | project process_path;\r\nlet query_whitelist = dns_whitelist | project query_name;\r\nSysmon\r\n| where Computer contains \"{host}\"\r\n| where EventID == 22\r\n| where isnotempty(technique_name)\r\n| where process_path !in~ (process_whitelist) and dns_query_name !in~ (query_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, dns_query_name, dns_query_status, dns_query_results, process_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "DNS queries (not whitelisted)",
@@ -1471,6 +1471,13 @@
       "styleSettings": {
         "progressStyle": "loader"
       }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "---\r\nComputer drilldown v.1.3.0, built by **Edoardo Gerosa**"
+      },
+      "name": "text - 12"
     }
   ],
   "fromTemplateId": "sentinel-UserWorkbook",

@@ -1422,6 +1422,13 @@
         }
       },
       "name": "dns-query"
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "---\r\nMITRE ATT&CK drilldown v.1.3.0, built by **Edoardo Gerosa**"
+      },
+      "name": "text - 10"
     }
   ],
   "fromTemplateId": "sentinel-UserWorkbook",
