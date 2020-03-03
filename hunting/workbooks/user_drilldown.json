@@ -4,7 +4,7 @@
     {
       "type": 1,
       "content": {
-        "json": "## User drilldown workbook\n---\n"
+        "json": "## User drilldown workbook\n---\n**Note:** All data in this workbook excludes whitelisted events."
       },
       "name": "text - 2"
     },
@@ -22,7 +22,7 @@
             "description": "Selects time range of the drilldown",
             "isRequired": true,
             "value": {
-              "durationMs": 2419200000
+              "durationMs": 172800000
             },
             "typeSettings": {
               "selectableValues": [
@@ -105,7 +105,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\n| where UserName contains @\"{user_name_value}\"\n| where isnotempty(technique_name)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
+        "query": "let process_path_create_whitelist = process_create_whitelist | project process_path;\nlet process_path_access_whitelist = process_access_whitelist | project process_path;\nlet process_path_dns_whitelist = dns_whitelist | project process_path;\nlet process_path_file_create_whitelist = file_create_whitelist | project process_path;\nlet process_path_image_load_whitelist = image_load_whitelist | project process_path;\nlet process_path_network_whitelist = network_whitelist | project process_path;\nlet process_path_pipe_whitelist = pipe_whitelist | project process_path;\nlet process_path_registry_whitelist = registry_whitelist | project process_path;\nSysmon\n| where UserName contains @\"{user_name_value}\"\n| where isnotempty(technique_name)\n| where process_path !in~ (process_path_create_whitelist) and process_path !in~ (process_path_access_whitelist) and process_path !in~ (process_path_dns_whitelist) and process_path !in~ (process_path_file_create_whitelist) and process_path !in~ (process_path_image_load_whitelist) and process_path !in~ (process_path_network_whitelist) and process_path !in~ (process_path_pipe_whitelist) and process_path !in~ (process_path_registry_whitelist)\n| summarize count() by technique_name, bin(TimeGenerated, 1h)",
         "size": 1,
         "showAnalytics": true,
         "title": "User activity by technique",
@@ -127,7 +127,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where isnotempty(technique_name)\r\n| summarize c=count() by Computer, UserName\r\n| sort by c desc\r\n| project Computer, UserName, c",
+        "query": "let process_path_create_whitelist = process_create_whitelist | project process_path;\r\nlet process_path_access_whitelist = process_access_whitelist | project process_path;\r\nlet process_path_dns_whitelist = dns_whitelist | project process_path;\r\nlet process_path_file_create_whitelist = file_create_whitelist | project process_path;\r\nlet process_path_image_load_whitelist = image_load_whitelist | project process_path;\r\nlet process_path_network_whitelist = network_whitelist | project process_path;\r\nlet process_path_pipe_whitelist = pipe_whitelist | project process_path;\r\nlet process_path_registry_whitelist = registry_whitelist | project process_path;\r\nSysmon\r\n| where isnotempty(technique_name)\r\n| where process_path !in~ (process_path_create_whitelist) and process_path !in~ (process_path_access_whitelist) and process_path !in~ (process_path_dns_whitelist) and process_path !in~ (process_path_file_create_whitelist) and process_path !in~ (process_path_image_load_whitelist) and process_path !in~ (process_path_network_whitelist) and process_path !in~ (process_path_pipe_whitelist) and process_path !in~ (process_path_registry_whitelist)\r\n| summarize c=count() by Computer, UserName\r\n| sort by c desc\r\n| project Computer, UserName, c",
         "size": 0,
         "showAnalytics": true,
         "title": "User activity by host",
@@ -623,7 +623,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where RenderedDescription contains \"Process create\" and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
+        "query": "let process_ppath_whitelist = process_create_whitelist | project process_parent_path;\r\nlet process_path_whitelist = process_create_whitelist | project process_path;\r\nlet command_line_whitelist = process_create_whitelist | project replace(\"'\", \"\", replace('\"', '', process_command_line));\r\nlet hash_whitelist = process_create_whitelist | project hash_sha256;\r\nSysmon\r\n| where RenderedDescription contains \"Process create\" and UserName == @\"{user_name_value}\"\r\n| where process_parent_path !in~ (process_ppath_whitelist) and process_path !in~ (process_path_whitelist) and replace('\"', '', tostring(process_command_line)) !in~ (command_line_whitelist) and hash_sha256 !in~ (hash_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_parent_path, process_path, file_name, process_parent_command_line, process_command_line, process_parent_guid, process_guid, hash_sha256, process_id, process_parent_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Create",
@@ -827,7 +827,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where RenderedDescription contains \"Process access\" and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
+        "query": "let process_path_whitelist = process_access_whitelist | project process_path;\r\nlet target_process_path_whitelist = process_access_whitelist | project target_process_path;\r\nlet process_granted_access_whitelist = process_access_whitelist | project process_granted_access;\r\nSysmon\r\n| where RenderedDescription contains \"Process access\" and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path_whitelist) and target_process_path !in~ (target_process_path_whitelist) and process_granted_access !in~ (process_granted_access_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, target_process_path, process_granted_access, target_process_guid, process_id, target_process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Process Access",
@@ -976,7 +976,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where RenderedDescription contains \"File create\" and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
+        "query": "let file_name_whitelist = file_create_whitelist | project file_name;\r\nlet file_path_whitelist = file_create_whitelist | project file_path;\r\nlet proc_path_whitelist = file_create_whitelist | project process_path;\r\nSysmon\r\n| where RenderedDescription contains \"File create\" and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (proc_path_whitelist) and file_name !in~ (file_name_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, file_name, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "File Created",
@@ -1103,7 +1103,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where RenderedDescription contains \"Image loaded\" and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
+        "query": "let process_path__whitelist = image_load_whitelist | project process_path;\r\nlet driver_loaded_whitelist = image_load_whitelist | project driver_loaded;\r\nlet driver_signed_whitelist = image_load_whitelist | project driver_is_signed;\r\nlet drv_signature_whitelist = image_load_whitelist | project driver_signature;\r\nlet signat_status_whitelist = image_load_whitelist | project driver_signature_status;\r\nSysmon\r\n| where RenderedDescription contains \"Image loaded\" and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path__whitelist) and module_loaded !in~ (driver_loaded_whitelist) and module_is_signed !in~ (driver_signed_whitelist) and module_signature !in~ (drv_signature_whitelist) and module_signature_status !in~ (signat_status_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_path, module_loaded, module_is_signed, module_signature, module_signature_status, process_id, process_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "Image Loaded",
@@ -1274,7 +1274,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where RenderedDescription contains \"Network connect\" and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
+        "query": "let process_path_whitelist = network_whitelist | project process_path;\r\nlet src_ip_whitelist = network_whitelist | project src_ip;\r\nlet dst_ip_whitelist = network_whitelist | project dst_ip;\r\nlet dst_port_whitelist = network_whitelist | project dst_port;\r\nSysmon\r\n| where RenderedDescription contains \"Network connect\" and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path_whitelist) and src_ip !in~ (src_ip_whitelist) and dst_ip !in~ (dst_ip_whitelist) and dst_port !in~ (dst_port_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, UserName, process_path, process_id, process_guid, src_ip, dst_ip, dst_port, src_host_name, dst_host_name",
         "size": 0,
         "showAnalytics": true,
         "title": "Network Connection",
@@ -1455,10 +1455,11 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 8 and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
+        "query": "let process_path_whitelist = remote_thread_whitelist | project process_path;\r\nlet target_process_path_whitelist = remote_thread_whitelist | project target_process_path;\r\nSysmon\r\n| where EventID == 8 and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path_whitelist) and target_process_path !in~ (target_process_path_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, target_process_path, thread_new_id, process_guid, process_parent_guid",
         "size": 0,
         "showAnalytics": true,
         "title": "Create Remote Thread",
+        "noDataMessage": "No create remote thread events for selected time generated",
         "timeContext": {
           "durationMs": 0
         },
@@ -1476,7 +1477,7 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 12 and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
+        "query": "let event_type_whitelist = registry_whitelist | project event_type;\r\nlet process_path_whitelist = registry_whitelist | project process_path;\r\nlet registry_key_path_whitelist = registry_whitelist | project registry_key_path;\r\nSysmon\r\n| where EventID == 12 and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path_whitelist) and EventType !in~ (event_type_whitelist) and registry_key_path !in~ (registry_key_path_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, process_path, process_id, process_guid, registry_key_path",
         "size": 0,
         "showAnalytics": true,
         "title": "Registry Access",
@@ -1603,10 +1604,11 @@
       "type": 3,
       "content": {
         "version": "KqlItem/1.0",
-        "query": "Sysmon\r\n| where EventID == 17 and EventID==18 and UserName == @\"{user_name_value}\"\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
+        "query": "let process_path_whitelist = pipe_whitelist | project process_path;\r\nlet pipe_name_whitelist = pipe_whitelist | project pipe_name;\r\nSysmon\r\n| where (EventID == 17 or EventID==18) and UserName == @\"{user_name_value}\"\r\n| where process_path !in~ (process_path_whitelist) and pipe_name !in~ (pipe_name_whitelist)\r\n| project TimeGenerated, technique_id, technique_name, phase_name, Computer, pipe_name, process_path, process_guid, process_id",
         "size": 0,
         "showAnalytics": true,
         "title": "Pipes",
+        "noDataMessage": "No pipe create and connect events for selected time and user",
         "timeContext": {
           "durationMs": 0
         },
@@ -1619,6 +1621,13 @@
       "styleSettings": {
         "progressStyle": "loader"
       }
+    },
+    {
+      "type": 1,
+      "content": {
+        "json": "---\r\nUser drilldown v.1.3.0, built by **Edoardo Gerosa**"
+      },
+      "name": "text - 26"
     }
   ],
   "fromTemplateId": "sentinel-UserWorkbook",

@@ -149,9 +149,9 @@ resource "azurerm_storage_account" "storageaccount" {
   depends_on               = [azurerm_subnet.subnet]
 }
 
-# Create blob storage container
+# Create blob storage container for post configuration files
 resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}-cont"
+  name                  = "${var.prefix}-store1"
   storage_account_name  = azurerm_storage_account.storageaccount.name
   container_access_type = "blob"
   depends_on            = [azurerm_storage_account.storageaccount]
@@ -169,12 +169,121 @@ resource "azurerm_storage_blob" "utilsblob" {
 
 # Create storage blob for create-ad.ps1 file
 resource "azurerm_storage_blob" "adblob" {
-  depends_on             = [azurerm_storage_container.blobstorage]
+  depends_on             = [azurerm_storage_blob.utilsblob]
   name                   = "create-ad.ps1"
   storage_account_name   = azurerm_storage_account.storageaccount.name
   storage_container_name = azurerm_storage_container.blobstorage.name
   type                   = "block"
   source                 =  "./files/create-ad.ps1"
+}
+
+# Create blob storage container for whitelisting files
+resource "azurerm_storage_container" "whiteliststorage" {
+  name                  = "${var.prefix}-store2"
+  storage_account_name  = azurerm_storage_account.storageaccount.name
+  container_access_type = "private"
+  depends_on            = [azurerm_storage_blob.adblob]
+}
+
+# Create storage blob for process create whitelist file
+resource "azurerm_storage_blob" "pcwhitelist" {
+  depends_on             = [azurerm_storage_container.whiteliststorage]
+  name                   = "process_create_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/process_create_whitelist.csv"
+}
+
+# Create storage blob for dns whitelist file
+resource "azurerm_storage_blob" "dnswhitelist" {
+  depends_on             = [azurerm_storage_blob.pcwhitelist]
+  name                   = "dns_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/dns_whitelist.csv"
+}
+
+# Create storage blob for file access whitelist file
+resource "azurerm_storage_blob" "fawhitelist" {
+  depends_on             = [azurerm_storage_blob.dnswhitelist]
+  name                   = "file_access_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/file_access_whitelist.csv"
+}
+
+# Create storage blob for file create whitelist file
+resource "azurerm_storage_blob" "fcwhitelist" {
+  depends_on             = [azurerm_storage_blob.fawhitelist]
+  name                   = "file_create_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/file_create_whitelist.csv"
+}
+
+
+# Create storage blob for image load whitelist file
+resource "azurerm_storage_blob" "ilwhitelist" {
+  depends_on             = [azurerm_storage_blob.fcwhitelist]
+  name                   = "image_load_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/image_load_whitelist.csv"
+}
+
+# Create storage blob for network whitelist file
+resource "azurerm_storage_blob" "netwhitelist" {
+  depends_on             = [azurerm_storage_blob.ilwhitelist]
+  name                   = "network_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/network_whitelist.csv"
+}
+
+# Create storage blob for pipe whitelist file
+resource "azurerm_storage_blob" "pipewhitelist" {
+  depends_on             = [azurerm_storage_blob.netwhitelist]
+  name                   = "pipe_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/pipe_whitelist.csv"
+}
+
+# Create storage blob for process access whitelist file
+resource "azurerm_storage_blob" "pawhitelist" {
+  depends_on             = [azurerm_storage_blob.pipewhitelist]
+  name                   = "process_access_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/process_access_whitelist.csv"
+}
+
+# Create storage blob for registry whitelist file
+resource "azurerm_storage_blob" "regwhitelist" {
+  depends_on             = [azurerm_storage_blob.pawhitelist]
+  name                   = "registry_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/registry_whitelist.csv"
+}
+
+# Create storage blob for remote thread whitelist file
+resource "azurerm_storage_blob" "rtwhitelist" {
+  depends_on             = [azurerm_storage_blob.pawhitelist]
+  name                   = "remote_thread_whitelist.csv"
+  storage_account_name   = azurerm_storage_account.storageaccount.name
+  storage_container_name = azurerm_storage_container.whiteliststorage.name
+  type                   = "block"
+  source                 =  "./files/remote_thread_whitelist.csv"
 }
 
 # Create public ip for domain controller 1
@@ -184,7 +293,7 @@ resource "azurerm_public_ip" "dc1_publicip" {
     resource_group_name          = azurerm_resource_group.rg.name
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_storage_blob.utilsblob]
+    depends_on                   = [azurerm_storage_blob.rtwhitelist]
 }
 
 # Create network interface for domain controller 1
