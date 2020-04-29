@@ -9,6 +9,10 @@ variable "authentication" {
   }
 }
 
+variable "workspace" {
+    type = "map"
+}
+
 variable "location" {}
 
 variable "accounts" {
