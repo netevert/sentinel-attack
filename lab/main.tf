@@ -16,7 +16,7 @@ resource "azurerm_resource_group" "rg" {
 
 # Create underlying log analytics workspace for sentinel
 resource "azurerm_log_analytics_workspace" "rgcore-management-la" {
-  name                = "la-example-utv-weu"
+  name                = var.workspace.name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   sku                 = "PerGB2018"
