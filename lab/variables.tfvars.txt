@@ -34,3 +34,8 @@ workstations = {
     pc1             = ""            # eg. pc-test
     dc1             = ""
 }
+
+
+workspace = {
+    name = ""     # eg. mitresentinel-test
+}
