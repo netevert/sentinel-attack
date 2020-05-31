@@ -1,0 +1,1 @@
+externaldata(host:string, event_type:string, process_path:string, registry_key_path:string, registry_key_details:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

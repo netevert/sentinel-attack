@@ -1,0 +1,1 @@
+externaldata(host:string, process_path:string, query_name:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

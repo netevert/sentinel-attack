@@ -1,0 +1,1 @@
+externaldata(technique_id:string, host:string, process_path:string, file_path:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

@@ -1,1 +1,0 @@
-externaldata (host:string, file_name:string, file_path:string, process_path:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

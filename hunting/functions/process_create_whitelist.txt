@@ -1,0 +1,1 @@
+externaldata(host:string, user:string, process_parent_path:string, process_path:string, process_command_line:string, hash_sha256:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

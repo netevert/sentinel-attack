@@ -1,1 +1,0 @@
-externaldata (host:string, process_path:string, driver_loaded:string, driver_is_signed:string, driver_signature:string, driver_signature_status:string, reason:string) [h"{your_sas_token}"] with (ignoreFirstRecord=true)

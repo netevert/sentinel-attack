@@ -53,7 +53,7 @@
         <OriginalFileName name="technique_id=T1087,technique_name=Account Discovery,phase_name=Discovery" condition="is">klist.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1070,technique_name=Indicator Removal on Host,phase_name=Defense Evasion" condition="is">wevtutil.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="is">taskeng.exe</OriginalFileName>
-        <OriginalFileName name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="is">regsvr32.exe</OriginalFileName>
+        <OriginalFileName name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion" condition="is">regsvr32.exe</OriginalFileName>
         <ParentImage name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="image">wmiprvse.exe</ParentImage>
         <OriginalFileName name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="is">wmiprvse.exe</OriginalFileName>
         <OriginalFileName condition="is">hh.exe</OriginalFileName>
