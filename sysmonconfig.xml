@@ -214,7 +214,7 @@
         <Image condition="image">klist.exe</Image>
         <Image name="technique_id=T1070,technique_name=Indicator Removal on Host,phase_name=Defense Evasion" condition="image">wevtutil.exe</Image>
         <Image name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="image">taskeng.exe</Image>
-        <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="image">regsvr32.exe</Image>
+        <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion" condition="image">regsvr32.exe</Image>
         <Image condition="image">hh.exe</Image>
         <Image name="technique_id=T1059,technique_name=Command-Line Interface,phase_name=Execution" condition="image">cmd.exe</Image>
         <Image name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="image">powershell.exe</Image>
@@ -245,8 +245,8 @@
         <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">notepad.exe</Image>
         <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">powershell.exe</Image>
         <Image name="technique_id=T1012,technique_name=Query Registry,phase_name=Discovery" condition="image">reg.exe</Image>
-        <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution" condition="image">regsvr32.exe</Image>
-        <Image name="technique_id=T1085,technique_name=Rundll32,phase_name=Defense Evasion, Execution" condition="image">rundll32.exe</Image>
+        <Image name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion" condition="image">regsvr32.exe</Image>
+        <Image name="technique_id=T1085,technique_name=Rundll32,phase_name=Defense Evasion" condition="image">rundll32.exe</Image>
         <Image name="technique_id=T1031,technique_name=Modify Existing Service,phase_name=Persistence" condition="image">sc.exe</Image>
         <Image name="technique_id=T1047,technique_name=Windows Management Instrumentation,phase_name=Execution" condition="image">wmic.exe</Image>
         <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">wscript.exe</Image>
@@ -337,7 +337,7 @@
         <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.ni.dll</ImageLoaded>
         <ImageLoaded name="technique_id=T1086,technique_name=PowerShell,phase_name=Execution" condition="end with">system.management.automation.dll</ImageLoaded>
         <ImageLoaded name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="end with">taskschd.dll</ImageLoaded>
-        <ImageLoaded name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion, Execution,phase_name=Execution" condition="end with">scrobj.dll</ImageLoaded>
+        <ImageLoaded name="technique_id=T1117,technique_name=Regsvr32,phase_name=Defense Evasion" condition="end with">scrobj.dll</ImageLoaded>
         <ImageLoaded name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion" condition="contains any">admin$;c$;\\;\appdata\;\temp\</ImageLoaded>
         <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">c:\programdata\</ImageLoaded>
         <ImageLoaded condition="begin with" name="technique_id=T1073,technique_name=DLL Side-Loading,phase_name=Defense Evasion">C:\Windows\Media\</ImageLoaded>
