@@ -78,7 +78,7 @@
         <OriginalFileName name="technique_id=T1016,technique_name=System Network Configuration Discovery,phase_name=Discovery" condition="contains any">nbtstat.exe;nbtinfo.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="is">qwinsta.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="is">rwinsta.exe</OriginalFileName>
-        <OriginalFileName name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Executions" condition="contains any">schtasks.exe;sctasks.exe</OriginalFileName>
+        <OriginalFileName name="technique_id=T1053,technique_name=Scheduled Task,phase_name=Execution" condition="contains any">schtasks.exe;sctasks.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="is">replace.exe</OriginalFileName>
         <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">jjs.exe</Image>
         <Image name="technique_id=T1218,technique_name=Signed Binary Proxy Execution,phase_name=Execution" condition="image">appcmd.exe</Image>
