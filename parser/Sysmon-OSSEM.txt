@@ -147,7 +147,7 @@ process_id = EventDetail.[4].["#text"],process_path = EventDetail.[5].["#text"],
 ;
 processEvents;
 };
-let SysmonEvent13__RegistrySetValue=() {
+let SysmonEvent13_RegistrySetValue=() {
 let processEvents = EventData
 | where EventID == 13
 | extend rule_name = EventDetail.[0].["#text"], EventType = EventDetail.[1].["#text"], event_creation_time = EventDetail.[2].["#text"], process_guid = EventDetail.[3].["#text"],

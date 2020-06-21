@@ -5,7 +5,9 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2020.svg?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/#talks?olafedoardo)
+<!--
 [![](https://img.shields.io/badge/Azure%20Sentinel%20workbooks%20gallery-grey?style=flat-square&logo=microsoft-azure)](https://github.com/Azure/Azure-Sentinel/blob/master/Workbooks/SysmonThreatHunting.json)
+-->
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and [MITRE ATT&CK](https://attack.mitre.org/) on Azure Sentinel.
 
