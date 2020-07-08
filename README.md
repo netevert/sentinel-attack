@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/BlueTeamLabs/sentinel-attack.svg?style=flat-square)](https://github.com/BlueTeamLabs/sentinel-attack/releases)
 [![Maintenance](https://img.shields.io/maintenance/yes/2020.svg?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-[![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://cloud-village.org/#talks?olafedoardo)
+[![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://2019.cloud-village.org/#talks?olafedoardo)
 <!--
 [![](https://img.shields.io/badge/Azure%20Sentinel%20workbooks%20gallery-grey?style=flat-square&logo=microsoft-azure)](https://github.com/Azure/Azure-Sentinel/blob/master/Workbooks/SysmonThreatHunting.json)
 -->
@@ -27,7 +27,7 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 ### Usage
 Head over to the [WIKI](https://github.com/BlueTeamLabs/sentinel-attack/wiki) to learn how to deploy and run Sentinel ATT&CK.
 
-A copy of the DEF CON 27 cloud village presentation introducing Sentinel ATT&CK can be found [here](https://cloud-village.org/#talks?olafedoardo) and [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
+A copy of the DEF CON 27 cloud village presentation introducing Sentinel ATT&CK can be found [here](https://2019.cloud-village.org/#talks?olafedoardo) and [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
 
 ### Contributing
 As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or submissions on the issue tracker.
