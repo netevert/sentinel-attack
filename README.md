@@ -6,9 +6,9 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://2019.cloud-village.org/#talks?olafedoardo)
 <!--
-[![](https://img.shields.io/badge/Azure%20Sentinel%20workbooks%20gallery-grey?style=flat-square&logo=microsoft-azure)](https://github.com/Azure/Azure-Sentinel/blob/master/Workbooks/SysmonThreatHunting.json)
+[![](https://img.shields.io/badge/Official%20Azure%20Sentinel%20workbook-grey?style=flat-square&logo=microsoft-azure)](https://github.com/Azure/Azure-Sentinel/blob/master/Workbooks/SysmonThreatHunting.json)
 -->
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FBlueTeamLabs%2Fsentinel-attack%2Fdev%2Fv.1.4.2%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FBlueTeamLabs%2Fsentinel-attack%2Fmaster%2Fazuredeploy.json)
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and [MITRE ATT&CK](https://attack.mitre.org/) on Azure Sentinel.
 
@@ -17,7 +17,8 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
  ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/demo.gif)
 
 ### Overview
- Sentinel ATT&CK provides the following set of tools: 
+ Sentinel ATT&CK provides the following tools: 
+ - An [ARM template](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/azuredeploy.json) to automatically deploy Sentinel ATT&CK to your Azure environment
  - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/sysmonconfig.xml) compatible with Azure Sentinel and mapped to specific ATT&CK techniques  
  - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
  - 117 ready-to-use Kusto [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections) covering 156 ATT&CK techniques

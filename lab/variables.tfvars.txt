@@ -6,7 +6,7 @@ authentication = {
 }
 
 location                      = ""  # eg. westus
-prefix                        = ""  # eg. azure-sentinel-lab
+prefix                        = ""  # eg. azure-sentinel-lab; NOTE: ensure this is identical to the resource group within which Sentinel-ATT&CK has been deployed
 
 tags =  {
     environment = ""                # eg. dev, testing, staging
