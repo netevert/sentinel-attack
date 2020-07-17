@@ -1,0 +1,294 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        
+        "accountSasProperties": {
+            "type": "object",
+            "defaultValue": {
+                "signedServices": "b",
+                "signedPermission": "rw",
+                "signedExpiry": "2050-03-01T00:00:01Z",
+                "signedResourceTypes": "o"
+            }
+        },
+        "workspace_name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]"
+        },
+        "storageAccounts_name": {
+            "defaultValue": "[concat(parameters('workspace_name'), 'blobstore')]",
+            "type": "String"
+        }
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('storageAccounts_name')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard_GRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "properties": {
+                "isHnsEnabled": false,
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": false,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_GRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_GRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "microsoft.operationalinsights/workspaces",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[parameters('workspace_name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                    "name": "PerGB2018"
+                },
+                "retentionInDays": 90,
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_name'), '/default/', parameters('workspace_name'), '-store')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_name'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/pipe_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "pipe_whitelist",
+                "query": "[concat('externaldata(host:string, process_path:string, pipe_name:string, reason:string) [h\"https://', parameters('storageAccounts_name'), '.blob.core.windows.net/', parameters('workspace_name') ,'-store/pipe_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "pipe_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/process_access_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "process_access_whitelist",
+                "query": "[concat('externaldata(host:string, process_path:string, target_process_path:string, process_granted_access:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/process_access_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "process_access_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/dns_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "dns_whitelist",
+                "query": "[concat('externaldata(host:string, process_path:string, query_name:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/dns_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "dns_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/remote_thread_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "remote_thread_whitelist",
+                "query": "[concat('externaldata(host:string, event_type:string, process_path:string, target_process_path:string, target_process_address:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/remote_thread_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "remote_thread_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/process_create_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "process_create_whitelist",
+                "query": "[concat('externaldata(host:string, user:string, process_parent_path:string, process_path:string, process_command_line:string, hash_sha256:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/process_create_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "process_create_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/Sysmon')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "Sysmon",
+                "query": "let timeframe = \"{time_range}\";\r\nlet EventData = Event\r\n| where Source == \"Microsoft-Windows-Sysmon\"\r\n| extend RenderedDescription = tostring(split(RenderedDescription, \":\")[0])\r\n| project TimeGenerated, Source, EventID, Computer, UserName, EventData, RenderedDescription\r\n| extend EvData = parse_xml(EventData)\r\n| extend EventDetail = EvData.DataItem.EventData.Data\r\n| project-away EventData, EvData\r\n;\r\nlet SysmonEvent1_ProcessCreate=() {\r\nlet processEvents = EventData\r\n| where EventID == 1\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"], \r\nfile_version = EventDetail.[5].[\"#text\"], file_description = EventDetail.[6].[\"#text\"], file_product = EventDetail.[7].[\"#text\"], file_company = EventDetail.[8].[\"#text\"], file_name = EventDetail.[9].[\"#text\"], \r\nprocess_command_line = EventDetail.[10].[\"#text\"], file_directory = EventDetail.[11].[\"#text\"], user_name = EventDetail.[12].[\"#text\"], user_logon_guid = EventDetail.[13].[\"#text\"], \r\nuser_logon_id = EventDetail.[14].[\"#text\"], user_session_id = EventDetail.[15].[\"#text\"], process_integrity_level = EventDetail.[16].[\"#text\"], Hashes = EventDetail.[17].[\"#text\"], \r\nprocess_parent_guid = EventDetail.[18].[\"#text\"], process_parent_id = EventDetail.[19].[\"#text\"], process_parent_path = EventDetail.[20].[\"#text\"], process_parent_command_line = EventDetail.[21].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash\r\n| project-away EventDetail, rule_name, Hashes\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent2_FileCreateTime=() {\r\nlet processEvents = EventData\r\n| where EventID == 2\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"],\r\nfile_path = EventDetail.[5].[\"#text\"], file_creation_time = EventDetail.[6].[\"#text\"], file_previous_creation_time = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent3_NetworkConnect=() {\r\nlet processEvents = EventData\r\n| where EventID == 3\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"],\r\nuser_name = EventDetail.[5].[\"#text\"], network_protocol = EventDetail.[6].[\"#text\"], network_connection_initiated = EventDetail.[7].[\"#text\"], src_is_ipv6 = EventDetail.[8].[\"#text\"], src_ip = EventDetail.[9].[\"#text\"], \r\nsrc_host_name = EventDetail.[10].[\"#text\"], src_port = EventDetail.[11].[\"#text\"], src_port_name = EventDetail.[12].[\"#text\"], dst_is_ipv6 = EventDetail.[13].[\"#text\"], \r\ndst_ip = EventDetail.[14].[\"#text\"], dst_host_name = EventDetail.[15].[\"#text\"], dst_port = EventDetail.[16].[\"#text\"], dst_port_name = EventDetail.[17].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name  \r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent4_ServiceStateChange=() {\r\nlet processEvents = EventData\r\n| where EventID == 4\r\n| extend event_creation_time = EventDetail.[0].[\"#text\"], service_state = EventDetail.[1].[\"#text\"], sysmon_schema = EventDetail.[2].[\"#text\"], sysmon_schema_version = EventDetail.[3].[\"#text\"]\r\n| project-away EventDetail\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent5_ProcessTerminate=() {\r\nlet processEvents = EventData\r\n| where EventID == 5\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent6_DriverLoad=() {\r\nlet processEvents = EventData\r\n| where EventID == 6\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_pathLoaded = EventDetail.[2].[\"#text\"], Hashes = EventDetail.[3].[\"#text\"],\r\ndriver_is_signed = EventDetail.[4].[\"#text\"], driver_signature = EventDetail.[5].[\"#text\"], driver_signature_status = EventDetail.[6].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent7_ImageLoad=() {\r\nlet processEvents = EventData\r\n| where EventID == 7\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"],\r\nmodule_loaded = EventDetail.[5].[\"#text\"], file_version = EventDetail.[6].[\"#text\"],file_description = EventDetail.[7].[\"#text\"], file_product = EventDetail.[8].[\"#text\"], file_company = EventDetail.[9].[\"#text\"],\r\nHashes = EventDetail.[11].[\"#text\"], module_is_signed = EventDetail.[12].[\"#text\"], module_signature = EventDetail.[13].[\"#text\"], module_signature_status = EventDetail.[14].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| parse Hashes with * 'SHA1=' hash_sha1 ',' * 'MD5=' hash_md5 ',' * 'SHA256=' hash_sha256 ',' * 'IMPHASH=' hash_imphash\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent8_CreateRemoteThread=() {\r\nlet processEvents = EventData\r\n| where EventID == 8\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"],\r\nprocess_path = EventDetail.[4].[\"#text\"], target_process_guid = EventDetail.[5].[\"#text\"], target_process_id = EventDetail.[6].[\"#text\"], target_process_path = EventDetail.[7].[\"#text\"],\r\nthread_new_id = EventDetail.[8].[\"#text\"], thread_start_address = EventDetail.[9].[\"#text\"], thread_start_module = EventDetail.[10].[\"#text\"], thread_start_function = EventDetail.[11].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent9_RawAccessRead=() {\r\nlet processEvents = EventData\r\n| where EventID == 9\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], process_path = EventDetail.[4].[\"#text\"], target_device = EventDetail.[5].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent10_ProcessAccess=() {\r\nlet processEvents = EventData\r\n| where EventID == 10\r\n| extend rule_name = EventDetail.[0].[\"#text\"],UtcTime = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"],\r\nthread_id = EventDetail.[4].[\"#text\"],process_path = EventDetail.[5].[\"#text\"], target_process_guid = EventDetail.[6].[\"#text\"], target_process_id = EventDetail.[7].[\"#text\"],\r\ntarget_process_path = EventDetail.[8].[\"#text\"],process_granted_access = EventDetail.[9].[\"#text\"], process_call_trace = EventDetail.[10].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent11_FileCreate=() {\r\nlet processEvents = EventData\r\n| where EventID == 11\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"],\r\nprocess_path = EventDetail.[4].[\"#text\"], file_name = EventDetail.[5].[\"#text\"], file_creation_time = EventDetail.[6].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent12_RegistryObjectAddDel=() {\r\nlet processEvents = EventData\r\n| where EventID == 12\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], process_guid = EventDetail.[3].[\"#text\"],\r\nprocess_id = EventDetail.[4].[\"#text\"],process_path = EventDetail.[5].[\"#text\"],registry_key_path = EventDetail.[6].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent13_RegistrySetValue=() {\r\nlet processEvents = EventData\r\n| where EventID == 13\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], process_guid = EventDetail.[3].[\"#text\"],\r\nprocess_id = EventDetail.[4].[\"#text\"],process_path = EventDetail.[5].[\"#text\"],registry_key_path = EventDetail.[6].[\"#text\"],registry_key_details = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent14_RegistryObjectRename=() {\r\nlet processEvents = EventData\r\n| where EventID == 14\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], process_guid = EventDetail.[3].[\"#text\"],\r\nprocess_id = EventDetail.[4].[\"#text\"],process_path = EventDetail.[5].[\"#text\"],registry_key_path = EventDetail.[6].[\"#text\"],registry_key_new_name = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent15_FileCreateStreamHash=() {\r\nlet processEvents = EventData\r\n| where EventID == 15\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"],\r\nprocess_path = EventDetail.[4].[\"#text\"],file_name = EventDetail.[5].[\"#text\"],file_creation_time = EventDetail.[6].[\"#text\"],hash = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent16_ConfigChange=() {\r\nlet processEvents = EventData\r\n| where EventID == 16\r\n| extend event_creation_time = EventDetail.[0].[\"#text\"], sysmon_configuration = EventDetail.[1].[\"#text\"], sysmon_configuration_hash = EventDetail.[2].[\"#text\"]\r\n| project-away EventDetail\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent17_CreateNamedPipe=() {\r\nlet processEvents = EventData\r\n| where EventID == 17\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], process_guid = EventDetail.[3].[\"#text\"], process_id = EventDetail.[4].[\"#text\"], pipe_name = EventDetail.[5].[\"#text\"],\r\nprocess_path = EventDetail.[6].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent18_ConnectNamedPipe=() {\r\nlet processEvents = EventData\r\n| where EventID == 18\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"], pipe_name = EventDetail.[4].[\"#text\"],\r\nprocess_path = EventDetail.[5].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent19_WMIEventFilter=() {\r\nlet processEvents = EventData\r\n| where EventID == 19\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], wmi_operation = EventDetail.[3].[\"#text\"],\r\nuser_name = EventDetail.[4].[\"#text\"],wmi_namespace = EventDetail.[5].[\"#text\"],wmi_filter_name = EventDetail.[6].[\"#text\"],wmi_query = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent20_WMIEventConsumer=() {\r\nlet processEvents = EventData\r\n| where EventID == 20\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], wmi_operation = EventDetail.[3].[\"#text\"],\r\nuser_name = EventDetail.[4].[\"#text\"],wmi_consumer_name = EventDetail.[5].[\"#text\"],wmi_consumer_type = EventDetail.[6].[\"#text\"],wmi_consumer_destination = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent21_WMIEventConsumerToFilter=() {\r\nlet processEvents = EventData\r\n| where EventID == 21\r\n| extend rule_name = EventDetail.[0].[\"#text\"], EventType = EventDetail.[1].[\"#text\"], event_creation_time = EventDetail.[2].[\"#text\"], wmi_operation = EventDetail.[3].[\"#text\"],\r\nuser_name = EventDetail.[4].[\"#text\"],wmi_consumer_path = EventDetail.[5].[\"#text\"],Type = EventDetail.[6].[\"#text\"],wmi_filter_path = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\nlet SysmonEvent22_DNSEvents=() {\r\nlet processEvents = EventData\r\n| where EventID == 22\r\n| extend rule_name = EventDetail.[0].[\"#text\"], event_creation_time = EventDetail.[1].[\"#text\"], process_guid = EventDetail.[2].[\"#text\"], process_id = EventDetail.[3].[\"#text\"],\r\ndns_query_name = EventDetail.[4].[\"#text\"],dns_query_status = EventDetail.[5].[\"#text\"],dns_query_results = EventDetail.[6].[\"#text\"],process_path = EventDetail.[7].[\"#text\"]\r\n| parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name\r\n| project-away EventDetail, rule_name\r\n;\r\nprocessEvents;\r\n};\r\n(union isfuzzy=true\r\nSysmonEvent1_ProcessCreate,SysmonEvent2_FileCreateTime,SysmonEvent3_NetworkConnect,SysmonEvent4_ServiceStateChange,SysmonEvent5_ProcessTerminate,\r\nSysmonEvent6_DriverLoad,SysmonEvent7_ImageLoad,SysmonEvent8_CreateRemoteThread,SysmonEvent9_RawAccessRead,SysmonEvent10_ProcessAccess,\r\nSysmonEvent11_FileCreate,SysmonEvent12_RegistryObjectAddDel,SysmonEvent14_RegistryObjectRename,\r\nSysmonEvent15_FileCreateStreamHash,SysmonEvent16_ConfigChange,SysmonEvent17_CreateNamedPipe,SysmonEvent18_ConnectNamedPipe,\r\nSysmonEvent19_WMIEventFilter,SysmonEvent20_WMIEventConsumer,SysmonEvent21_WMIEventConsumerToFilter,SysmonEvent22_DNSEvents)\r\n",
+                "functionAlias": "Sysmon",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/file_access_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "file_access_whitelist",
+                "query": "[concat('externaldata(technique_id:string, host:string, process_path:string, file_path:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/file_access_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "file_access_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/network_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "network_whitelist",
+                "query": "[concat('externaldata(host:string, user_name:string, process_path:string, src_ip:string, dst_ip:string, dst_port:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/network_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "network_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/image_load_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "image_load_whitelist",
+                "query": "[concat('externaldata(host:string, process_path:string, driver_loaded:string, driver_is_signed:string, driver_signature:string, driver_signature_status:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/image_load_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "image_load_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/file_create_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "file_create_whitelist",
+                "query": "[concat('externaldata(host:string, file_name:string, file_path:string, process_path:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/file_create_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "file_create_whitelist",
+                "version": 2
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/savedSearches",
+            "apiVersion": "2020-03-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/registry_whitelist')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspace_name'))]"
+            ],
+            "properties": {
+                "category": "sentinel-attack",
+                "displayName": "registry_whitelist",
+                "query": "[concat('externaldata(host:string, event_type:string, process_path:string, registry_key_path:string, registry_key_details:string, reason:string) [h\"https://',parameters('storageAccounts_name'),'.blob.core.windows.net/', parameters('workspace_name') ,'-store/registry_whitelist.csv?', listAccountSas(parameters('storageAccounts_name'), '2018-07-01', parameters('accountSasProperties')).accountSasToken,'\"] with (ignoreFirstRecord=true)\n')]",
+                "functionAlias": "registry_whitelist",
+                "version": 2
+            }
+        }
+    ]
+}
