@@ -198,7 +198,7 @@ processEvents;
 let SysmonEvent18_ConnectNamedPipe=() {
 let processEvents = EventData
 | where EventID == 18
-| extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[1].["#text"], process_guid = EventDetail.[2].["#text"], process_id = EventDetail.[3].["#text"], pipe_name = EventDetail.[4].["#text"],
+| extend rule_name = EventDetail.[0].["#text"], event_creation_time = EventDetail.[2].["#text"], process_guid = EventDetail.[3].["#text"], process_id = EventDetail.[4].["#text"], pipe_name = EventDetail.[5].["#text"],
 process_path = EventDetail.[5].["#text"]
 | parse rule_name with * 'technique_id=' technique_id ',' * 'technique_name=' technique_name ',' * 'phase_name=' phase_name
 | project-away EventDetail, rule_name
