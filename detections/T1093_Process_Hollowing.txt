@@ -55,7 +55,7 @@ Sysmon
         )
     ) or (
         process_path contains "userinit.exe" and (
-            process_parent_command_line !contains "dwm.exe" or 
+            process_parent_command_line !contains "dwm.exe" and 
             process_parent_command_line !contains "winlogon.exe"
         )
     )
