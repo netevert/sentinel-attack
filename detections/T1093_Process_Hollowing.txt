@@ -1,0 +1,65 @@
+// Name: Process Hollowing
+// Description: Checks for execution of MITRE ATT&CK T1093
+//
+// Severity: High
+//
+// QueryFrequency: 1h
+//
+// QueryPeriod: 1h
+//
+// AlertTriggerThreshold: 1
+//
+// DataSource: #Sysmon
+//
+// Tactics: #Defense Evasion
+//
+Sysmon
+| where EventID == 1 and (
+    (
+        process_path contains "smss.exe" and 
+        process_parent_command_line !contains "smss.exe"
+    ) or (
+        process_path contains "csrss.exe" and (
+            process_parent_command_line !contains "smss.exe" and 
+            process_parent_command_line !contains "svchost.exe"
+        )
+    ) or (
+        process_path contains "wininit.exe"and 
+        process_parent_command_line !contains "smss.exe"
+    ) or (
+        process_path contains "winlogon.exe" and 
+        process_parent_command_line !contains "smss.exe"
+    ) or (
+        process_path contains "lsass.exe" and 
+        process_parent_command_line !contains "wininit.exe"
+    ) or (
+        process_path contains "LogonUI.exe" and (
+            process_parent_command_line !contains "winlogon.exe" and 
+            process_parent_command_line !contains "wininit.exe"
+        )
+    ) or (
+        process_path contains "services.exe" and 
+        process_parent_command_line !contains "wininit.exe"
+    ) or (
+        process_path contains "spoolsv.exe" and 
+        process_parent_command_line !contains "services.exe"
+    ) or (
+        process_path contains "taskhost.exe" and (
+            process_parent_command_line !contains "services.exe" and 
+            process_parent_command_line !contains "svchost.exe"
+        )
+    ) or (
+        process_path contains "taskhostw.exe" and (
+            process_parent_command_line !contains "services.exe" and 
+            process_parent_command_line !contains "svchost.exe"
+        )
+    ) or (
+        process_path contains "userinit.exe" and (
+            process_parent_command_line !contains "dwm.exe" and 
+            process_parent_command_line !contains "winlogon.exe"
+        )
+    )
+)
+| extend AccountCustomEntity = UserName
+| extend HostCustomEntity = Computer
+| extend FileHashCustomEntity = hash_sha256
