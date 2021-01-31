@@ -1,6 +1,5 @@
 provider "azurerm" {
-    version = "=1.38.0"
-
+    features {}
     subscription_id = var.authentication.subscription_id
     client_id       = var.authentication.client_id
     client_secret   = var.authentication.client_secret
@@ -12,7 +11,7 @@ resource "azurerm_virtual_network" "vnet" {
     name                = "${var.prefix}-vnet"
     address_space       = ["10.0.0.0/16"]
     location            = var.location
-    resource_group_name = "${var.prefix}"
+    resource_group_name = var.prefix
     tags                = var.tags
 }
 
@@ -20,7 +19,7 @@ resource "azurerm_virtual_network" "vnet" {
 resource "azurerm_network_security_group" "nsg" {
     name                = "${var.prefix}-nsg"
     location            = var.location
-    resource_group_name = "${var.prefix}"
+    resource_group_name = var.prefix
     tags                = var.tags
     depends_on          = [azurerm_virtual_network.vnet]
 
@@ -100,67 +99,28 @@ resource "azurerm_network_security_group" "nsg" {
 # Create lab subnet
 resource "azurerm_subnet" "subnet" {
     name                        = "${var.prefix}-subnet"
-    resource_group_name         = "${var.prefix}"
+    resource_group_name         = var.prefix
     virtual_network_name        = azurerm_virtual_network.vnet.name
-    address_prefix              = "10.0.1.0/24"
-    network_security_group_id   = azurerm_network_security_group.nsg.id
+    address_prefixes            = ["10.0.1.0/24"]
     depends_on                  = [azurerm_network_security_group.nsg]
-}
-
-# Create storage account
-resource "azurerm_storage_account" "storageaccount" {
-  name                     = "${var.prefix}sablobstrg01"
-  resource_group_name      = "${var.prefix}"
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-  depends_on               = [azurerm_subnet.subnet]
-}
-
-# Create blob storage container for post configuration files
-resource "azurerm_storage_container" "blobstorage" {
-  name                  = "${var.prefix}-store1"
-  storage_account_name  = azurerm_storage_account.storageaccount.name
-  container_access_type = "blob"
-  depends_on            = [azurerm_storage_account.storageaccount]
-}
-
-# Create storage blob for install-utilities.ps1 file
-resource "azurerm_storage_blob" "utilsblob" {
-  depends_on             = [azurerm_storage_container.blobstorage]
-  name                   = "install-utilities.ps1"
-  storage_account_name   = azurerm_storage_account.storageaccount.name
-  storage_container_name = azurerm_storage_container.blobstorage.name
-  type                   = "block"
-  source                 =  "./files/install-utilities.ps1"
-}
-
-# Create storage blob for create-ad.ps1 file
-resource "azurerm_storage_blob" "adblob" {
-  depends_on             = [azurerm_storage_blob.utilsblob]
-  name                   = "create-ad.ps1"
-  storage_account_name   = azurerm_storage_account.storageaccount.name
-  storage_container_name = azurerm_storage_container.blobstorage.name
-  type                   = "block"
-  source                 =  "./files/create-ad.ps1"
 }
 
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
     name                         = "${var.workstations.dc1}-external"
     location                     = var.location
-    resource_group_name          = "${var.prefix}"
+    resource_group_name          = var.prefix
     allocation_method            = "Dynamic"
     tags                         = var.tags
-    depends_on                   = [azurerm_storage_blob.adblob]
+    depends_on                   = [azurerm_subnet.subnet]
+    // depends_on                   = [azurerm_storage_blob.adblob]
 }
 
 # Create network interface for domain controller 1
 resource "azurerm_network_interface" "dc1_nic" {
     name                      = "${var.workstations.dc1}-primary"
     location                  = var.location
-    resource_group_name       = "${var.prefix}"
-    network_security_group_id = azurerm_network_security_group.nsg.id
+    resource_group_name       = var.prefix
     tags                      = var.tags
 
     ip_configuration {
@@ -176,8 +136,8 @@ resource "azurerm_network_interface" "dc1_nic" {
 resource "azurerm_virtual_machine" "dc1" {
   name                          = var.workstations.dc1
   location                      = var.location
-  resource_group_name           = "${var.prefix}"
-  network_interface_ids         = ["${azurerm_network_interface.dc1_nic.id}"]
+  resource_group_name           = var.prefix
+  network_interface_ids         = [azurerm_network_interface.dc1_nic.id]
   vm_size                       = var.workstations.vm_size
   tags                          = var.tags
 
@@ -222,19 +182,17 @@ resource "azurerm_virtual_machine" "dc1" {
 # Create active directory domain forest
 resource "azurerm_virtual_machine_extension" "create_ad" {
   name                 = "create_ad"
-  location             = var.location
-  resource_group_name  = "${var.prefix}"
-  virtual_machine_name = azurerm_virtual_machine.dc1.name
+  virtual_machine_id   = azurerm_virtual_machine.dc1.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
   tags                 = var.tags
-  settings = <<SETTINGS
+  protected_settings = <<PROT
     {
-        "fileUris": ["https://${azurerm_storage_account.storageaccount.name}.blob.core.windows.net/${azurerm_storage_container.blobstorage.name}/create-ad.ps1"],
-        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1"
+      "fileUris": ["https://raw.githubusercontent.com/netevert/scripts/master/create-ad.ps1"],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1 ${var.accounts.dc1_admin_password} ${var.prefix}.com ${var.prefix}"
     }
-SETTINGS
+  PROT
   depends_on = [azurerm_virtual_machine.dc1]
 }
  
@@ -242,9 +200,10 @@ SETTINGS
 resource "azurerm_public_ip" "pc1_publicip" {
   name                         = "${var.workstations.pc1}-external"
   location                     = var.location
-  resource_group_name          = "${var.prefix}"
+  resource_group_name          = var.prefix
   allocation_method            = "Dynamic"
   tags                         = var.tags
+  // depends_on                   = [azurerm_virtual_machine.dc1]
   depends_on                   = [azurerm_virtual_machine_extension.create_ad]
 }
 
@@ -252,8 +211,7 @@ resource "azurerm_public_ip" "pc1_publicip" {
 resource "azurerm_network_interface" "pc1_nic" {
   name                      = "${var.workstations.pc1}-primary"
   location                  = var.location
-  resource_group_name       = "${var.prefix}"
-  network_security_group_id = azurerm_network_security_group.nsg.id
+  resource_group_name       = var.prefix
   tags                      = var.tags#
   ip_configuration {
       name                          = "${var.workstations.pc1}-nic-conf"
@@ -268,8 +226,8 @@ resource "azurerm_network_interface" "pc1_nic" {
 resource "azurerm_virtual_machine" "pc1" {
   name                  = var.workstations.pc1
   location              = var.location
-  resource_group_name   = "${var.prefix}"
-  network_interface_ids = ["${azurerm_network_interface.pc1_nic.id}"]
+  resource_group_name   = var.prefix
+  network_interface_ids = [azurerm_network_interface.pc1_nic.id]
   vm_size               = var.workstations.vm_size
   tags                  = var.tags
 
@@ -314,9 +272,7 @@ resource "azurerm_virtual_machine" "pc1" {
 # Install utilities on workstation 1 and join domain
 resource "azurerm_virtual_machine_extension" "utils_pc1" {
   name                 = "utils_pc1"
-  location             = var.location
-  resource_group_name  = "${var.prefix}"
-  virtual_machine_name = azurerm_virtual_machine.pc1.name
+  virtual_machine_id = azurerm_virtual_machine.pc1.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
@@ -324,7 +280,7 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
   settings = <<SETTINGS
     {
         "fileUris": ["https://${azurerm_storage_account.storageaccount.name}.blob.core.windows.net/${azurerm_storage_container.blobstorage.name}/install-utilities.ps1"],
-        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1"
+        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.prefix}.com ${var.accounts.dc1_admin_password} ${var.prefix}.com\${var.accounts.dc1_admin_user}
     }
 SETTINGS
   depends_on = [azurerm_storage_blob.utilsblob]

@@ -1,5 +1,15 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.40.0"
+    }
+  }
+}
+
+
 variable "authentication" {
-  type = "map"
+  type = map(string)
 
   default = {
     subscription_id = ""
@@ -12,7 +22,7 @@ variable "authentication" {
 variable "location" {}
 
 variable "accounts" {
-    type = "map"
+    type = map(string)
 
     default = {
       # workstation accounts
@@ -22,7 +32,7 @@ variable "accounts" {
 }
 
 variable "workstations" {
-    type = "map"
+    type = map(string)
 
     default = {
       # Image configurations
@@ -38,12 +48,12 @@ variable "workstations" {
 }
 
 variable "prefix" {
-    type = "string"
+    type = string
     default = "testlab"
 }
 
 variable "tags" {
-    type = "map"
+    type = map(string)
 
     default = {
         environment = "testing"
