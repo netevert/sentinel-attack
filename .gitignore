@@ -2,6 +2,7 @@
 terraform.tfstate
 terraform.tfstate.backup
 .terraform/
+.terraform.lock.hcl
 variables.tfvars
 variables.txt
 files/.DS_Store
