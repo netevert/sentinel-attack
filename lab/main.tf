@@ -1,3 +1,4 @@
+# Set up provider
 provider "azurerm" {
     features {}
     subscription_id = var.authentication.subscription_id
@@ -107,18 +108,17 @@ resource "azurerm_subnet" "subnet" {
 
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
-    name                         = "${var.workstations.dc1}-external"
+    name                         = "${var.workstations.dc1}-publicip"
     location                     = var.location
     resource_group_name          = var.prefix
     allocation_method            = "Dynamic"
     tags                         = var.tags
     depends_on                   = [azurerm_subnet.subnet]
-    // depends_on                   = [azurerm_storage_blob.adblob]
 }
 
 # Create network interface for domain controller 1
 resource "azurerm_network_interface" "dc1_nic" {
-    name                      = "${var.workstations.dc1}-primary"
+    name                      = "${var.workstations.dc1}-nic"
     location                  = var.location
     resource_group_name       = var.prefix
     tags                      = var.tags
@@ -180,6 +180,7 @@ resource "azurerm_virtual_machine" "dc1" {
 }
 
 # Create active directory domain forest
+# https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/master/lab/files/create-ad.ps1
 resource "azurerm_virtual_machine_extension" "create_ad" {
   name                 = "create_ad"
   virtual_machine_id   = azurerm_virtual_machine.dc1.id
@@ -198,21 +199,20 @@ resource "azurerm_virtual_machine_extension" "create_ad" {
  
 # Create public IP for workstation 1
 resource "azurerm_public_ip" "pc1_publicip" {
-  name                         = "${var.workstations.pc1}-external"
+  name                         = "${var.workstations.pc1}-publicip"
   location                     = var.location
   resource_group_name          = var.prefix
   allocation_method            = "Dynamic"
   tags                         = var.tags
-  // depends_on                   = [azurerm_virtual_machine.dc1]
   depends_on                   = [azurerm_virtual_machine_extension.create_ad]
 }
 
 # Create network interface for workstation 1
 resource "azurerm_network_interface" "pc1_nic" {
-  name                      = "${var.workstations.pc1}-primary"
+  name                      = "${var.workstations.pc1}-nic"
   location                  = var.location
   resource_group_name       = var.prefix
-  tags                      = var.tags#
+  tags                      = var.tags
   ip_configuration {
       name                          = "${var.workstations.pc1}-nic-conf"
       subnet_id                     = azurerm_subnet.subnet.id
@@ -270,6 +270,7 @@ resource "azurerm_virtual_machine" "pc1" {
 }
  
 # Install utilities on workstation 1 and join domain
+# https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/master/lab/files/install-utilities.ps1
 resource "azurerm_virtual_machine_extension" "utils_pc1" {
   name                 = "utils_pc1"
   virtual_machine_id = azurerm_virtual_machine.pc1.id
@@ -277,11 +278,11 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
   type                 = "CustomScriptExtension"
   type_handler_version = "1.9"
   tags                 = var.tags
-  settings = <<SETTINGS
+  protected_settings = <<PROT
     {
-        "fileUris": ["https://${azurerm_storage_account.storageaccount.name}.blob.core.windows.net/${azurerm_storage_container.blobstorage.name}/install-utilities.ps1"],
-        "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.prefix}.com ${var.accounts.dc1_admin_password} ${var.prefix}.com\${var.accounts.dc1_admin_user}
+      "fileUris": ["https://raw.githubusercontent.com/netevert/scripts/master/install-utilities.ps1"],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.prefix}.com ${var.accounts.dc1_admin_password} ${var.prefix}.com\${var.accounts.dc1_admin_user}"
     }
-SETTINGS
-  depends_on = [azurerm_storage_blob.utilsblob]
+  PROT
+  depends_on = [azurerm_virtual_machine.pc1]
 }
