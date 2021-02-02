@@ -13,6 +13,7 @@ resource "azurerm_virtual_network" "vnet" {
     address_space       = ["10.0.0.0/16"]
     location            = var.location
     resource_group_name = var.prefix
+    dns_servers         = ["10.0.1.4", "8.8.8.8"]
     tags                = var.tags
 }
 
@@ -126,7 +127,8 @@ resource "azurerm_network_interface" "dc1_nic" {
     ip_configuration {
         name                          = "${var.workstations.dc1}-nic-conf"
         subnet_id                     = azurerm_subnet.subnet.id
-        private_ip_address_allocation = "dynamic"
+        private_ip_address_allocation = "Static"
+        private_ip_address            = "10.0.1.4"
         public_ip_address_id          = azurerm_public_ip.dc1_publicip.id
     }
     depends_on = [azurerm_public_ip.dc1_publicip]
