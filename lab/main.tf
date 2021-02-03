@@ -191,7 +191,7 @@ resource "azurerm_virtual_machine_extension" "create_ad" {
   tags                 = var.tags
   protected_settings = <<PROT
     {
-      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/master/lab/files/create-ad.ps1"],
+      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/dev/v.1.4.3/lab/files/create-ad.ps1"],
       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1 ${var.accounts.dc1_admin_password} ${var.prefix}.com ${var.prefix}"
     }
   PROT
@@ -280,7 +280,7 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
   tags                 = var.tags
   protected_settings = <<PROT
     {
-      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/master/lab/files/install-utilities.ps1"],
+      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/dev/v.1.4.3/lab/files/install-utilities.ps1"],
       "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.prefix}.com ${var.accounts.dc1_admin_password} ${var.prefix}.com\\${var.accounts.dc1_admin_user}"
     }
   PROT
