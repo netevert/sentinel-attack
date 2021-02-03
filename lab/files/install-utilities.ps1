@@ -123,3 +123,4 @@ $password = $adminpassword | ConvertTo-SecureString -asPlainText -Force
 $username = $adminusername 
 $credential = New-Object System.Management.Automation.PSCredential($username,$password)
 Add-Computer -DomainName $domain -Credential $credential
+Restart-Computer
