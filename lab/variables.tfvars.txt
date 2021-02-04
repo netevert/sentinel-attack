@@ -6,31 +6,27 @@ authentication = {
 }
 
 location                      = ""  # eg. westus
-prefix                        = ""  # eg. azure-sentinel-lab; NOTE: ensure this is identical to the resource group within which Sentinel-ATT&CK has been deployed
+resource_group_name           = ""  # eg. azure-sentinel-lab; NOTE: ensure this is identical to the resource group within which Sentinel-ATT&CK has been deployed
 
 tags =  {
     environment = ""                # eg. dev, testing, staging
 }
 
 accounts = {
-    # workstation accounts
+    # workstation account
     pc1_admin_user          = ""
     pc1_admin_password      = ""
 
-    # DC account
+    # domain controller account
     dc1_admin_user          = ""
     dc1_admin_password      = ""
 }
 
-workstations = {
-    # Image configurations
+vm_config = {
+    # vm image configuration
     os_manufacturer = ""            # eg. MicrosoftWindowsDesktop
     os_type         = ""            # eg. Windows-10
     os_sku          = ""            # eg. rs5-pro
     os_version      = ""            # eg. latest
     vm_size         = ""            # eg. Standard_B1ms
-
-    # Naming configurations
-    pc1             = ""            # eg. pc-test
-    dc1             = ""
 }

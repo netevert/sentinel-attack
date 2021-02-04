@@ -9,19 +9,19 @@ provider "azurerm" {
 
 # Create lab virtual network
 resource "azurerm_virtual_network" "vnet" {
-    name                = "${var.prefix}-vnet"
+    name                = "${var.resource_group_name}-vnet"
     address_space       = ["10.0.0.0/16"]
     location            = var.location
-    resource_group_name = var.prefix
+    resource_group_name = var.resource_group_name
     dns_servers         = ["10.0.1.4", "8.8.8.8"]
     tags                = var.tags
 }
 
 # Create network security group and rules
 resource "azurerm_network_security_group" "nsg" {
-    name                = "${var.prefix}-nsg"
+    name                = "${var.resource_group_name}-nsg"
     location            = var.location
-    resource_group_name = var.prefix
+    resource_group_name = var.resource_group_name
     tags                = var.tags
     depends_on          = [azurerm_virtual_network.vnet]
 
@@ -100,8 +100,8 @@ resource "azurerm_network_security_group" "nsg" {
 
 # Create lab subnet
 resource "azurerm_subnet" "subnet" {
-    name                        = "${var.prefix}-subnet"
-    resource_group_name         = var.prefix
+    name                        = "${var.resource_group_name}-subnet"
+    resource_group_name         = var.resource_group_name
     virtual_network_name        = azurerm_virtual_network.vnet.name
     address_prefixes            = ["10.0.1.0/24"]
     depends_on                  = [azurerm_network_security_group.nsg]
@@ -109,9 +109,9 @@ resource "azurerm_subnet" "subnet" {
 
 # Create public ip for domain controller 1
 resource "azurerm_public_ip" "dc1_publicip" {
-    name                         = "${var.workstations.dc1}-publicip"
+    name                         = "${var.resource_group_name}-dc-publicip"
     location                     = var.location
-    resource_group_name          = var.prefix
+    resource_group_name          = var.resource_group_name
     allocation_method            = "Dynamic"
     tags                         = var.tags
     depends_on                   = [azurerm_subnet.subnet]
@@ -119,13 +119,13 @@ resource "azurerm_public_ip" "dc1_publicip" {
 
 # Create network interface for domain controller 1
 resource "azurerm_network_interface" "dc1_nic" {
-    name                      = "${var.workstations.dc1}-nic"
+    name                      = "${var.resource_group_name}-dc-nic"
     location                  = var.location
-    resource_group_name       = var.prefix
+    resource_group_name       = var.resource_group_name
     tags                      = var.tags
 
     ip_configuration {
-        name                          = "${var.workstations.dc1}-nic-conf"
+        name                          = "${var.resource_group_name}-dc-nic-conf"
         subnet_id                     = azurerm_subnet.subnet.id
         private_ip_address_allocation = "Static"
         private_ip_address            = "10.0.1.4"
@@ -136,11 +136,11 @@ resource "azurerm_network_interface" "dc1_nic" {
 
 # Deploy domain controller 1
 resource "azurerm_virtual_machine" "dc1" {
-  name                          = var.workstations.dc1
+  name                          = "${var.resource_group_name}-dc"
   location                      = var.location
-  resource_group_name           = var.prefix
+  resource_group_name           = var.resource_group_name
   network_interface_ids         = [azurerm_network_interface.dc1_nic.id]
-  vm_size                       = var.workstations.vm_size
+  vm_size                       = var.vm_config.vm_size
   tags                          = var.tags
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
@@ -155,14 +155,14 @@ resource "azurerm_virtual_machine" "dc1" {
   }
 
   storage_os_disk {
-    name              = "${var.workstations.dc1}-disk1"
+    name              = "${var.resource_group_name}-dc-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
   os_profile {
-    computer_name  = var.workstations.dc1
+    computer_name  = "${var.resource_group_name}-dc"
     admin_username = var.accounts.dc1_admin_user
     admin_password = var.accounts.dc1_admin_password
   }
@@ -191,8 +191,8 @@ resource "azurerm_virtual_machine_extension" "create_ad" {
   tags                 = var.tags
   protected_settings = <<PROT
     {
-      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/dev/v.1.4.3/lab/files/create-ad.ps1"],
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1 ${var.accounts.dc1_admin_password} ${var.prefix}.com ${var.prefix}"
+      "fileUris": ["https://github.com/BlueTeamLabs/sentinel-attack/blob/master/lab/files/create-ad.ps1"],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File create-ad.ps1 ${var.accounts.dc1_admin_password} ${var.resource_group_name}.com ${var.resource_group_name}"
     }
   PROT
   depends_on = [azurerm_virtual_machine.dc1]
@@ -200,9 +200,9 @@ resource "azurerm_virtual_machine_extension" "create_ad" {
  
 # Create public IP for workstation 1
 resource "azurerm_public_ip" "pc1_publicip" {
-  name                         = "${var.workstations.pc1}-publicip"
+  name                         = "${var.resource_group_name}-pc-publicip"
   location                     = var.location
-  resource_group_name          = var.prefix
+  resource_group_name          = var.resource_group_name
   allocation_method            = "Dynamic"
   tags                         = var.tags
   depends_on                   = [azurerm_virtual_machine_extension.create_ad]
@@ -210,12 +210,12 @@ resource "azurerm_public_ip" "pc1_publicip" {
 
 # Create network interface for workstation 1
 resource "azurerm_network_interface" "pc1_nic" {
-  name                      = "${var.workstations.pc1}-nic"
+  name                      = "${var.resource_group_name}-pc-nic"
   location                  = var.location
-  resource_group_name       = var.prefix
+  resource_group_name       = var.resource_group_name
   tags                      = var.tags
   ip_configuration {
-      name                          = "${var.workstations.pc1}-nic-conf"
+      name                          = "${var.resource_group_name}-pc-nic-conf"
       subnet_id                     = azurerm_subnet.subnet.id
       private_ip_address_allocation = "dynamic"
       public_ip_address_id          = azurerm_public_ip.pc1_publicip.id
@@ -225,11 +225,11 @@ resource "azurerm_network_interface" "pc1_nic" {
 
 # Create workstation 1
 resource "azurerm_virtual_machine" "pc1" {
-  name                  = var.workstations.pc1
+  name                  = "${var.resource_group_name}-pc"
   location              = var.location
-  resource_group_name   = var.prefix
+  resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.pc1_nic.id]
-  vm_size               = var.workstations.vm_size
+  vm_size               = var.vm_config.vm_size
   tags                  = var.tags
 
   # This means the OS Disk will be deleted when Terraform destroys the Virtual Machine
@@ -237,21 +237,21 @@ resource "azurerm_virtual_machine" "pc1" {
   delete_os_disk_on_termination = true
 
   storage_image_reference {
-    publisher = var.workstations.os_manufacturer
-    offer     = var.workstations.os_type
-    sku       = var.workstations.os_sku
-    version   = var.workstations.os_version
+    publisher = var.vm_config.os_manufacturer
+    offer     = var.vm_config.os_type
+    sku       = var.vm_config.os_sku
+    version   = var.vm_config.os_version
   }
 
   storage_os_disk {
-    name              = "${var.workstations.pc1}-disk1"
+    name              = "${var.resource_group_name}-pc-disk1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
 
   os_profile {
-    computer_name  = var.workstations.pc1
+    computer_name  = "${var.resource_group_name}-pc"
     admin_username = var.accounts.pc1_admin_user
     admin_password = var.accounts.pc1_admin_password
   }
@@ -280,8 +280,8 @@ resource "azurerm_virtual_machine_extension" "utils_pc1" {
   tags                 = var.tags
   protected_settings = <<PROT
     {
-      "fileUris": ["https://raw.githubusercontent.com/BlueTeamLabs/sentinel-attack/dev/v.1.4.3/lab/files/install-utilities.ps1"],
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.prefix}.com ${var.accounts.dc1_admin_password} ${var.prefix}.com\\${var.accounts.dc1_admin_user}"
+      "fileUris": ["https://github.com/BlueTeamLabs/sentinel-attack/blob/master/lab/files/install-utilities.ps1"],
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File install-utilities.ps1 ${var.resource_group_name}.com ${var.accounts.dc1_admin_password} ${var.resource_group_name}.com\\${var.accounts.dc1_admin_user}"
     }
   PROT
   depends_on = [azurerm_virtual_machine.pc1]

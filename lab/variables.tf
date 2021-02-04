@@ -25,29 +25,30 @@ variable "accounts" {
     type = map(string)
 
     default = {
-      # workstation accounts
+      # workstation account
         pc1_admin_user          = ""
         pc1_admin_password      = ""
+        
+      # domain controller account
+      dc1_admin_user          = ""
+      dc1_admin_password      = ""
   }
 }
 
-variable "workstations" {
+variable "vm_config" {
     type = map(string)
 
     default = {
-      # Image configurations
+      # vm image configuration
         os_manufacturer = "MicrosoftWindowsDesktop"
         os_type         = "Windows-10"
         os_sku          = "rs5-pro"
         os_version      = "latest"
         vm_size         = "Standard_B2ms"
-
-        # Naming configurations
-        pc1             = "test-vm"
   }
 }
 
-variable "prefix" {
+variable "resource_group_name" {
     type = string
     default = "testlab"
 }
