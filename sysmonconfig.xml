@@ -29,10 +29,7 @@
           <OriginalFileName name="technique_id=T1063,technique_name=Security Software Discovery,phase_name=Discovery" condition="is">fltMC.exe</OriginalFileName>
           <CommandLine name="technique_id=T1063,technique_name=Security Software Discovery,phase_name=Discovery" condition="contains">misc::mflt</CommandLine>
         </Rule>
-        <Rule name="InstallUtil" groupRelation="and">
-          <OriginalFileName name="technique_id=T1118,technique_name=InstallUtil,phase_name=Execution" condition="is">InstallUtil.exe</OriginalFileName>
-          <CommandLine name="technique_id=T1118,technique_name=InstallUtil,phase_name=Execution" condition="contains all">/logfile=;/LogToConsole=false;/U</CommandLine>
-        </Rule>
+        <OriginalFileName name="technique_id=T1118,technique_name=InstallUtil,phase_name=Execution" condition="contains">InstallUtil.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1033,technique_name=System Owner/User Discovery,phase_name=Discovery" condition="is">whoami.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1016,technique_name=System Network Configuration Discovery,phase_name=Discovery" condition="is">ipconfig.exe</OriginalFileName>
         <OriginalFileName name="technique_id=T1057,technique_name=Process Discovery,phase_name=Discovery" condition="is">tasklist.exe</OriginalFileName>
