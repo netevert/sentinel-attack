@@ -2,16 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        
-        "accountSasProperties": {
-            "type": "object",
-            "defaultValue": {
-                "signedServices": "b",
-                "signedPermission": "rw",
-                "signedExpiry": "2050-03-01T00:00:01Z",
-                "signedResourceTypes": "o"
-            }
-        },
         "workspace_name": {
             "defaultValue": "[uniqueString(resourceGroup().id)]",
             "type": "String"
@@ -19,10 +9,6 @@
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]"
-        },
-        "storageAccounts_name": {
-            "defaultValue": "[concat(parameters('workspace_name'), 'blobstore')]",
-            "type": "String"
         },
         "workbookDisplayName": {
             "type": "string",
