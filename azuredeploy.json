@@ -57,8 +57,8 @@
             }
         },
         {
-            "apiVersion": "2022-08-01",
-            "name": "[concat(parameters('workspace_name'), '/Watchlist')]",
+            "apiVersion": "2023-02-01-preview",
+            "name": "[concat(parameters('workspace_name'), '/Microsoft.SecurityInsights/testwatchlist')]",
             "type": "Microsoft.SecurityInsights/watchlists",
             "kind": "",
             "properties": {
