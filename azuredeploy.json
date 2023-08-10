@@ -84,7 +84,7 @@
             "properties": {
                 "category": "sysmon_detections",
                 "displayName": "T0000_Console_History",
-                "query": "https://raw.githubusercontent.com/netevert/sentinel-attack/master/detections/T0000_Console_History.txt",
+                "query": "// Name: Console History\r\n// Description: Checks for execution of MITRE ATT&CK T0000\r\n//\r\n// Severity: Medium\r\n//\r\n// QueryFrequency: 1h\r\n//\r\n// QueryPeriod: 1h\r\n//\r\n// AlertTriggerThreshold: 1\r\n//\r\n// DataSource: #Sysmon\r\n//\r\n// Tactics: #Collection\r\n//\r\nSysmon\r\n| where EventID == 1 and (process_command_line contains \"Get-History\"\r\nor process_command_line contains \"AppData\\\\Roaming\\\\Microsoft\\\\Windows\\\\PowerShell\\\\PSReadline\\\\ConsoleHost_history.txt\"\r\nor process_command_line contains \"(Get-PSReadlineOption).HistorySavePath\")",
                 "functionAlias": "T0000_Console_History",
                 "version": 2
             }
