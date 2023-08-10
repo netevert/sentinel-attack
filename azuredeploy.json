@@ -57,6 +57,26 @@
             }
         },
         {
+            "apiVersion": "2022-08-01",
+            "name": "[concat(parameters('workspace_name'), '/Microsoft.SecurityInsights/testwatchlist')]",
+            "type": "Microsoft.OperationalInsights/workspaces/providers/Watchlists",
+            "kind": "",
+            "properties": {
+                "displayName": "testwatchlist",
+                "source": "testwatchlist.csv",
+                "description": "This is a sample Watchlist description.",
+                "provider": "Custom",
+                "isDeleted": false,
+                "labels": [
+                ],
+                "defaultDuration": "P1000Y",
+                "contentType": "Text/Csv",
+                "numberOfLinesToSkip": 0,
+                "itemsSearchKey": "testwatchlist",
+                "rawContent": "SEARCHKEYCOLUMN, Account, Machine\r\n123.456.789.1, Admin, ContosoMachine1\r\n123.456.789.2, LocalUser, ContosoMachine2\r\n"
+            }
+        },
+        {
             "name": "[concat('SecurityInsights','(', parameters('workspace_name'),')')]",
             "type": "Microsoft.OperationsManagement/solutions",
             "apiVersion": "2015-11-01-preview",
