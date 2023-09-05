@@ -1,6 +1,3 @@
-![Icon](https://github.com/netevert/sentinel-attack/blob/master/docs/logo.png)
-=========
-
 [![GitHub release](https://img.shields.io/github/release/BlueTeamLabs/sentinel-attack.svg?style=flat-square)](https://github.com/BlueTeamLabs/sentinel-attack/releases)
 [![Maintenance](https://img.shields.io/maintenance/yes/2023.svg?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
