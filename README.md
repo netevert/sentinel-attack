@@ -14,12 +14,10 @@ Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capabi
 
 ### Overview
  Sentinel ATT&CK provides the following tools: 
- - An [ARM template](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/azuredeploy.json) to automatically deploy Sentinel ATT&CK to your Azure environment
- - A [Sysmon configuration file](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/sysmonconfig.xml) compatible with Azure Sentinel and mapped to specific ATT&CK techniques  
- - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model
+ - An [ARM template](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/azuredeploy.json) to automatically deploy Sentinel ATT&CK to your Azure environment 
+ - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model and compatible with the [Sysmon Modular XML configuration file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
  - 117 ready-to-use Kusto [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections) covering 156 ATT&CK techniques
  - A [Sysmon threat hunting workbook](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/hunting) inspired by the [Threat Hunting App](https://splunkbase.splunk.com/app/4305/) for Splunk to help simplify threat hunts
- - A [Terraform](https://www.terraform.io/) script to provision a lab to test Sentinel ATT&CK
  - Comprehensive guidance to help you use the materials in this repository
 
 ### Usage
