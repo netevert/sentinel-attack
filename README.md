@@ -2,36 +2,28 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2024.svg?style=flat-square)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![](https://img.shields.io/badge/2019-DEF%20CON%2027-blueviolet?style=flat-square)](https://2019.cloud-village.org/#talks?olafedoardo)
-[![](https://img.shields.io/badge/Official%20Azure%20Sentinel%20workbook-grey?style=flat-square&logo=microsoft-azure)](https://github.com/Azure/Azure-Sentinel/blob/master/Workbooks/SysmonThreatHunting.json)
-
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FBlueTeamLabs%2Fsentinel-attack%2Fmaster%2Fazuredeploy.json)
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and [MITRE ATT&CK](https://attack.mitre.org/) on Azure Sentinel.
 
 **DISCLAIMER:** This tool requires tuning and investigative trialling to be truly effective in a production environment.
 
- ![demo](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/docs/demo.gif)
-
 ### Overview
  Sentinel ATT&CK provides the following tools: 
- - An [ARM template](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/azuredeploy.json) to automatically deploy Sentinel ATT&CK to your Azure environment 
- - A [Sysmon log parser](https://github.com/BlueTeamToolkit/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/Cyb3rWard0g/OSSEM) data model and compatible with the [Sysmon Modular XML configuration file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
- - 117 ready-to-use Kusto [detection rules](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/detections) covering 156 ATT&CK techniques
- - A [Sysmon threat hunting workbook](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/hunting) inspired by the [Threat Hunting App](https://splunkbase.splunk.com/app/4305/) for Splunk to help simplify threat hunts
- - Comprehensive guidance to help you use the materials in this repository
+ - A [Sysmon log parser](https://github.com/netevert/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/OTRF/OSSEM) data model and compatible with the [Sysmon Modular XML configuration file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
+ - 117 ready-to-use Kusto [detection rules](https://github.com/netevert/sentinel-attack/tree/master/detections) covering 156 ATT&CK techniques
 
 ### Usage
-Head over to the [WIKI](https://github.com/BlueTeamLabs/sentinel-attack/wiki) to learn how to deploy and run Sentinel ATT&CK.
+Head over to the [WIKI](https://github.com/netevert/sentinel-attack/wiki) to learn how to deploy and run Sentinel ATT&CK.
 
-A copy of the DEF CON 27 cloud village presentation introducing Sentinel ATT&CK can be found [here](https://2019.cloud-village.org/#talks?olafedoardo) and [here](https://github.com/BlueTeamToolkit/sentinel-attack/tree/master/docs/DEFCON_attacking_the_sentinel.pdf).
+A copy of the DEF CON 27 cloud village presentation introducing Sentinel ATT&CK can be found [here](https://2019.cloud-village.org/#talks?olafedoardo) and [here](https://github.com/netevert/sentinel-attack/blob/master/docs/DEFCON_attacking_the_sentinel.pdf).
 
 ### Contributing
-As this repository is constantly being updated and worked on, if you spot any problems we warmly welcome pull requests or submissions on the issue tracker.
+This repository is work in progress, if you spot any problems we welcome pull requests or submissions on the issue tracker.
 
 ### Authors and contributors
 Sentinel ATT&CK is built with ❤ by:
 - Edoardo Gerosa 
-[![Twitter Follow](https://img.shields.io/twitter/follow/netevert.svg?style=social)](https://twitter.com/netevert)
+[![Twitter Follow](https://img.shields.io/twitter/follow/edoardogerosa.svg?style=social)](https://twitter.com/edoardogerosa)
 
 Special thanks go to the following contributors:
 
