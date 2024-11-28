@@ -5,15 +5,12 @@
 
 Sentinel ATT&CK aims to simplify the rapid deployment of a threat hunting capability that leverages Sysmon and [MITRE ATT&CK](https://attack.mitre.org/) on Azure Sentinel.
 
+It provides a [Sysmon log parser](https://github.com/netevert/sentinel-attack/blob/master/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/OTRF/OSSEM) data model and compatible with the [Sysmon Modular XML configuration file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml).
+
 **DISCLAIMER:** This tool requires tuning and investigative trialling to be truly effective in a production environment.
 
-### Overview
- Sentinel ATT&CK provides the following tools: 
- - A [Sysmon log parser](https://github.com/netevert/sentinel-attack/blob/master/parser/Sysmon-OSSEM.txt) mapped against the [OSSEM](https://github.com/OTRF/OSSEM) data model and compatible with the [Sysmon Modular XML configuration file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
- - 117 ready-to-use Kusto [detection rules](https://github.com/netevert/sentinel-attack/tree/master/detections) covering 156 ATT&CK techniques
-
 ### Usage
-Head over to the [WIKI](https://github.com/netevert/sentinel-attack/wiki) to learn how to deploy and run Sentinel ATT&CK.
+To use the Sentinel-ATT&CK parser, copy-paste it into your Sentinel Logs blade and store it as a function named `Sysmon`.
 
 A copy of the DEF CON 27 cloud village presentation introducing Sentinel ATT&CK can be found [here](https://2019.cloud-village.org/#talks?olafedoardo) and [here](https://github.com/netevert/sentinel-attack/blob/master/docs/DEFCON_attacking_the_sentinel.pdf).
 
